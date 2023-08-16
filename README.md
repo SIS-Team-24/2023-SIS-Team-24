@@ -10,3 +10,20 @@ PROJECT: NLP
 * [Chung bong Ip]() (13799616)
 * [Henry Goodman]() (13032204)
 * [Srujan Kaukuntla]() (13928229)
+
+## Pre-Requisites:
+The following are required to bootstrap all other dependencies defined in package.json
+- node
+- npm
+
+## Usage:
+
+- Install dependencies
+`npm install`
+
+- Compile and run the server
+`npm run build && npm run start`
+
+- Run server in development mode (see changes without restarting) (Recommended)
+`npm run dev`
+
