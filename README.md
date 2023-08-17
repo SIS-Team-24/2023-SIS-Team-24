@@ -18,12 +18,34 @@ The following are required to bootstrap all other dependencies defined in packag
 
 ## Usage:
 
+### Server:
+
+- Execute any of these commands within the `server` directory
+
+`cd server`
+
 - Install dependencies
 `npm install`
 
-- Compile and run the server
+- Build and run the server
 `npm run build && npm run start`
 
 - Run server in development mode (see changes without restarting) (Recommended)
 `npm run dev`
 
+### Client:
+
+- Execute any of these commands within the `client` directory
+
+`cd client`
+
+- Install dependencies
+`npm install`
+
+- Build and run the client (Recommended)
+`npm run build && npm run start`
+
+### Fullstack
+
+- Run both the frontend app and backend server concurrently (execute in root directory)
+`npm run dev`
