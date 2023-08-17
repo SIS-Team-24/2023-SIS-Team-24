@@ -4,23 +4,23 @@
     "description": "Backend server for NLP web application",
     "main": "dist/app.js",
     "scripts": {
-      "start": "node dist/app.js",
-      "dev": "nodemon src/app.ts",
-      "build": "tsc",
-      "prestart": "npm run build"
+        "start": "node dist/app.js",
+        "dev": "nodemon src/app.ts",
+        "build": "tsc",
+        "prestart": "npm run build"
     },
     "author": "Your Name",
     "license": "MIT",
     "dependencies": {
-      "express": "^4.17.1"
+        "dotenv": "^16.3.1",
+        "express": "^4.17.1"
     },
     "devDependencies": {
-      "@types/express": "^4.17.13",
-      "nodemon": "^2.0.15",
-      "typescript": "^4.5.2"
+        "@types/express": "^4.17.13",
+        "nodemon": "^2.0.15",
+        "typescript": "^4.5.2"
     },
     "engines": {
-      "node": ">=14"
+        "node": ">=16"
     }
-  }
-  
+}

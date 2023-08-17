@@ -13,7 +13,7 @@ PROJECT: NLP
 
 ## Pre-Requisites:
 The following are required to bootstrap all other dependencies defined in package.json
-- node
+- node >16
 - npm
 
 ## Usage:
