@@ -35,7 +35,8 @@ bower_components
 Thumbs.db
 
 # Ignore built ts files
-dist/**/*
+server/dist/
+client/build/
 
 # ignore yarn.lock
 yarn.lock
