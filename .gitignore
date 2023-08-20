@@ -40,3 +40,7 @@ client/build/
 
 # ignore yarn.lock
 yarn.lock
+
+# Python
+.venv
+__pycache__
