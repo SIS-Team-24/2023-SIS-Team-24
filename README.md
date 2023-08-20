@@ -1,6 +1,7 @@
 # SIS-Team-24
 
 PROJECT: NLP
+Web application using React + TS Frontend with Python + FastAPI backend
 
 ## Team Members
 * [Grace Billiris](https://www.linkedin.com/in/grace-billiris/) (13925894)
@@ -12,9 +13,10 @@ PROJECT: NLP
 * [Srujan Kaukuntla]() (13928229)
 
 ## Pre-Requisites:
-The following are required to bootstrap all other dependencies defined in package.json
+The following are required to bootstrap all other dependencies./
 - node >16
 - npm
+- Python3.11
 
 ## Usage:
 
@@ -24,14 +26,12 @@ The following are required to bootstrap all other dependencies defined in packag
 
 `cd server`
 
-- Install dependencies
-`npm install`
+- Install dependencies (using Python Virtual Environment)
+`./setup.sh`
 
-- Build and run the server
-`npm run build && npm run start`
+- Run the server in watch mode
+`source .venv/bin/activate && python3 src/main.py`
 
-- Run server in development mode (see changes without restarting) (Recommended)
-`npm run dev`
 
 ### Client:
 
