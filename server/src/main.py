@@ -15,7 +15,7 @@ app = FastAPI()
 app.include_router(summary_routes.router, prefix="/api/summary")
 app.include_router(sentiment_routes.router, prefix="/api/sentiment")
 
-@app.get("/")
+@app.get("/api")
 def read_root():
     return {"message": "⚡️⚡️⚡️ FastAPI + Python 3 Server! ⚡️⚡️⚡️"}
 
