@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from dotenv import load_dotenv
+from routes import summary_routes, sentiment_routes
 import os
-
 
 def load_env():
     # Get the directory where main.py is located
@@ -11,13 +11,13 @@ def load_env():
 
 app = FastAPI()
 
-@app.get("/api")
-def read_root():
-    return {"message": "⚡️⚡️⚡️ FastAPI + Python 3 Server! ⚡️⚡️⚡️"}
+# Define routes for the API
+app.include_router(summary_routes.router, prefix="/api/summary")
+app.include_router(sentiment_routes.router, prefix="/api/sentiment")
 
 @app.get("/")
-def catch_all():
-    return {"message": "Welcome to the FastAPI server! This endpoint is undefined. Visit /api"}
+def read_root():
+    return {"message": "⚡️⚡️⚡️ FastAPI + Python 3 Server! ⚡️⚡️⚡️"}
 
 if __name__ == "__main__":
     import uvicorn
