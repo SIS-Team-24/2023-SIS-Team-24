@@ -1,4 +1,4 @@
-def generate_summary(input_text):
+def get_summary(input_text):
     """
     Generate a summary for the input text.
     """
