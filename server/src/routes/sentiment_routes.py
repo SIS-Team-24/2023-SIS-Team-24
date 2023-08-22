@@ -12,8 +12,11 @@ def analyze_sentiment(input_data: dict, get_sentiment=Depends(sentiment_service.
     if not text:
         raise HTTPException(status_code=400, detail="Text is required.")
     
-    sentiment_result = get_sentiment(text)
-    return {"sentiment": sentiment_result}
+    try:
+        sentiment = get_sentiment(text)
+        return {"sentiment": sentiment}
+    except Exception as e:
+        return HTTPException(status_code=500, detail="Server error: " + str(e))
 
 @router.get("/process")
 def _():
