@@ -4,7 +4,7 @@ from services import summary_service
 router = APIRouter()
 
 @router.post("/process")
-def process_text(input_data: dict, get_summary=Depends(summary_service.generate_summary)):
+def process_text(input_data: dict, get_summary=Depends(summary_service.get_summary)):
     """
     Process user-provided text and return a summary.
     """
