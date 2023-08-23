@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends
-from services import summary_service
+from ..services import summary_service
 
 router = APIRouter()
 
