@@ -1,5 +1,5 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
-const { dotenv } = require("dotenv").config({path:'../.env'})
+require("dotenv").config({path:'../.env'})
 
 module.exports = function(app) {
   const port = process.env.PORT ? parseInt(process.env.PORT) : 8000;

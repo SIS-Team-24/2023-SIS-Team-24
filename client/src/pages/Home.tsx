@@ -19,7 +19,11 @@ function Home() {
     fetch("/api/summary/process",{...postRequestOptions, body}).then(response => response.json())
     .then(data => {
       console.log(data)
-      setTextInput("Summary API call was successful.")
+      if(data.summary){
+        setTextInput("Summary API call was successful.");
+      } else {
+        setTextInput("Call to /api/summary/process failed.");
+      }
     });
   };
 
@@ -29,7 +33,11 @@ function Home() {
     fetch("/api/sentiment/process",{...postRequestOptions, body}).then(response => response.json())
     .then(data => {
       console.log(data)
-      setTextInput("Sentiment API call was successful.")
+      if(data.summary){
+        setTextInput("Sentiment API call was successful.");
+      } else {
+        setTextInput("Call to /api/summary/process failed.");
+      }
     });
   };
 
