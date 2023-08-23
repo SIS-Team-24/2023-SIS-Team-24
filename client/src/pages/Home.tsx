@@ -33,10 +33,10 @@ function Home() {
     fetch("/api/sentiment/process",{...postRequestOptions, body}).then(response => response.json())
     .then(data => {
       console.log(data)
-      if(data.summary){
+      if(data.sentiment){
         setTextInput("Sentiment API call was successful.");
       } else {
-        setTextInput("Call to /api/summary/process failed.");
+        setTextInput("Call to /api/sentiment/process failed.");
       }
     });
   };
