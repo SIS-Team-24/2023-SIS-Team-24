@@ -1,11 +1,8 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from ..model.data_model import InputData
 from ..services import sentiment_service
 
 router = APIRouter()
-
-class InputData(BaseModel):
-    text: str
 
 @router.post("/process")
 def analyze_sentiment(input_data: InputData):

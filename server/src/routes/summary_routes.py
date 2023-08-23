@@ -1,12 +1,8 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
-from ..main import InputData
+from ..model.data_model import InputData
 from ..services import summary_service
 
 router = APIRouter()
-
-class InputData(BaseModel):
-    text: str
 
 @router.post("/process")
 def process_text(input_data: InputData):
