@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends
-from services import sentiment_service
+from ..services import sentiment_service
 
 router = APIRouter()
 

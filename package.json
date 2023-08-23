@@ -4,7 +4,7 @@
   "description": "PROJECT: NLP",
   "scripts": {
     "install-all": "npm install && cd client && npm install && cd ../server && pip3 install --upgrade pip && pip3 install -r requirements.txt",
-    "server": "cd server && python3 src/main.py",
+    "server": "cd server && uvicorn src.main:app --reload",
     "client": "cd client && npm start",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "cd client && npm run build"

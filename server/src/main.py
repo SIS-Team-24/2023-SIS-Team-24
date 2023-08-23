@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from dotenv import load_dotenv
-from routes import summary_routes, sentiment_routes
+from .routes import summary_routes, sentiment_routes
 import os
 
 def load_env():
