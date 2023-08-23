@@ -33,7 +33,7 @@ The following are required to bootstrap all other dependencies./
 `pip3 install -r requirements.txt`
 
 - Run the server in watch mode
-`python3 src/main.py`
+`uvicorn src.main:app --reload` or `npm run server`
 
 
 ### Client:
