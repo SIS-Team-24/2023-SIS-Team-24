@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
+import { postRequestOptions } from "../components/Utils";
 
 function Home() {
   const [someState, setSomeState] = useState("not set");
@@ -14,12 +15,22 @@ function Home() {
 
   // Testing function to call Summary analysis fn...
   const getSummary = () => {
-    setTextInput("call summary api here...");
+    const body = JSON.stringify({"text": "testing summary/process ..."})
+    fetch("/api/summary/process",{...postRequestOptions, body}).then(response => response.json())
+    .then(data => {
+      console.log(data)
+      setTextInput("Summary API call was successful.")
+    });
   };
 
   // Testing function to call Sentiment analysis fn...
   const getSentiment = () => {
-    setTextInput("call sentimemnt api here...");
+    const body = JSON.stringify({"text": "testing sentiment/process ..."})
+    fetch("/api/sentiment/process",{...postRequestOptions, body}).then(response => response.json())
+    .then(data => {
+      console.log(data)
+      setTextInput("Sentiment API call was successful.")
+    });
   };
 
   return (
