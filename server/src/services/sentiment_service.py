@@ -1,4 +1,4 @@
-def get_sentiment(input_text):
+def get_sentiment(input_text:str):
     """
     Generate a sentiment for the input text.
     """

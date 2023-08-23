@@ -1,19 +1,20 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException
+from ..model.data_model import InputData
 from ..services import summary_service
 
 router = APIRouter()
 
 @router.post("/process")
-def process_text(input_data: dict, get_summary=Depends(summary_service.get_summary)):
+def process_text(input_data: InputData):
     """
     Process user-provided text and return a summary.
     """
-    text = input_data.get('text')
+    text = input_data.text
     if not text:
         raise HTTPException(status_code=400, detail="Text is required.")
     
     try:
-        summary = get_summary(text)
+        summary = summary_service.get_summary(text)
         return {"summary": summary}
     except Exception as e:
         return HTTPException(status_code=500, detail="Server error: " + str(e))
