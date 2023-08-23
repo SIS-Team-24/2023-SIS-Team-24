@@ -26,11 +26,14 @@ The following are required to bootstrap all other dependencies./
 
 `cd server`
 
-- Install dependencies (using Python Virtual Environment)
-`./setup.sh`
+- (Optional) Create a Python Virtual Environment
+`python3 -mvenv .venv && source .venv/bin/activate`
+
+- Install dependencies
+`pip3 install -r requirements.txt`
 
 - Run the server in watch mode
-`source .venv/bin/activate && python3 src/main.py`
+`python3 src/main.py`
 
 
 ### Client:
@@ -46,6 +49,9 @@ The following are required to bootstrap all other dependencies./
 `npm run build && npm run start`
 
 ### Fullstack
+
+- Install all dependencies (both ends)
+`npm run install-all`
 
 - Run both the frontend app and backend server concurrently (execute in root directory)
 `npm run dev`
