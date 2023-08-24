@@ -4,7 +4,7 @@ PROJECT: NLP
 Web application using React + TS Frontend with Python + FastAPI backend
 
 ## Team Members
-* [Grace Billiris](https://www.linkedin.com/in/grace-billiris/) (13925894)
+* [Grace Billiris](https://www.linkedin.com/in/grace-billiris/)(https://github.com/gracebilliris) (13925894)
 * [Roshel Gonzales]() (13883931)
 * [Kieren Karanjia]() (13912795)
 * [Stephen Brown]() (13934551)
