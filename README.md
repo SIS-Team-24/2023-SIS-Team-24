@@ -70,6 +70,7 @@ The following are required to bootstrap all other dependencies./
 
 * As a Reviewer, only leave comments, approvals or change requests - Let the PR creator administrate (e.g. merge, delete the branch) the PR.
 * Each PR will require at least **2** approvals
+* Pay attention to merge conflicts, they must be resovled before being merged.
 
 ### Documentation
 
