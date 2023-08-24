@@ -9,7 +9,7 @@ Web application using React + TS Frontend with Python + FastAPI backend
 * [Kieren Karanjia]() (13912795)
 * [Stephen Brown]() (13934551)
 * [Chung bong Ip]() (13799616)
-* [Henry Goodman]() (13032204)
+* [Henry Goodman](https://github.com/henrygoodman) (13032204)
 * [Srujan Kaukuntla]() (13928229)
 
 ## Pre-Requisites:
