@@ -1,7 +1,7 @@
 {
   "name": "sis-team-24",
   "version": "1.0.0",
-  "description": "PROJECT: NLP",
+  "description": "Project: Text Insights",
   "scripts": {
     "install-all": "npm install && cd client && npm install && cd ../server && pip3 install --upgrade pip && pip3 install -r requirements.txt",
     "server": "cd server && uvicorn src.main:app --reload",
