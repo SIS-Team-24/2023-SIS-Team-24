@@ -13,10 +13,12 @@
 * [Stephen Brown](https://github.com/SSBdevelopment) (13934551)
 * [Chung bong Ip]() (13799616)
 * [Henry Goodman](https://github.com/henrygoodman) (13032204)
-* [Srujan Kaukuntla]() (13928229)
+* [Srujan Kaukuntla](https://github.com/srujankarthik) (13928229)
 
 ## Pre-Requisites:
+
 The following are required to bootstrap all other dependencies./
+
 - node >16
 - npm
 - Python3.11
@@ -30,14 +32,13 @@ The following are required to bootstrap all other dependencies./
 `cd server`
 
 - (Optional) Create a Python Virtual Environment
-`python3 -mvenv .venv && source .venv/bin/activate`
+  `python3 -mvenv .venv && source .venv/bin/activate`
 
 - Install dependencies
-`pip3 install -r requirements.txt`
+  `pip3 install -r requirements.txt`
 
 - Run the server in watch mode
-`uvicorn src.main:app --reload` or `npm run server`
-
+  `uvicorn src.main:app --reload` or `npm run server`
 
 ### Client:
 
@@ -46,18 +47,18 @@ The following are required to bootstrap all other dependencies./
 `cd client`
 
 - Install dependencies
-`npm install`
+  `npm install`
 
 - Build and run the client (Recommended)
-`npm run build && npm run start`
+  `npm run build && npm run start`
 
 ### Fullstack
 
 - Install all dependencies (both ends)
-`npm run install-all`
+  `npm run install-all`
 
 - Run both the frontend app and backend server concurrently (execute in root directory)
-`npm run dev`
+  `npm run dev`
 
 ## Development Conventions:
 
