@@ -1,10 +1,13 @@
 # SIS-Team-24
 
-PROJECT: NLP
-Web application using React + TS Frontend with Python + FastAPI backend
+### PROJECT: Natural Language Processor (NLP) web application
+### Tech Stack:
+* **Frontend**: REACT, Tailwindcss and TS
+* **Backend**: FastAPI and Python
+* **Database**: MongoDB
 
 ## Team Members
-* [Grace Billiris](https://www.linkedin.com/in/grace-billiris/) [13925894](https://github.com/gracebilliris)
+* [Grace Billiris](https://www.linkedin.com/in/grace-billiris/) [(13925894)](https://github.com/gracebilliris)
 * [Roshel Gonzales](https://www.linkedin.com/in/roshelgonzales/) (13883931)
 * [Kieren Karanjia]() (13912795)
 * [Stephen Brown](https://github.com/SSBdevelopment) (13934551)
@@ -55,3 +58,19 @@ The following are required to bootstrap all other dependencies./
 
 - Run both the frontend app and backend server concurrently (execute in root directory)
 `npm run dev`
+
+## Development Conventions:
+
+### Branch Name
+
+* `[developer_name]/[task_name]` e.g. john/style-summarisation-button
+
+### Pull Request Reviews
+
+* As a Reviewer, only leave comments, approvals or change requests - Let the PR creator administrate (e.g. merge, delete the branch) the PR.
+* Each PR will require at least **2** approvals
+
+### Documentation
+
+* Leave comments for each function in regards to their purpose, and possibly an explanation of the process
+* Don't be afraid to leave small notes and comments whilst developing
