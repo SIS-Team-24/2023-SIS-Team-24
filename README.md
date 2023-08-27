@@ -9,7 +9,7 @@
 ## Team Members
 * [Grace Billiris](https://www.linkedin.com/in/grace-billiris/) [(13925894)](https://github.com/gracebilliris)
 * [Roshel Gonzales](https://www.linkedin.com/in/roshelgonzales/) (13883931)
-* [Kieren Karanjia]() (13912795)
+* [Kieren Karanjia](https://www.linkedin.com/in/kieren-karanjia/) (13912795)
 * [Stephen Brown](https://github.com/SSBdevelopment) (13934551)
 * [Chung bong Ip]() (13799616)
 * [Henry Goodman](https://github.com/henrygoodman) (13032204)
