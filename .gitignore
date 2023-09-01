@@ -44,3 +44,4 @@ yarn.lock
 # Python
 .venv
 __pycache__
+input.txt
