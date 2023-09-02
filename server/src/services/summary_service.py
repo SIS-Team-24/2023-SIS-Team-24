@@ -1,8 +1,23 @@
+import sys
+import os
+from happytransformer import HappyTextToText, TTSettings
+
+
+# Load the model upon server initialization
+global happy_tt1
+happy_tt1 = HappyTextToText("BERT", "sshleifer/distilbart-cnn-12-6")
+print(f"[server] Loaded Model in {os.path.basename(__file__)}")
+
 def get_summary(input_text:str):
     """
     Generate a summary for the input text.
     """
-    # For this simple example, let's just return the input text as the summary.
     print("[server] Function to generate summary is executing.")
+    global happy_tt1
+    result1 = happy_tt1.generate_text(input_text, args=TTSettings(min_length=1, max_length=500))
+    return result1.text
 
-    return input_text
+if __name__ == '__main__':
+    # Ensure input.txt exists in root for testing.
+    with open('input.txt') as f:
+        print(get_summary(str(f.read())))
