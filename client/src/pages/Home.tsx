@@ -1,12 +1,20 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
-import { addToHistory, clearHistory, postRequestOptions, retrieveHistory } from "../components/Utils";
+import {
+  addToHistory,
+  clearHistory,
+  postRequestOptions,
+  retrieveHistory,
+} from "../components/Utils";
+import NavigationBar from "./NavigationBar";
 
 function Home(this: any) {
   const [someState, setSomeState] = useState("not set");
   const [textInput, setTextInput] = useState("Placeholder");
-  const [testTextInput, setTestTextInput] = useState("Insert text here to test analysis storage function");
+  const [testTextInput, setTestTextInput] = useState(
+    "Insert text here to test analysis storage function"
+  );
 
   useEffect(() => {
     console.log(`useEffect placeholder... initial state: ${someState}`);
@@ -63,13 +71,9 @@ function Home(this: any) {
   };
 
   return (
-    <>
-      <h1 className="mt-48 font-extrabold">
-        <p className="flex items-center justify-center space-x-4 text-3xl">Hello SIS-team-24</p>
-      </h1>
-      <h2 className="flex items-center justify-center space-x-4 text-xl font-bold underline decoration-violet-400 underline-offset-8 ">
-        NLP-app
-      </h2>
+    <div style={{ fontFamily: "Times New Roman", marginTop: "20px" }}>
+      <NavigationBar/>
+
       <div className="flex justify-center gap-5 p-10">
         <Button variant="active" onClick={getSummary}>
           Summary Test
@@ -78,27 +82,33 @@ function Home(this: any) {
           Sentiment Test
         </Button>
       </div>
+
       <div className="flex justify-center gap-5 p-10">
-        <textarea value={testTextInput} onChange={(value) => handleChange(value)} className="w-100" />
-        <Button variant="active" onClick={testStoringToHistory}>
-          Store text into history
-        </Button>
-        <Button variant="active" onClick={getAnalysisHistory}>
-          Retrieve History
-        </Button>
-        <Button
-          variant="active"
-          onClick={() => {
-            // Example of to clear history and show some kind of message to user...
-            clearHistory();
-            setTextInput("History Cleared.");
-          }}
-        >
-          Clear History
-        </Button>
-      </div>
+          <textarea
+            value={testTextInput}
+            onChange={(value) => handleChange(value)}
+            className="w-100"
+          />
+          <Button variant="active" onClick={testStoringToHistory}>
+            Store text into history
+          </Button>
+          <Button variant="active" onClick={getAnalysisHistory}>
+            Retrieve History
+          </Button>
+          <Button
+            variant="active"
+            onClick={() => {
+              // Example of to clear history and show some kind of message to user...
+              clearHistory();
+              setTextInput("History Cleared.");
+            }}
+          >
+            Clear History
+          </Button>
+        </div>
+
       {textInput && <p className="flex justify-center">{textInput}</p>}
-    </>
+    </div>
   );
 }
 
