@@ -2,11 +2,9 @@ name: Python Backend CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "development", "staging", "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "development", "staging", "main" ]
 
 jobs:
   build:
