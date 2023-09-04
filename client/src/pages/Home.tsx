@@ -71,35 +71,8 @@ function Home(this: any) {
   };
 
   return (
-    <>
-      <h1 className="mt-48 font-extrabold">
-        <div>
-          <img
-            src={require("../media/logo.png")}
-            alt="logo"
-            style={{
-              position: "absolute",
-              top: 25,
-              left: 70,
-              width: "550px",
-              height: "100px",
-            }}
-          />
-          <p
-            className="flex items-center justify-start space-x-4 text-3xl"
-            style={{ marginLeft: "80px" }}
-          >
-            {" "}
-            Sentiment analysis of the text is:
-            <span
-              style={{
-                color: "lightgreen",
-                paddingLeft: "8px",
-              }}
-            >
-              Positive{" "}
-            </span>
-          </p>
+    <div className="mt-10">
+      {/* <NavigationBar /> */}
 
           <div className="flex justify-center gap-5 p-10">
             {/* Left text box */}
@@ -191,44 +164,7 @@ function Home(this: any) {
             Hello SIS-team-24
           </p> */}
         </div>
-      </h1>
-      {/* <h2 className="flex items-center justify-center space-x-4 text-xl font-bold underline decoration-violet-400 underline-offset-8 ">
-        NLP-app
-      </h2> */}
-
-      {/* <div className="flex justify-center gap-5 p-10">
-        <Button variant="active" onClick={getSummary}>
-          Summary Test
-        </Button>
-        <Button variant="active" onClick={getSentiment}>
-          Sentiment Test
-        </Button>
-      </div>
-      <div className="flex justify-center gap-5 p-10">
-        <textarea
-          value={testTextInput}
-          onChange={(value) => handleChange(value)}
-          className="w-100"
-        />
-        <Button variant="active" onClick={testStoringToHistory}>
-          Store text into history
-        </Button>
-        <Button variant="active" onClick={getAnalysisHistory}>
-          Retrieve History
-        </Button>
-        <Button
-          variant="active"
-          onClick={() => {
-            // Example of to clear history and show some kind of message to user...
-            clearHistory();
-            setTextInput("History Cleared.");
-          }}
-        >
-          Clear History
-        </Button>
-      </div> */}
-      {/* {textInput && <p className="flex justify-center">{textInput}</p>} */}
-    </>
+      
   );
 }
 
