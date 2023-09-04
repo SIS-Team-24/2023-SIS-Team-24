@@ -71,8 +71,8 @@ function Home(this: any) {
   };
 
   return (
-    <div style={{ fontFamily: "Times New Roman", marginTop: "20px" }}>
-      <NavigationBar/>
+    <div className="mt-10">
+      <NavigationBar />
 
       <div className="flex justify-center gap-5 p-10">
         <Button variant="active" onClick={getSummary}>
@@ -84,28 +84,28 @@ function Home(this: any) {
       </div>
 
       <div className="flex justify-center gap-5 p-10">
-          <textarea
-            value={testTextInput}
-            onChange={(value) => handleChange(value)}
-            className="w-100"
-          />
-          <Button variant="active" onClick={testStoringToHistory}>
-            Store text into history
-          </Button>
-          <Button variant="active" onClick={getAnalysisHistory}>
-            Retrieve History
-          </Button>
-          <Button
-            variant="active"
-            onClick={() => {
-              // Example of to clear history and show some kind of message to user...
-              clearHistory();
-              setTextInput("History Cleared.");
-            }}
-          >
-            Clear History
-          </Button>
-        </div>
+        <textarea
+          value={testTextInput}
+          onChange={(value) => handleChange(value)}
+          className="w-100"
+        />
+        <Button variant="active" onClick={testStoringToHistory}>
+          Store text into history
+        </Button>
+        <Button variant="active" onClick={getAnalysisHistory}>
+          Retrieve History
+        </Button>
+        <Button
+          variant="active"
+          onClick={() => {
+            // Example of to clear history and show some kind of message to user...
+            clearHistory();
+            setTextInput("History Cleared.");
+          }}
+        >
+          Clear History
+        </Button>
+      </div>
 
       {textInput && <p className="flex justify-center">{textInput}</p>}
     </div>
