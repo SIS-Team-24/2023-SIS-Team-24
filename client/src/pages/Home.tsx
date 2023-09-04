@@ -1,18 +1,20 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
-import { addToHistory, clearHistory, postRequestOptions, retrieveHistory } from "../components/Utils";
-import logo from "../images/logo.png";
-import summariseButton from "../images/SummariseButton.png";
-import copyButton from "../images/copyButton.png";
-import { DividerHorizontal } from "../components/DividerHorizontal";
-
-
+import {
+  addToHistory,
+  clearHistory,
+  postRequestOptions,
+  retrieveHistory,
+} from "../components/Utils";
+import DividerHorizontal from "../components/DividerHorizontal";
 
 function Home(this: any) {
   const [someState, setSomeState] = useState("not set");
   const [textInput, setTextInput] = useState("Placeholder");
-  const [testTextInput, setTestTextInput] = useState("Insert text here to test analysis storage function");
+  const [testTextInput, setTestTextInput] = useState(
+    "Insert text here to test analysis storage function"
+  );
 
   useEffect(() => {
     console.log(`useEffect placeholder... initial state: ${someState}`);
@@ -71,122 +73,130 @@ function Home(this: any) {
   return (
     <>
       <h1 className="mt-48 font-extrabold">
-      <div>
-      <img
-        src={logo}
-        alt="logo"
-        style={{
-          position: "absolute",
-          top: 25,
-          left: 70,
-          width: "550px", 
-          height: "100px", 
-        }}
-      />
-        <p className="flex items-center justify-start space-x-4 text-3xl"  style={{marginLeft: '80px'}}>  Sentiment analysis of the text is:
-  <span
-    style={{
-      
-      color: 'lightgreen',
-      paddingLeft: '8px', 
-    }}
-  >
-    Positive </span></p>
-
-        <DividerHorizontal className="divider-horizontal" />
-        
-        <div className="flex justify-center gap-5 p-10">
-        {/* Left text box */}
-        <div className="text-box"style={{ position: 'relative' }}>
-          <textarea
-            value={testTextInput}
-            onChange={(event) => handleChange(event)}
-            className="w-100"
+        <div>
+          <img
+            src={require("../media/logo.png")}
+            alt="logo"
             style={{
-              backgroundColor: "white",
-              border: "2px solid black",
-              padding: "10px",
-              width: "547px", 
-              height: "568px",
+              position: "absolute",
+              top: 25,
+              left: 70,
+              width: "550px",
+              height: "100px",
             }}
           />
-
-          <img
-              src={summariseButton}
-              alt="Button"
+          <p
+            className="flex items-center justify-start space-x-4 text-3xl"
+            style={{ marginLeft: "80px" }}
+          >
+            {" "}
+            Sentiment analysis of the text is:
+            <span
               style={{
-                position: "absolute",
-                top: "580px",
-                right: "1px",
-                width: "135px", 
-                height: "45px", 
-                cursor: "pointer", 
+                color: "lightgreen",
+                paddingLeft: "8px",
               }}
-              onClick={getSummary} 
-              // => {
-              //   // Handle button click action here
-              //   alert("Button Clicked!");
-              // }}
-            />
-        </div>
+            >
+              Positive{" "}
+            </span>
+          </p>
 
-        {/* Right text box */}
-        <div className="text-box">
-          <textarea
-            value={testTextInput}
-            onChange={(event) => handleChange(event)}
-            className="w-100"
+          <div className="flex justify-center gap-5 p-10">
+            {/* Left text box */}
+            <div className="text-box" style={{ position: "relative" }}>
+              <textarea
+                value={testTextInput}
+                onChange={(event) => handleChange(event)}
+                className="w-100"
+                style={{
+                  backgroundColor: "white",
+                  border: "2px solid black",
+                  padding: "10px",
+                  width: "547px",
+                  height: "568px",
+                }}
+              />
+
+              <img
+                src={require("../media/SummariseButton.png")}
+                alt="Button"
+                style={{
+                  position: "absolute",
+                  top: "580px",
+                  right: "1px",
+                  width: "135px",
+                  height: "45px",
+                  cursor: "pointer",
+                }}
+                onClick={getSummary}
+                // => {
+                //   // Handle button click action here
+                //   alert("Button Clicked!");
+                // }}
+              />
+            </div>
+
+            {/* Right text box */}
+            <div className="text-box">
+              <textarea
+                value={testTextInput}
+                onChange={(event) => handleChange(event)}
+                className="w-100"
+                style={{
+                  backgroundColor: "#f8f9fa",
+                  border: "2px solid black",
+                  padding: "10px",
+                  width: "547px",
+                  height: "568px",
+                }}
+              />
+              <img
+                src={require("../media/copyButton.png")}
+                alt="Button"
+                style={{
+                  position: "absolute",
+                  bottom: "830px",
+                  right: "280px",
+                  width: "51px",
+                  height: "56px",
+                  cursor: "pointer",
+                }}
+                onClick={getSummary}
+                // => {
+                //   // Handle button click action here
+                //   alert("Button Clicked!");
+                // }}
+              />
+            </div>
+          </div>
+
+          {/* {textInput && <p className="flex justify-center">{textInput}</p>} */}
+
+          <div
+            className="flex justify-center gap-5 p-10"
             style={{
-              backgroundColor: "#f8f9fa",
-              border: "2px solid black",
-              padding: "10px",
-              width: "547px",  
-              height: "568px",
+              marginRight: "820px",
             }}
-          />
-          <img
-              src={copyButton}
-              alt="Button"
-              style={{
-                position: "absolute",
-                bottom: "830px",
-                right: "280px",
-                width: "51px", 
-                height: "56px", 
-                cursor: "pointer", 
-              }}
-              onClick={getSummary} 
-              // => {
-              //   // Handle button click action here
-              //   alert("Button Clicked!");
-              // }}
-            />
+          >
+            <Button variant="active" onClick={getAnalysisHistory}>
+              History
+            </Button>
+            <Button variant="active" onClick={getSentiment}>
+              Learning Summary
+            </Button>
+          </div>
+
+          <br></br>
+          {/* <p className="flex items-center justify-center space-x-4 text-3xl">
+            Hello SIS-team-24
+          </p> */}
         </div>
-      </div>
-
-      {textInput && <p className="flex justify-center">{textInput}</p> }
-    
-      <div className="flex justify-center gap-5 p-10"   style={{
-             marginRight: "820px",
-            }}>
-        <Button variant="active" onClick={getAnalysisHistory}>
-          History
-        </Button>
-        <Button variant="active" onClick={getSentiment}>
-          Learning Summary
-        </Button>
-      </div>
-
-            <br></br>
-       <p className="flex items-center justify-center space-x-4 text-3xl">Hello SIS-team-24</p>
-      </div>
       </h1>
-      <h2 className="flex items-center justify-center space-x-4 text-xl font-bold underline decoration-violet-400 underline-offset-8 ">
-     
+      {/* <h2 className="flex items-center justify-center space-x-4 text-xl font-bold underline decoration-violet-400 underline-offset-8 ">
         NLP-app
-      </h2>
-     
-      <div className="flex justify-center gap-5 p-10">
+      </h2> */}
+
+      {/* <div className="flex justify-center gap-5 p-10">
         <Button variant="active" onClick={getSummary}>
           Summary Test
         </Button>
@@ -195,7 +205,11 @@ function Home(this: any) {
         </Button>
       </div>
       <div className="flex justify-center gap-5 p-10">
-        <textarea value={testTextInput} onChange={(value) => handleChange(value)} className="w-100" />
+        <textarea
+          value={testTextInput}
+          onChange={(value) => handleChange(value)}
+          className="w-100"
+        />
         <Button variant="active" onClick={testStoringToHistory}>
           Store text into history
         </Button>
@@ -212,8 +226,8 @@ function Home(this: any) {
         >
           Clear History
         </Button>
-      </div>
-      {textInput && <p className="flex justify-center">{textInput}</p>}
+      </div> */}
+      {/* {textInput && <p className="flex justify-center">{textInput}</p>} */}
     </>
   );
 }
