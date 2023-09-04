@@ -1,6 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
+import NavigationBar from "./NavigationBar";
+
 import {
   addToHistory,
   clearHistory,
@@ -72,8 +74,17 @@ function Home(this: any) {
 
   return (
     <div className="mt-10">
-      {/* <NavigationBar /> */}
+      <NavigationBar />
 
+      <p className="flex items-center justify-start space-x-4 text-3xl ml-60 mt-10">  Sentiment analysis of the text is:
+      <span
+        style={{
+
+          color: 'lightgreen',
+          paddingLeft: '8px', 
+        }}
+      >
+        Positive </span></p>
           <div className="flex justify-center gap-5 p-10">
             {/* Left text box */}
             <div className="text-box" style={{ position: "relative" }}>
@@ -102,10 +113,6 @@ function Home(this: any) {
                   cursor: "pointer",
                 }}
                 onClick={getSummary}
-                // => {
-                //   // Handle button click action here
-                //   alert("Button Clicked!");
-                // }}
               />
             </div>
 
@@ -126,19 +133,15 @@ function Home(this: any) {
               <img
                 src={require("../media/copyButton.png")}
                 alt="Button"
-                style={{
-                  position: "absolute",
-                  bottom: "830px",
-                  right: "280px",
-                  width: "51px",
-                  height: "56px",
-                  cursor: "pointer",
-                }}
-                onClick={getSummary}
-                // => {
-                //   // Handle button click action here
-                //   alert("Button Clicked!");
+                // style={{
+                //   position: "absolute",
+                //   bottom: "830px",
+                //   right: "280px",
+                //   width: "51px",
+                //   height: "56px",
+                //   cursor: "pointer",
                 // }}
+                onClick={getSummary}
               />
             </div>
           </div>
