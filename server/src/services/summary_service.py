@@ -15,7 +15,14 @@ def get_summary(input_text:str):
     print("[server] Function to generate summary is executing.")
     global happy_tt1
     result1 = happy_tt1.generate_text(input_text, args=TTSettings(min_length=1, max_length=500))
-    return result1.text
+    result1 = postprocess_replace_space_dot(result1.text)
+    return result1
+
+def postprocess_replace_space_dot(input_string):
+    # Replace ' .' with '.'
+    result_string = input_string.replace(' .', '.')
+    return result_string
+
 
 if __name__ == '__main__':
     # Ensure input.txt exists in root for testing.
