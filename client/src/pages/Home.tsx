@@ -1,13 +1,15 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
+import NavigationBar from "./NavigationBar";
+
 import {
   addToHistory,
   clearHistory,
   postRequestOptions,
   retrieveHistory,
 } from "../components/Utils";
-import NavigationBar from "./NavigationBar";
+import DividerHorizontal from "../components/DividerHorizontal";
 
 function Home(this: any) {
   const [someState, setSomeState] = useState("not set");
@@ -71,44 +73,101 @@ function Home(this: any) {
   };
 
   return (
-    <div style={{ fontFamily: "Times New Roman", marginTop: "20px" }}>
-      <NavigationBar/>
+    <div className="mt-10">
+      <NavigationBar />
 
-      <div className="flex justify-center gap-5 p-10">
-        <Button variant="active" onClick={getSummary}>
-          Summary Test
-        </Button>
-        <Button variant="active" onClick={getSentiment}>
-          Sentiment Test
-        </Button>
-      </div>
+      <p className="flex items-center justify-start space-x-4 text-3xl ml-60 mt-10">  Sentiment analysis of the text is:
+      <span
+        style={{
 
-      <div className="flex justify-center gap-5 p-10">
-          <textarea
-            value={testTextInput}
-            onChange={(value) => handleChange(value)}
-            className="w-100"
-          />
-          <Button variant="active" onClick={testStoringToHistory}>
-            Store text into history
-          </Button>
-          <Button variant="active" onClick={getAnalysisHistory}>
-            Retrieve History
-          </Button>
-          <Button
-            variant="active"
-            onClick={() => {
-              // Example of to clear history and show some kind of message to user...
-              clearHistory();
-              setTextInput("History Cleared.");
+          color: 'lightgreen',
+          paddingLeft: '8px', 
+        }}
+      >
+        Positive </span></p>
+          <div className="flex justify-center gap-5 p-10">
+            {/* Left text box */}
+            <div className="text-box" style={{ position: "relative" }}>
+              <textarea
+                value={testTextInput}
+                onChange={(event) => handleChange(event)}
+                className="w-100"
+                style={{
+                  backgroundColor: "white",
+                  border: "2px solid black",
+                  padding: "10px",
+                  width: "547px",
+                  height: "568px",
+                }}
+              />
+
+              <img
+                src={require("../media/SummariseButton.png")}
+                alt="Button"
+                style={{
+                  position: "absolute",
+                  top: "580px",
+                  right: "1px",
+                  width: "135px",
+                  height: "45px",
+                  cursor: "pointer",
+                }}
+                onClick={getSummary}
+              />
+            </div>
+
+            {/* Right text box */}
+            <div className="text-box">
+              <textarea
+                value={testTextInput}
+                onChange={(event) => handleChange(event)}
+                className="w-100"
+                style={{
+                  backgroundColor: "#f8f9fa",
+                  border: "2px solid black",
+                  padding: "10px",
+                  width: "547px",
+                  height: "568px",
+                }}
+              />
+              <img
+                src={require("../media/copyButton.png")}
+                alt="Button"
+                // style={{
+                //   position: "absolute",
+                //   bottom: "830px",
+                //   right: "280px",
+                //   width: "51px",
+                //   height: "56px",
+                //   cursor: "pointer",
+                // }}
+                onClick={getSummary}
+              />
+            </div>
+          </div>
+
+          {/* {textInput && <p className="flex justify-center">{textInput}</p>} */}
+
+          <div
+            className="flex justify-center gap-5 p-10"
+            style={{
+              marginRight: "820px",
             }}
           >
-            Clear History
-          </Button>
-        </div>
+            <Button variant="active" onClick={getAnalysisHistory}>
+              History
+            </Button>
+            <Button variant="active" onClick={getSentiment}>
+              Learning Summary
+            </Button>
+          </div>
 
-      {textInput && <p className="flex justify-center">{textInput}</p>}
-    </div>
+          <br></br>
+          {/* <p className="flex items-center justify-center space-x-4 text-3xl">
+            Hello SIS-team-24
+          </p> */}
+        </div>
+      
   );
 }
 
