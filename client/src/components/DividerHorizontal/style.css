@@ -1,0 +1,21 @@
+.divider-horizontal {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+}
+
+.divider-horizontal .div {
+  height: 10px; /* You may need to adjust this */
+  position: relative;
+  width: 1px; /* You may need to adjust this */
+}
+
+.divider-horizontal .divider {
+  align-self: stretch;
+  /* height: 1px; Remove this line or set it to the desired height */
+  object-fit: cover;
+  position: relative;
+  width: 100%;
+}

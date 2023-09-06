@@ -3,8 +3,8 @@ import NavigationBar from "./NavigationBar";
 
 function About(this: any) {
   return (
-    <div style={{ fontFamily: "Times New Roman", marginTop: "20px" }}>
-      <NavigationBar/>
+    <div className="mt-10">
+      <NavigationBar />
 
       <p>Test</p>
     </div>

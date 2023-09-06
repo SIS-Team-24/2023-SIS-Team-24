@@ -10,7 +10,7 @@ def get_sentiment(input_text:str):
     """
     Generate a sentiment for the input text.
     """
-    print("[server] Function to generate sentiment is executing.")
+    print("[server] Function to generate sentiment is executing.")  
 
     # MODEL OPTION #1 - finiteautomata/bertweet-base-sentiment-analysis - Source: https://huggingface.co/finiteautomata/bertweet-base-sentiment-analysis
     # Model trained with SemEval 2017 corpus (around ~40k tweets)
@@ -32,9 +32,18 @@ def get_sentiment(input_text:str):
         result=sentiment_analyzer(input_text)
         print(f"{model} test    -    {result}")
 
-
     # TODO: change return to be final result once the function is finalised...
     return "Finished testing sentiment analysis models."
+
+
+def get_emotion(input_text:str):
+    """
+    Discern the attitute / tone / mood from the input text.
+    """
+    # For this simple example, let's just return the input text as the summary.
+    print("[server] Function to generate emotion analysis is executing.")
+
+    return input_text
 
 # TODO: delete after function finalisation...
 if __name__ == '__main__':
