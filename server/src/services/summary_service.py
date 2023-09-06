@@ -20,12 +20,8 @@ def get_summary(input_text:str):
     # Summary generator
     result = happy_tt1.generate_text(input_text, summary_args)
 
-    # Handle err if results are not found
-    try:
-        getattr(result, "text")
-        return result.text
-    except AttributeError:
-        return "ERROR: failed to summarise text."
+    # Return result text key, propogate error if does not exist
+    return result.text
     
 # TODO: delete after function finalisation...
 if __name__ == '__main__':
