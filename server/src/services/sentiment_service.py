@@ -1,10 +1,19 @@
+import os
 from transformers import pipeline
+from summary_service import get_summary
 
 # Load the model upon server initialisation
-# global sentiment_analyzer
-# model_name = 
-# sentiment_analyzer=pipeline('sentiment-analysis', model_name)
-# print(f"[server] Loaded Model {model_name} in {os.path.basename(__file__)}")
+global sentiment_analyzer
+model_name = "cardiffnlp/twitter-roberta-base-sentiment" # Source: https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment
+sentiment_analyser=pipeline('sentiment-analysis', model_name)
+print(f"[server] Loaded Model {model_name} in {os.path.basename(__file__)}")
+
+# Map to return worded sentiment.
+sentiment_map = {
+    "LABEL_0": "Negative",
+    "LABEL_1": "Neutral",
+    "LABEL_2": "Positive"
+}
 
 def get_sentiment(input_text:str):
     """
@@ -12,28 +21,22 @@ def get_sentiment(input_text:str):
     """
     print("[server] Function to generate sentiment is executing.")  
 
-    # MODEL OPTION #1 - finiteautomata/bertweet-base-sentiment-analysis - Source: https://huggingface.co/finiteautomata/bertweet-base-sentiment-analysis
-    # Model trained with SemEval 2017 corpus (around ~40k tweets)
-    # Return "POS", "NEU" or "NEG" and the sentiment score
+    # Default: Set text_to_analyse to current input_text
+    text_to_analyse = input_text
 
-    # MODEL OPTION #2 - cardiffnlp/twitter-roberta-base-sentiment - Source: https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment
-    # model trained on ~58M tweets and finetuned for sentiment analysis with the TweetEval benchmark
-    # Labels returned: 0 -> Negative; 1 -> Neutral; 2 -> Positive
+    # If number of words in input_text is >400, get summary of input_text
+    if len(input_text.split()) > 400:
+        # TODO: currently get_summary() is set to return a summary of 100 words - change following implementation upon related project progress.
+        text_to_analyse = get_summary(input_text)
 
-    # MODEL OPTION #3 - sbcBI/sentiment_analysis - Source: https://huggingface.co/sbcBI/sentiment_analysis
-    # This model is uncased: it does not make a difference between english and English.
-    # Labels returned: 0 -> Negative; 1 -> Neutral; 2 -> Positive
-
-    print(f"\nInputted text: {input_text} \n")
-
-    potential_models = ["finiteautomata/bertweet-base-sentiment-analysis","cardiffnlp/twitter-roberta-base-sentiment","sbcBI/sentiment_analysis"]
-    for model in potential_models:
-        sentiment_analyzer=pipeline('sentiment-analysis', model)
-        result=sentiment_analyzer(input_text)
-        print(f"{model} test    -    {result}")
-
-    # TODO: change return to be final result once the function is finalised...
-    return "Finished testing sentiment analysis models."
+    # Execute sentiment analyzer, and handle any err.   
+    try:   
+        result=sentiment_analyser(text_to_analyse)
+        # analyser returns an arr of results - take first index.
+        return {"sentiment": sentiment_map[result[0]["label"]], 'score': result[0]["score"]}
+    except Exception as error:
+        print(error)
+        return "ERROR: failed to run sentiment analysis"
 
 
 def get_emotion(input_text:str):
@@ -46,7 +49,5 @@ def get_emotion(input_text:str):
     return input_text
 
 # TODO: delete after function finalisation...
-if __name__ == '__main__':
-    # Ensure input.txt exists in server/src for testing.
-    with open('input.txt', 'r', errors='ignore') as f:
-        print(get_sentiment(str(f.read())))	      
+with open('input.txt', 'r', errors='ignore') as f:
+    print(get_sentiment(str(f.read())))	      
