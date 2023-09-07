@@ -4,7 +4,7 @@
 ### Tech Stack:
 * **Frontend**: REACT, Tailwindcss and TS
 * **Backend**: FastAPI and Python
-* **Database**: MongoDB
+* **Database**: browser Session Storage
 
 ## Team Members
 * [Grace Billiris](https://www.linkedin.com/in/grace-billiris/) [(13925894)](https://github.com/gracebilliris)
