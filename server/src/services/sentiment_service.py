@@ -30,13 +30,11 @@ def get_sentiment(input_text:str):
         text_to_analyse = get_summary(input_text)
 
     # Execute sentiment analyzer, and handle any err.   
-    try:   
-        result=sentiment_analyser(text_to_analyse)
-        # analyser returns an arr of results - take first index.
-        return {"sentiment": sentiment_map[result[0]["label"]], 'score': result[0]["score"]}
-    except Exception as error:
-        print(error)
-        return "ERROR: failed to run sentiment analysis"
+    result=sentiment_analyser(text_to_analyse)
+    
+    # analyser returns an arr of results - take first index and return value.
+    return {"sentiment": sentiment_map[result[0]["label"]], 'score': result[0]["score"]}
+
 
 
 def get_emotion(input_text:str):
