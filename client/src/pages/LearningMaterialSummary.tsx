@@ -48,7 +48,7 @@ function LearningMaterialSummary(this: any) {
               </AccordionSummary>
               <AccordionDetails>
                 <Typography className="font-normal">
-                  <h2>{question.a}</h2>
+                  <h2 id={index.toString()}>{question.a}</h2>
                   <br/>
                   <h2>If you want to learn more about BERT, here is a link: </h2>
                   <a href={question.link} className="mt-5 ml-30 text-blue-600">{question.link}</a>
