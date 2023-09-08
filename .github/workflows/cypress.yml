@@ -17,14 +17,18 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 18  # You can specify your desired Node.js version
+          node-version: 18
+
+      - name: Resolve dependency error
+        working-directory: ./client
+        run: npm config set legacy-peer-deps true
 
       - name: Install dependencies
         run: npm install
         working-directory: ./client
     
       - name: Install dev dependencies
-        run: npm install
+        run: npm install --peer
 
       - name: Build React app
         run: npm run build
