@@ -32,6 +32,11 @@ const NavigationBar = () => {
           </Link>
         </div>
         <div style={{ marginTop: "30px", paddingRight: "10px" }}>
+          <Link to={"/faq"} className="nav-link">
+            Questions
+          </Link>
+        </div>
+        <div style={{ marginTop: "30px", paddingRight: "10px" }}>
           <Link to={"/about"} className="nav-link">
             About
           </Link>
