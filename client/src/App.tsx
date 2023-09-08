@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import React from "react";
 import Home from "./pages/Home";
-import LearningMaterialSummary from "./pages/LearningMaterialSummary";
 import About from "./pages/About";
 import Questions from "./pages/Questions";
+import LearningMaterialSummary from "./pages/LearningMaterialSummary";
 
 const App: React.FC<{}> = () => {
   return (

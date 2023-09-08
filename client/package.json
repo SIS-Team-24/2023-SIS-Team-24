@@ -23,6 +23,10 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "rules": {
+      "no-unused-vars": 0,
+      "@typescript-eslint/no-unused-vars": 0
+     },
     "extends": [
       "react-app",
       "react-app/jest"
@@ -42,7 +46,6 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "bootstrap": "^3.4.1",
     "tailwindcss": "^3.3.3"
   }
 }
