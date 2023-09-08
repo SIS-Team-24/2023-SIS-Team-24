@@ -37,3 +37,7 @@ jobs:
       - name: Build client
         working-directory: ./client
         run: npm run build
+
+      - name: Cypress testing
+        working-directory: ./client
+        run: npm run cypress
