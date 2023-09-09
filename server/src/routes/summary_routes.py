@@ -17,6 +17,7 @@ def process_text(input_data: InputData):
         summary = summary_service.get_summary(text)
         return {"summary": summary}
     except Exception as e:
+        # Whenever the backend sends a server error, frontend should render an appropriate error message.
         return HTTPException(status_code=500, detail="Server error: " + str(e))
 
 @router.get("/process")
