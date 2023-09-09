@@ -34,7 +34,7 @@ interface HistoryItem {
   
     useEffect(() => {
       setHistoryItems(mockHistoryData);
-    }, []);
+      }, [mockHistoryData]); 
   
     const handleViewClick = (item: HistoryItem) => {
         // Implement logic to view the selected summary here
