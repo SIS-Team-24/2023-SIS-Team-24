@@ -4,8 +4,6 @@
 name: Node.js CI
 
 on:
-  push:
-    branches: [ "development", "staging", "main" ]
   pull_request:
     branches: [ "development", "staging", "main" ]
 
@@ -13,17 +11,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x, 20.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 18
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '18.x'
           cache: "npm"
 
       - name: Resolve dependency error

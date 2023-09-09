@@ -1,8 +1,6 @@
 name: Run Cypress Tests
 
 on:
-    push:
-      branches: [ "development", "staging", "main" ]
     pull_request:
       branches: [ "development", "staging", "main" ]
 
@@ -17,7 +15,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 18
+          node-version: '18.x'
 
       - name: Resolve dependency error
         working-directory: ./client
