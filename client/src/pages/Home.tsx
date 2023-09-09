@@ -17,6 +17,8 @@ function Home(this: any) {
   const [testTextInput, setTestTextInput] = useState(
     "Insert text here to test analysis storage function"
   );
+  const [sentimentText, setSentimentText] = useState("Neutral"); // "Positive", "Neutral", or "Negative"
+  const [sentimentScore, setSentimentScore] = useState(0); // Decimal value e.g. 0.97 for 97%
 
   useEffect(() => {
     console.log(`useEffect placeholder... initial state: ${someState}`);
@@ -46,8 +48,10 @@ function Home(this: any) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (data.sentiment) {
+        if (data.sentiment && data.score) {
           setTextInput("Sentiment API call was successful.");
+          setSentimentText(data.sentiment);
+          setSentimentScore(Math.round(data.score * 100));
         } else {
           setTextInput("Call to /api/sentiment/process failed.");
         }
@@ -72,20 +76,33 @@ function Home(this: any) {
     setTextInput(JSON.stringify(historyArr));
   };
 
+  const setSentimentStyle = () => {
+    switch (sentimentText) {
+      case "Positive":
+        return {
+          color: "lightgreen",
+          paddingLeft: "8px",
+        };
+      case "Negative":
+        return {
+          color: "red",
+          paddingLeft: "8px",
+        };
+      default:
+        return {
+          color: "black",
+          paddingLeft: "8px",
+        };
+    }
+  };
+
   return (
     <div className="mt-10">
       <NavigationBar />
-
       <p className="flex items-center justify-start space-x-4 text-3xl ml-60 mt-10">
-        {" "}
         Sentiment analysis of the text is:
-        <span
-          style={{
-            color: "lightgreen",
-            paddingLeft: "8px",
-          }}
-        >
-          Positive{" "}
+        <span style={setSentimentStyle()}>
+          {sentimentText} {`${Number(sentimentScore)}%`}
         </span>
       </p>
       <div className="flex justify-center gap-5 p-10">
