@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from dotenv import load_dotenv
 from .routes import summary_routes, sentiment_routes
-from .services import summary_service
+from .services import summary_service, sentiment_service
 import os
 
 def load_env():
@@ -15,6 +15,7 @@ app = FastAPI()
 @app.on_event("startup")
 async def load_models():
     summary_service.load_model()
+    sentiment_service.load_model()
 
 
 # Define routes for the API
