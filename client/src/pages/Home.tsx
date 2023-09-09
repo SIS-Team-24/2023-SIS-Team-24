@@ -51,7 +51,7 @@ function Home(this: any) {
         if (data.sentiment && data.score) {
           setTextInput("Sentiment API call was successful.");
           setSentimentText(data.sentiment);
-          setSentimentScore(data.score);
+          setSentimentScore(Math.round(data.score * 100));
         } else {
           setTextInput("Call to /api/sentiment/process failed.");
         }
@@ -102,7 +102,7 @@ function Home(this: any) {
       <p className="flex items-center justify-start space-x-4 text-3xl ml-60 mt-10">
         Sentiment analysis of the text is:
         <span style={setSentimentStyle()}>
-          {sentimentText} {`${Number(sentimentScore) * 100}%`}
+          {sentimentText} {`${Number(sentimentScore)}%`}
         </span>
       </p>
       <div className="flex justify-center gap-5 p-10">
