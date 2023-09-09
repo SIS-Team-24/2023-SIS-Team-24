@@ -37,28 +37,32 @@ function Questions() {
   return (
     <div>
       <NavigationBar />
-
-      <span className="mb-10 font-normal text-2xl flex flex-col items-center justify-center">
-        Frequently Asked Questions
-      </span>
-      <div className="font-normal flex flex-col items-center justify-center ">
-        {questions.map((question, index) => (
-          <Accordion key={index} className="items-center content-center w-2/5">
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls={`panella-content-${index}`}
+      <div className="mt-20">
+        <span className="mb-10 font-bold text-2xl flex flex-col items-center justify-center">
+          Frequently Asked Questions
+        </span>
+        <div className="font-normal flex flex-col items-center justify-center ">
+          {questions.map((question, index) => (
+            <Accordion
+              key={index}
+              className="items-center content-center w-2/5"
             >
-              <Typography>
-                <h2>{question.q}</h2>
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography className="font-normal">
-                <h2>{question.a}</h2>
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-        ))}
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls={`panella-content-${index}`}
+              >
+                <Typography>
+                  <h2 className="font-semibold">{question.q}</h2>
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography className="font-normal">
+                  <h2>{question.a}</h2>
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </div>
       </div>
     </div>
   );
