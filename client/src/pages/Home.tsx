@@ -17,6 +17,8 @@ function Home(this: any) {
   const [testTextInput, setTestTextInput] = useState(
     "Insert text here to test analysis storage function"
   );
+  const [sentimentText, setSentimentText] = useState("Neutral"); // "Positive", "Neutral", or "Negative"
+  const [sentimentScore, setSentimentScore] = useState(0); // Decimal value e.g. 0.97 for 97%
 
   useEffect(() => {
     console.log(`useEffect placeholder... initial state: ${someState}`);
@@ -46,8 +48,10 @@ function Home(this: any) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (data.sentiment) {
+        if (data.sentiment && data.score) {
           setTextInput("Sentiment API call was successful.");
+          setSentimentText(data.sentiment);
+          setSentimentScore(data.score);
         } else {
           setTextInput("Call to /api/sentiment/process failed.");
         }
@@ -72,102 +76,117 @@ function Home(this: any) {
     setTextInput(JSON.stringify(historyArr));
   };
 
+  const setSentimentStyle = () => {
+    switch (sentimentText) {
+      case "Positive":
+        return {
+          color: "lightgreen",
+          paddingLeft: "8px",
+        };
+      case "Negative":
+        return {
+          color: "red",
+          paddingLeft: "8px",
+        };
+      default:
+        return {
+          color: "black",
+          paddingLeft: "8px",
+        };
+    }
+  };
+
   return (
     <div className="mt-10">
       <NavigationBar />
+      <p className="flex items-center justify-start space-x-4 text-3xl ml-60 mt-10">
+        Sentiment analysis of the text is:
+        <span style={setSentimentStyle()}>
+          {sentimentText} {`${Number(sentimentScore) * 100}%`}
+        </span>
+      </p>
+      <div className="flex justify-center gap-5 p-10">
+        {/* Left text box */}
+        <div className="text-box" style={{ position: "relative" }}>
+          <textarea
+            value={testTextInput}
+            onChange={(event) => handleChange(event)}
+            className="w-100"
+            style={{
+              backgroundColor: "white",
+              border: "2px solid black",
+              padding: "10px",
+              width: "547px",
+              height: "568px",
+            }}
+          />
 
-      <p className="flex items-center justify-start space-x-4 text-3xl ml-60 mt-10">  Sentiment analysis of the text is:
-      <span
+          <img
+            src={require("../media/SummariseButton.png")}
+            alt="Button"
+            style={{
+              position: "absolute",
+              top: "580px",
+              right: "1px",
+              width: "135px",
+              height: "45px",
+              cursor: "pointer",
+            }}
+            onClick={getSummary}
+          />
+        </div>
+
+        {/* Right text box */}
+        <div className="text-box">
+          <textarea
+            value={testTextInput}
+            onChange={(event) => handleChange(event)}
+            className="w-100"
+            style={{
+              backgroundColor: "#f8f9fa",
+              border: "2px solid black",
+              padding: "10px",
+              width: "547px",
+              height: "568px",
+            }}
+          />
+          <img
+            src={require("../media/copyButton.png")}
+            alt="Button"
+            // style={{
+            //   position: "absolute",
+            //   bottom: "830px",
+            //   right: "280px",
+            //   width: "51px",
+            //   height: "56px",
+            //   cursor: "pointer",
+            // }}
+            onClick={getSummary}
+          />
+        </div>
+      </div>
+
+      {/* {textInput && <p className="flex justify-center">{textInput}</p>} */}
+
+      <div
+        className="flex justify-center gap-5 p-10"
         style={{
-
-          color: 'lightgreen',
-          paddingLeft: '8px', 
+          marginRight: "820px",
         }}
       >
-        Positive </span></p>
-          <div className="flex justify-center gap-5 p-10">
-            {/* Left text box */}
-            <div className="text-box" style={{ position: "relative" }}>
-              <textarea
-                value={testTextInput}
-                onChange={(event) => handleChange(event)}
-                className="w-100"
-                style={{
-                  backgroundColor: "white",
-                  border: "2px solid black",
-                  padding: "10px",
-                  width: "547px",
-                  height: "568px",
-                }}
-              />
+        <Button variant="active" onClick={getAnalysisHistory}>
+          History
+        </Button>
+        <Button variant="active" onClick={getSentiment}>
+          Learning Summary
+        </Button>
+      </div>
 
-              <img
-                src={require("../media/SummariseButton.png")}
-                alt="Button"
-                style={{
-                  position: "absolute",
-                  top: "580px",
-                  right: "1px",
-                  width: "135px",
-                  height: "45px",
-                  cursor: "pointer",
-                }}
-                onClick={getSummary}
-              />
-            </div>
-
-            {/* Right text box */}
-            <div className="text-box">
-              <textarea
-                value={testTextInput}
-                onChange={(event) => handleChange(event)}
-                className="w-100"
-                style={{
-                  backgroundColor: "#f8f9fa",
-                  border: "2px solid black",
-                  padding: "10px",
-                  width: "547px",
-                  height: "568px",
-                }}
-              />
-              <img
-                src={require("../media/copyButton.png")}
-                alt="Button"
-                // style={{
-                //   position: "absolute",
-                //   bottom: "830px",
-                //   right: "280px",
-                //   width: "51px",
-                //   height: "56px",
-                //   cursor: "pointer",
-                // }}
-                onClick={getSummary}
-              />
-            </div>
-          </div>
-
-          {/* {textInput && <p className="flex justify-center">{textInput}</p>} */}
-
-          <div
-            className="flex justify-center gap-5 p-10"
-            style={{
-              marginRight: "820px",
-            }}
-          >
-            <Button variant="active" onClick={getAnalysisHistory}>
-              History
-            </Button>
-            <Button variant="active" onClick={getSentiment}>
-              Learning Summary
-            </Button>
-          </div>
-
-          <br></br>
-          {/* <p className="flex items-center justify-center space-x-4 text-3xl">
+      <br></br>
+      {/* <p className="flex items-center justify-center space-x-4 text-3xl">
             Hello SIS-team-24
           </p> */}
-        </div>
-      
+    </div>
   );
 }
 
