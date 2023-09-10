@@ -3,7 +3,10 @@ import { Link } from "react-router-dom";
 
 const NavigationBar = () => {
   return (
-    <div style={{ fontFamily: "Times New Roman", marginTop: "20px" }}>
+    <div
+      id="Navbar"
+      style={{ fontFamily: "Times New Roman", marginTop: "20px" }}
+    >
       <nav
         className="navbar navbar-expand-lg navbar-light bg-light"
         style={{
@@ -22,7 +25,7 @@ const NavigationBar = () => {
           alt=""
         />
         <div style={{ marginTop: "30px", paddingRight: "10px" }}>
-          <Link to={"/"} className="nav-link">
+          <Link to={"/"} id="Home" className="nav-link">
             Home
           </Link>
         </div>
@@ -44,6 +47,6 @@ const NavigationBar = () => {
       </nav>
     </div>
   );
-}
+};
 
 export default NavigationBar;
