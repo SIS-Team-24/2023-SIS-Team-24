@@ -66,7 +66,7 @@ function Home(this: any) {
   // Example of how to use addToHistory() - Summary only...
   const testStoringToHistory = () => {
     // param type = AnalysisInput (refer to Utils.tsx)
-    addToHistory({ summary: testTextInput });
+    addToHistory({ summary: testTextInput, sentiment: {sentiment: "positive", score: 0.1273123, emotions: ["happy", "joyous", "delighted"]} });
   };
 
   // Example of how to use retrieveHistory()...
