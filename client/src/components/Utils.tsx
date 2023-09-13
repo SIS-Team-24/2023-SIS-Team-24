@@ -8,7 +8,11 @@ export interface AnalysisInput {
   summary: string;
   // Sentiment can potential be undefined, depending on the type of text that is inputted
   // Referencing previous discussion on how some texts may not have sentiment (e.g. stories)
-  sentiment?: string;
+  sentiment?: {
+    sentiment: string;
+    score: number;
+    emotions: string[];
+  };
 }
 
 export interface AnalysisOutput extends AnalysisInput {

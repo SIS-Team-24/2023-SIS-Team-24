@@ -34,6 +34,7 @@ interface HistoryItem {
   
     useEffect(() => {
       setHistoryItems(mockHistoryData);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []); 
   
     const handleViewClick = (item: HistoryItem) => {
