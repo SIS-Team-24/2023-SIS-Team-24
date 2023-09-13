@@ -1,13 +1,12 @@
 import os
-from happytransformer import HappyTextToText, TTSettings
+from transformers import pipeline
 
 # Load the machine learning model during app startup
 def load_model():
-    global happy_tt1
-    model_type = "BERT"
+    global summarizer
     model_name = "facebook/bart-large-cnn" # Source: https://huggingface.co/facebook/bart-large-cnn
-    happy_tt1 = HappyTextToText(model_type, model_name)
-    print(f"[server] Loaded Model {model_name}, type {model_type}, in {os.path.basename(__file__)}")
+    summarizer = pipeline("summarization", model_name)
+    print(f"[server] Loaded Summary Model {model_name} in {os.path.basename(__file__)}")
 
 def get_summary(input_text:str):
     """
@@ -15,14 +14,11 @@ def get_summary(input_text:str):
     """
     print("[server] Function to generate summary is executing.")
 
-    # Summarisation settings
-    summary_args = TTSettings(min_length=1, max_length=500)
-
     # Summary generator
-    result = happy_tt1.generate_text(input_text, summary_args)
+    result = summarizer(input_text, min_length=100, max_length=500)[0]
 
     # Return result text key, propogate error if does not exist
-    return result.text
+    return result['summary_text']
     
 # TODO: delete after function finalisation...
 if __name__ == '__main__':
