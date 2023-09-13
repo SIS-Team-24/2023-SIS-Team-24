@@ -98,6 +98,7 @@ function Home(this: any) {
                     {sentimentText} {`${Number(sentimentScore)}%`}
                 </span>
             </p>
+            <p className="flex items-center justify-start space-x-4 text-3xl ml-60 mt-10">Test</p>
             <div className="flex justify-center gap-5 p-10">
                 {/* Left text box */}
                 <div
