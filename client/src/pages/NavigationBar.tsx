@@ -32,6 +32,11 @@ const NavigationBar = () => {
           </Link>
         </div>
         <div className="mt-8 pr-2.5">
+          <Link to={"/history"} className="nav-link">
+            Summary History
+          </Link>
+        </div>
+        <div className="mt-8 pr-2.5">
           <Link to={"/faq"} className="nav-link">
             Questions
           </Link>
