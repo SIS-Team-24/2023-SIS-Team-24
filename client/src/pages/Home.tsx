@@ -127,22 +127,37 @@ function Home(this: any) {
                         </svg>
                     </button>
 
-                    <ul className="rounded absolute hidden text-gray-700 pt-1 group-hover:block w-56" style={{ zIndex: 3 }}>
-                        <li className={"bg-gray-200 hover:bg-gray-400 py-4 px-4 cursor-pointer"} onClick={() => handleFontClick("open-sans")}>
+                    <ul
+                        className="rounded absolute hidden text-gray-700 pt-1 group-hover:block w-56"
+                        style={{ zIndex: 3 }}
+                    >
+                        <li
+                            className={"bg-gray-200 hover:bg-gray-400 py-4 px-4 cursor-pointer"}
+                            onClick={() => handleFontClick("open-sans")}
+                        >
                             Open Sans
                         </li>
-                        <li className="bg-gray-200 hover:bg-gray-400 py-4 px-4 cursor-pointer" onClick={() => handleFontClick("roboto")}>
+                        <li
+                            className="bg-gray-200 hover:bg-gray-400 py-4 px-4 cursor-pointer"
+                            onClick={() => handleFontClick("roboto")}
+                        >
                             Roboto
                         </li>
-                        <li className="bg-gray-200 hover:bg-gray-400 py-4 px-4 cursor-pointer" onClick={() => handleFontClick("serif")}>
-                            Times New Roman
+                        <li
+                            className="bg-gray-200 hover:bg-gray-400 py-4 px-4 cursor-pointer"
+                            onClick={() => handleFontClick("mooli")}
+                        >
+                            Mooli
                         </li>
                     </ul>
                 </div>
             </div>
             <div className="flex justify-center gap-5 p-10">
                 {/* Left text box */}
-                <div className="text-box" style={{ position: "relative" }}>
+                <div
+                    className="text-box"
+                    style={{ position: "relative" }}
+                >
                     <div>
                         <div>
                             <label htmlFor="inputtedField">Input Field:</label>
@@ -157,29 +172,50 @@ function Home(this: any) {
                             />
                         </div>
                     </div>
-                    <button onClick={getSummary} className="mt-8 ml-52 py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded">
+                    <button
+                        onClick={getSummary}
+                        className="mt-8 ml-52 py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded"
+                    >
                         Summarise
                     </button>
                 </div>
 
                 {/* Right text box */}
-                <div className="text-box" style={{ position: "relative" }}>
+                <div
+                    className="text-box"
+                    style={{ position: "relative" }}
+                >
                     <div>
                         {submitted ? (
-                            <div className="text-box" style={{ position: "relative" }}>
+                            <div
+                                className="text-box"
+                                style={{ position: "relative" }}
+                            >
                                 <label htmlFor="inputtedValue">Input Value: </label>
                                 <div>
-                                    <input style={{ ...inputStyles, backgroundColor: "#f0f0f0" }} value={textInput} />
+                                    <input
+                                        style={{ ...inputStyles, backgroundColor: "#f0f0f0" }}
+                                        value={textInput}
+                                    />
                                 </div>
-                                <button onClick={getSentiment} className="mt-8 ml-52 py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded">
+                                <button
+                                    onClick={getSentiment}
+                                    className="mt-8 ml-52 py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded"
+                                >
                                     Sentiment
                                 </button>
                             </div>
                         ) : (
-                            <div className="text-box" style={{ position: "relative" }}>
+                            <div
+                                className="text-box"
+                                style={{ position: "relative" }}
+                            >
                                 <label htmlFor="inputtedValue">Input Value: </label>
                                 <div>
-                                    <input style={{ ...inputStyles, backgroundColor: "#f0f0f0" }} value={"Enter your text to be summarised first..."} />
+                                    <input
+                                        style={{ ...inputStyles, backgroundColor: "#f0f0f0" }}
+                                        value={"Enter your text to be summarised first..."}
+                                    />
                                 </div>
                             </div>
                         )}
