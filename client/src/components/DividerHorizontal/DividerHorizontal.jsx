@@ -7,7 +7,10 @@ import PropTypes from "prop-types";
 import React from "react";
 import "./style.css";
 
-export const DividerHorizontal = ({ className, divider = "/img/divider-2.svg" }) => {
+export const DividerHorizontal = ({
+  className,
+  divider = "/img/divider-2.svg",
+}) => {
   return (
     <div className={`divider-horizontal ${className}`}>
       <div className="div" />
