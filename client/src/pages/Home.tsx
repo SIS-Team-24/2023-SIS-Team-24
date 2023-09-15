@@ -160,7 +160,9 @@ function Home(this: any) {
                 >
                     <div>
                         <div>
-                            <label htmlFor="inputtedField">Input Field:</label>
+                            <label htmlFor="inputtedField">
+                                <i>Text to be Summarised:</i>
+                            </label>
                         </div>
                         <div>
                             <input
@@ -192,7 +194,9 @@ function Home(this: any) {
                                 className="text-box"
                                 style={{ position: "relative" }}
                             >
-                                <label htmlFor="inputtedValue">Input Value: </label>
+                                <label htmlFor="inputtedValue">
+                                    <i>Summarised Text: </i>
+                                </label>
                                 <div>
                                     <input
                                         style={{ ...inputStyles, backgroundColor: "#f0f0f0" }}
