@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from .routes import summary_routes, sentiment_routes
 from .services import summary_service, sentiment_service
 import os
+import subprocess
 
 def load_env():
     # Get the directory where main.py is located
@@ -25,6 +26,23 @@ app.include_router(sentiment_routes.router, prefix="/api/sentiment")
 @app.get("/api")
 def read_root():
     return {"message": "⚡️⚡️⚡️ FastAPI + Python 3 Server! ⚡️⚡️⚡️"}
+
+
+# Webhook to update server whenever git remote updates.
+@app.post("/api/update")
+def update_server():
+    try:
+        # Step 1: Pull the latest code from the Git repository
+        pull_command = "git pull origin main"
+        subprocess.check_output(pull_command, shell=True)
+
+        # Step 2: Reload the server using Uvicorn
+        reload_command = "uvicorn server.src.main:app --host 0.0.0.0 --port 4200 --reload"
+        subprocess.Popen(reload_command, shell=True)
+
+        return {"message": "Server code updated and reloading initiated."}
+    except Exception as e:
+        return {"error": f"An error occurred: {str(e)}"}
 
 if __name__ == "__main__":
     import uvicorn
