@@ -32,17 +32,14 @@ def read_root():
 @app.post("/api/update")
 def update_server():
     try:
-        # Step 1: Pull the latest code from the Git repository
-        pull_command = "git pull origin main"
+        pull_command = "git pull origin"
         subprocess.check_output(pull_command, shell=True)
 
-        # Step 2: Reload the server using Uvicorn
-        reload_command = "uvicorn server.src.main:app --host 0.0.0.0 --port 4200 --reload"
-        subprocess.Popen(reload_command, shell=True)
-
-        return {"message": "Server code updated and reloading initiated."}
+        return {"statusCode": 200, 
+                "message": "Server code updated and reloading initiated."}
     except Exception as e:
-        return {"error": f"An error occurred: {str(e)}"}
+        return {"statusCode": 500, 
+                "error": f"An error occurred: {str(e)}"}
 
 if __name__ == "__main__":
     import uvicorn
