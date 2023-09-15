@@ -108,14 +108,14 @@ function Home(this: any) {
     return (
         <div className="mt-10">
             <NavigationBar />
-            <div className="flex inline-flex items-baseline">
-                <p className="flex items-center justify-start space-x-4 text-3xl mt-10 ml-60">
+            <div className="flex justify-between mt-10">
+                <p className="flex items-center items-baseline justify-start space-x-4 text-3xl ml-60">
                     Sentiment analysis of the text is:
                     <span style={setSentimentStyle()}>
                         {sentimentText} {`${Number(sentimentScore)}%`}
                     </span>
                 </p>
-                <div className="group relative ml-80">
+                <div className="group relative mr-60">
                     <button className="bg-gray-300 text-gray-700 py-4 px-6 rounded inline-flex items-center group">
                         <span className="mr-1">Change Font</span>
                         <svg
