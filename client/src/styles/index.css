@@ -2,16 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-/* body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Serif&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap");
+
+body {
+    font-family: "Open Sans", sans-serif;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-} */
+    font-family: "Open Sans", sans-serif;
+}
+
+.divider-horizontal {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+}
+
+.divider-horizontal .div {
+    height: 1px;
+    position: relative;
+    width: 1px;
+}
+
+.divider-horizontal .divider {
+    align-self: stretch;
+    height: 1px;
+    object-fit: cover;
+    position: relative;
+    width: 100%;
+}
+
+.rectangle-box {
+    border: 2px solid #ddd; /* Light gray outline color */
+    padding: 20px; /* Padding inside the box */
+    margin: 10px auto; /* Center the box horizontally */
+    max-width: 1100px; /* Maximum width of the box */
+    background-color: #f9f9f9; /* Light background color */
+    border-radius: 0; /* Sharp edges (no border radius) */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle elevation */
+}
+
+.rectangle-box {
+    border: 2px solid lightgray; /* Add your desired border styles */
+    border-radius: 5px; /* Add your desired border radius */
+    padding: 10px;
+}
+
+.history-item {
+    display: flex;
+    flex-direction: column; /* Change flex direction to stack elements vertically */
+    margin-bottom: 10px;
+}
+
+.summary-text {
+    flex: 1;
+    margin-right: 10px; /* Adjust spacing between text and button as needed */
+}
+
+.view-button {
+    flex-shrink: 0; /* Prevent the button from stretching */
+}
+
+.clearHistory-button {
+    display: flex;
+    justify-content: flex-end; /* Align button to the right */
+    margin-right: 300px; /* Adjust margin as needed */
+    margin-top: -20px; /* Adjust margin as needed */
+}

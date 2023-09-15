@@ -1,0 +1,52 @@
+name: Run Cypress Tests
+
+on:
+    pull_request:
+      branches: [ "development", "staging", "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.x'
+
+      - name: Resolve dependency error
+        working-directory: ./client
+        run: npm config set legacy-peer-deps true
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./client
+    
+      - name: Install dev dependencies
+        run: npm install --peer
+
+      - name: Build React app
+        run: npm run build
+        working-directory: ./client
+
+      - name: Start a server for the React app
+        run: |
+          npm run start &
+          echo $! > react_server_pid.txt
+        working-directory: ./client
+
+      - name: Wait for the server to start
+        run: |
+          while ! curl -s http://localhost:3000; do
+            sleep 1
+          done
+
+      - name: Run Cypress tests
+        run: npm run cypress
+
+      - name: Stop the server
+        run: kill $(cat react_server_pid.txt)
+        working-directory: ./client

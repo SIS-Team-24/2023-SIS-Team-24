@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const NavigationBar = () => {
   return (
-    <div style={{ fontFamily: "Times New Roman", marginTop: "20px" }}>
+    <div id="Navbar" className="mt-8 font-serif">
       <nav
         className="navbar navbar-expand-lg navbar-light bg-light"
         style={{
@@ -21,17 +21,27 @@ const NavigationBar = () => {
           width="500"
           alt=""
         />
-        <div style={{ marginTop: "30px", paddingRight: "10px" }}>
-          <Link to={"/"} className="nav-link">
+        <div className="mt-8 pr-2.5">
+          <Link to={"/"} id="Home" className="nav-link">
             Home
           </Link>
         </div>
-        <div style={{ marginTop: "30px", paddingRight: "10px" }}>
+        <div className="mt-8 pr-2.5">
           <Link to={"/learningMaterialSummary"} className="nav-link">
             Learning Material Summary
           </Link>
         </div>
-        <div style={{ marginTop: "30px", paddingRight: "10px" }}>
+        <div className="mt-8 pr-2.5">
+          <Link to={"/history"} className="nav-link">
+            Summary History
+          </Link>
+        </div>
+        <div className="mt-8 pr-2.5">
+          <Link to={"/faq"} className="nav-link">
+            Questions
+          </Link>
+        </div>
+        <div className="mt-8 pr-2.5">
           <Link to={"/about"} className="nav-link">
             About
           </Link>
@@ -39,6 +49,6 @@ const NavigationBar = () => {
       </nav>
     </div>
   );
-}
+};
 
 export default NavigationBar;

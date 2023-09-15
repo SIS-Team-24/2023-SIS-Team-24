@@ -15,8 +15,10 @@ def analyze_sentiment(input_data: InputData):
     
     try:
         sentiment = sentiment_service.get_sentiment(text)
-        return {"sentiment": sentiment}
+        # return object {"sentiment": str, "score": float, "emotion": str[]}
+        return sentiment
     except Exception as e:
+        # Whenever the backend sends a server error, frontend should render an appropriate error message.
         return HTTPException(status_code=500, detail="Server error: " + str(e))
 
 @router.get("/process")

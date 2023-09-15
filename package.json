@@ -7,7 +7,8 @@
     "server": "cd server && uvicorn src.main:app --reload",
     "client": "cd client && npm start",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "cd client && npm run build"
+    "build": "cd client && npm run build",
+    "cypress": "node e2e-run-tests.js --headless"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,8 @@
   },
   "homepage": "https://github.com/gracebilliris/SIS-Team-24#readme",
   "devDependencies": {
-    "concurrently": "^8.2.0"
+    "concurrently": "^8.2.0",
+    "cypress": "^13.2.0"
   },
   "dependencies": {
     "dotenv": "^16.3.1"
