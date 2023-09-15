@@ -174,7 +174,8 @@ function Home(this: any) {
                     </div>
                     <button
                         onClick={getSummary}
-                        className="mt-8 ml-52 py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded"
+                        style={{ backgroundColor: "#2e7faa" }}
+                        className="mt-8 ml-52 py-2 px-4 text-white rounded"
                     >
                         Summarise
                     </button>
@@ -200,7 +201,8 @@ function Home(this: any) {
                                 </div>
                                 <button
                                     onClick={getSentiment}
-                                    className="mt-8 ml-52 py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded"
+                                    style={{ backgroundColor: "#2e7faa" }}
+                                    className="mt-8 ml-52 py-2 px-4 text-white rounded"
                                 >
                                     Sentiment
                                 </button>
@@ -210,7 +212,10 @@ function Home(this: any) {
                                 className="text-box"
                                 style={{ position: "relative" }}
                             >
-                                <label htmlFor="inputtedValue">Input Value: </label>
+                                <label htmlFor="inputtedValue">
+                                    {" "}
+                                    <i>Summarised Text: </i>
+                                </label>
                                 <div>
                                     <input
                                         style={{ ...inputStyles, backgroundColor: "#f0f0f0" }}
