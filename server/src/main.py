@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
 from .routes import summary_routes, sentiment_routes
 from .services import summary_service, sentiment_service
@@ -32,14 +32,13 @@ def read_root():
 @app.post("/api/update")
 def update_server():
     try:
-        pull_command = "git pull origin"
+        remote = "https://github.com/SIS-Team-24/2023-SIS-Team-24.git"
+        pull_command = f"git pull {remote}"
         subprocess.check_output(pull_command, shell=True)
 
-        return {"statusCode": 200, 
-                "message": "Server code updated and reloading initiated."}
+        return { "message": "Server code updated and reloading initiated."}
     except Exception as e:
-        return {"statusCode": 500, 
-                "error": f"An error occurred: {str(e)}"}
+        raise HTTPException(status_code=500, detail="Internal Server Error: " + str(e))
 
 if __name__ == "__main__":
     import uvicorn
