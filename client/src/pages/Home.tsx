@@ -95,6 +95,30 @@ function Home(this: any) {
                 };
         }
     };
+    
+      <div className="flex justify-center gap-5 p-10">
+        <textarea
+          value={testTextInput}
+          onChange={(value) => handleChange(value)}
+          className="w-100"
+        />
+        <Button variant="active" onClick={testStoringToHistory}>
+          Store text into history
+        </Button>
+        <Button variant="active" onClick={getAnalysisHistory}>
+          Retrieve History
+        </Button>
+        <Button
+          variant="active"
+          onClick={() => {
+            // Example of to clear history and show some kind of message to user...
+            clearHistory();
+            setTextInput("History Cleared.");
+          }}
+        >
+          Clear History
+        </Button>
+      </div>
 
     const inputStyles = {
         fontFamily: selectedFont || "Open Sans",
