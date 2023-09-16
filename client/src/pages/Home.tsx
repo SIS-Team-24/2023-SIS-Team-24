@@ -14,6 +14,7 @@ function Home(this: any) {
   const [inputValue, setInputValue] = useState<string>("");
   const [sentimentText, setSentimentText] = useState("Neutral"); // "Positive", "Neutral", or "Negative"
   const [sentimentScore, setSentimentScore] = useState(0); // Decimal value e.g. 0.97 for 97%
+  const [emotionLabel, setEmotionLabel] = useState("Happy"); // "Happy", "Sad", "angry"
   const [selectedFont, setSelectedFont] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
 
@@ -67,6 +68,25 @@ function Home(this: any) {
       });
   };
 
+
+    // Function to update the emotion label
+    const updateEmotionLabel = (newEmotion: string) => {
+      const body = JSON.stringify({ text: inputValue });
+      fetch("/api/emotion/process", { ...postRequestOptions, body })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if (data.emotion) {
+            setTextInput("Emotion API call was successful.");
+            setEmotionLabel(data.emotion);
+          } else {
+            setTextInput("Call to /api/emotion/process failed.");
+          }
+        });
+    };
+
+
+
   const setSentimentStyle = () => {
     switch (sentimentText) {
       case "Positive":
@@ -86,6 +106,47 @@ function Home(this: any) {
         };
     }
   };
+
+  const setEmotionStyle = () => {
+    switch (emotionLabel) {
+      case "Happy":
+        return {
+          backgroundColor: "lightgreen",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Sad":
+        return {
+          backgroundColor: "yellow",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Angry":
+        return {
+          backgroundColor: "red",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Upset":
+        return {
+          backgroundColor: "grey",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      default:
+        return {
+          backgroundColor: "white",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+    }
+  };
+  
 
   const inputStyles = {
     fontFamily: selectedFont || "Open Sans",
@@ -145,6 +206,16 @@ function Home(this: any) {
           </ul>
         </div>
       </div>
+      
+      <p className="flex items-center justify-start space-x-4 text-3xl mt-10 ml-60">
+        Emotion analysis result:
+        <span style={setEmotionStyle()}>
+          {emotionLabel}
+        </span>
+      </p>
+
+            
+
       <div className="flex justify-center gap-5 p-10">
         {/* Left text box */}
         <div className="text-box" style={{ position: "relative" }}>
