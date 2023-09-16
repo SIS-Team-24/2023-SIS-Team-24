@@ -24,7 +24,9 @@ export interface AnalysisOutput extends AnalysisInput {
 // Thus, an ID won't be necessary there'll only be one summary per input
 // (i.e there won't be various summaries to relate to a single input, one-to-one relo)
 export function addToHistory(analysis: AnalysisInput) {
-  const historyArr: AnalysisOutput[] = JSON.parse(sessionStorage.getItem("history") || "[]");
+  const historyArr: AnalysisOutput[] = JSON.parse(
+    sessionStorage.getItem("history") || "[]"
+  );
   // If summary does not exist in history, store into history...
   // prevent double storage of the same history, refer to Note 01
   if (!historyArr.find((h) => h.summary === analysis.summary)) {
