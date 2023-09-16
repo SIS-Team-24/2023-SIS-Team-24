@@ -32,14 +32,13 @@ function Home(this: any) {
     const getSummary = () => {
         setSubmitted(true);
         console.log("submitted: " + submitted);
-
-        const body = JSON.stringify({ text: "testing summary/process ..." });
+        const body = JSON.stringify({ text: inputValue });
         fetch("/api/summary/process", { ...postRequestOptions, body })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 if (data.summary) {
                     setTextInput("Summary API call was successful.");
+                    addToHistory({ summary: data.summary });
                 } else {
                     setTextInput("Call to /api/summary/process failed.");
                 }
@@ -48,7 +47,7 @@ function Home(this: any) {
 
     // Testing function to call Sentiment analysis fn...
     const getSentiment = () => {
-        const body = JSON.stringify({ text: "testing sentiment/process ..." });
+        const body = JSON.stringify({ text: inputValue });
         fetch("/api/sentiment/process", { ...postRequestOptions, body })
             .then((response) => response.json())
             .then((data) => {
@@ -61,19 +60,6 @@ function Home(this: any) {
                     setTextInput("Call to /api/sentiment/process failed.");
                 }
             });
-    };
-
-    // Example of how to use addToHistory() - Summary only...
-    const testStoringToHistory = () => {
-        // param type = AnalysisInput (refer to Utils.tsx)
-        addToHistory({ summary: textInput });
-    };
-
-    // Example of how to use retrieveHistory()...
-    const getAnalysisHistory = () => {
-        const historyArr = retrieveHistory();
-        // Do some formatting...
-        setTextInput(JSON.stringify(historyArr));
     };
 
     const setSentimentStyle = () => {
