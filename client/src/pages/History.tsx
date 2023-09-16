@@ -2,49 +2,52 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import NavigationBar from "./NavigationBar";
-import { clearHistory } from "../components/Utils";
+import HistoryModal from "../components/HistoryModal";
+import { clearHistory, retrieveHistory } from "../components/Utils";
 
 interface HistoryItem {
   id: number;
+  summaryTitle: string;
   summary: string;
   date: string;
 }
 
 function History() {
   const [historyItems, setHistoryItems] = useState<HistoryItem[]>([]);
-
-  const mockHistoryData: HistoryItem[] = [
-    {
-      id: 1,
-      summary: "Summary 1",
-      date: "2023-09-10",
-    },
-    {
-      id: 2,
-      summary: "Summary 2",
-      date: "2023-09-10",
-    },
-    {
-      id: 3,
-      summary: "Summary 3",
-      date: "2023-09-10",
-    },
-  ];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<HistoryItem>();
 
   useEffect(() => {
-    setHistoryItems(mockHistoryData);
+    getAnalysisHistory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleViewClick = (item: HistoryItem) => {
     // Implement logic to view the selected summary here
-    console.log(`Viewing summary: ${item.summary}`);
+    setSelectedItem(item);
+    setIsModalOpen(true);
   };
 
   const handleClearHistoryClick = () => {
     // Implement logic to clear history here
     clearHistory();
     setHistoryItems([]); // Clear the displayed history items
+  };
+
+  // Example of how to use retrieveHistory()...
+  const getAnalysisHistory = () => {
+    const historyArr = retrieveHistory();
+    // Do some formatting...
+    setHistoryItems(
+      JSON.parse(JSON.stringify(historyArr)).map((item: any, index: number) => {
+        return {
+          id: index + 1,
+          date: new Date(item.timestamp).toLocaleDateString("en-AU"),
+          summaryTitle: `Summary ${index + 1}`,
+          summary: item.summary,
+        };
+      })
+    );
   };
 
   return (
@@ -69,7 +72,7 @@ function History() {
             <div key={item.id} className="history-item">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="summary-text">{item.summary}</p>
+                  <p className="summary-text">{item.summaryTitle}</p>
                   <p className="summary-date">{item.date}</p>
                 </div>
                 <div className="view-button">
@@ -87,6 +90,14 @@ function History() {
           <p>No history available.</p>
         )}
       </div>
+      {isModalOpen && (
+        <HistoryModal
+          item={selectedItem}
+          onClose={() => {
+            setIsModalOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 }
