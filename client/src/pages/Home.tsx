@@ -33,59 +33,59 @@ function Home(this: any) {
     setSelectedFont(selectedFont);
   };
 
-    // Testing function to call Summary analysis fn...
-    const getSummary = () => {
-        setSubmitted(true);
-        console.log("submitted: " + submitted);
-        const body = JSON.stringify({ text: inputValue });
-        fetch("/api/summary/process", { ...postRequestOptions, body })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.summary) {
-                    setTextInput("Summary API call was successful.");
-                    addToHistory({ summary: data.summary });
-                } else {
-                    setTextInput("Call to /api/summary/process failed.");
-                }
-            });
-    };
-
-    // Testing function to call Sentiment analysis fn...
-    const getSentiment = () => {
-        const body = JSON.stringify({ text: inputValue });
-        fetch("/api/sentiment/process", { ...postRequestOptions, body })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                if (data.sentiment && data.score) {
-                    setTextInput("Sentiment API call was successful.");
-                    setSentimentText(data.sentiment);
-                    setSentimentScore(Math.round(data.score * 100));
-                } else {
-                    setTextInput("Call to /api/sentiment/process failed.");
-                }
-            });
-    };
-
-    const setSentimentStyle = () => {
-        switch (sentimentText) {
-            case "Positive":
-                return {
-                    color: "lightgreen",
-                    paddingLeft: "8px",
-                };
-            case "Negative":
-                return {
-                    color: "red",
-                    paddingLeft: "8px",
-                };
-            default:
-                return {
-                    color: "black",
-                    paddingLeft: "8px",
-                };
+  // Testing function to call Summary analysis fn...
+  const getSummary = () => {
+    setSubmitted(true);
+    console.log("submitted: " + submitted);
+    const body = JSON.stringify({ text: inputValue });
+    fetch("/api/summary/process", { ...postRequestOptions, body })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.summary) {
+          setTextInput("Summary API call was successful.");
+          addToHistory({ summary: data.summary });
+        } else {
+          setTextInput("Call to /api/summary/process failed.");
         }
-    };
+      });
+  };
+
+  // Testing function to call Sentiment analysis fn...
+  const getSentiment = () => {
+    const body = JSON.stringify({ text: inputValue });
+    fetch("/api/sentiment/process", { ...postRequestOptions, body })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.sentiment && data.score) {
+          setTextInput("Sentiment API call was successful.");
+          setSentimentText(data.sentiment);
+          setSentimentScore(Math.round(data.score * 100));
+        } else {
+          setTextInput("Call to /api/sentiment/process failed.");
+        }
+      });
+  };
+
+  const setSentimentStyle = () => {
+    switch (sentimentText) {
+      case "Positive":
+        return {
+          color: "lightgreen",
+          paddingLeft: "8px",
+        };
+      case "Negative":
+        return {
+          color: "red",
+          paddingLeft: "8px",
+        };
+      default:
+        return {
+          color: "black",
+          paddingLeft: "8px",
+        };
+    }
+  };
 
   const inputStyles = {
     fontFamily: selectedFont || "Open Sans",
