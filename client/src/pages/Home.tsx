@@ -14,78 +14,9 @@ function Home(this: any) {
   const [inputValue, setInputValue] = useState<string>("");
   const [sentimentText, setSentimentText] = useState("Neutral"); // "Positive", "Neutral", or "Negative"
   const [sentimentScore, setSentimentScore] = useState(0); // Decimal value e.g. 0.97 for 97%
-  const [emotionLabel, setEmotionLabel] = useState("Not set"); // "Happy", "Sad", "angry"
   const [selectedFont, setSelectedFont] = useState<string | null>(null);
+  const [emotionLabel, setEmotionLabel] = useState("Not set"); // "Happy", "Sad", "angry"
   const [submitted, setSubmitted] = useState(false);
-
-  useEffect(() => {
-    console.log(`useEffect placeholder... initial state: ${someState}`);
-    setSomeState("some state");
-    console.log(`After state change: ${someState}`);
-  }, [someState]);
-
-  // Event handler for input value change
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value); // Update the input value in the state
-  };
-
-  const handleFontClick = (selectedFont: string) => {
-    console.log("new font: font-" + selectedFont);
-    setSelectedFont(selectedFont);
-  };
-
-  // Testing function to call Summary analysis fn...
-  const getSummary = () => {
-    setSubmitted(true);
-    console.log("submitted: " + submitted);
-    const body = JSON.stringify({ text: inputValue });
-    fetch("/api/summary/process", { ...postRequestOptions, body })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.summary) {
-          setTextInput("Summary API call was successful.");
-          addToHistory({ summary: data.summary });
-        } else {
-          setTextInput("Call to /api/summary/process failed.");
-        }
-      });
-  };
-
-  // Testing function to call Sentiment analysis fn...
-  const getSentiment = () => {
-    const body = JSON.stringify({ text: inputValue });
-    fetch("/api/sentiment/process", { ...postRequestOptions, body })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.sentiment && data.score) {
-          setTextInput("Sentiment API call was successful.");
-          setSentimentText(data.sentiment);
-          setSentimentScore(Math.round(data.score * 100));
-        } else {
-          setTextInput("Call to /api/sentiment/process failed.");
-        }
-      });
-  };
-
-
-    // Function to update the emotion label
-    const updateEmotionLabel = (newEmotion: string) => {
-      const body = JSON.stringify({ text: inputValue });
-      fetch("/api/emotion/process", { ...postRequestOptions, body })
-        .then((response) => response.json())
-        .then((data) => {
-       //   console.log(data);
-          if (data.emotion) {
-            setTextInput("Emotion API call was successful.");
-            setEmotionLabel(data.emotion);
-          } else {
-            setTextInput("Call to /api/emotion/process failed.");
-          }
-        });
-    };
-
-
 
   const setSentimentStyle = () => {
     switch (sentimentText) {
@@ -147,7 +78,22 @@ function Home(this: any) {
         };
     }
   };
-  
+
+  // Function to update the emotion label
+  const updateEmotionLabel = (newEmotion: string) => {
+    const body = JSON.stringify({ text: inputValue });
+    fetch("/api/emotion/process", { ...postRequestOptions, body })
+      .then((response) => response.json())
+      .then((data) => {
+        //   console.log(data);
+        if (data.emotion) {
+          setTextInput("Emotion API call was successful.");
+          setEmotionLabel(data.emotion);
+        } else {
+          setTextInput("Call to /api/emotion/process failed.");
+        }
+      });
+  };
 
   const inputStyles = {
     fontFamily: selectedFont || "Open Sans",
@@ -158,17 +104,67 @@ function Home(this: any) {
     height: "568px",
   };
 
+  useEffect(() => {
+    console.log(`useEffect placeholder... initial state: ${someState}`);
+    setSomeState("some state");
+    console.log(`After state change: ${someState}`);
+  }, [someState]);
+
+  // Event handler for input value change
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value); // Update the input value in the state
+  };
+
+  const handleFontClick = (selectedFont: string) => {
+    console.log("new font: font-" + selectedFont);
+    setSelectedFont(selectedFont);
+  };
+
+  // Testing function to call Summary analysis fn...
+  const getSummary = () => {
+    setSubmitted(true);
+    console.log("submitted: " + submitted);
+    const body = JSON.stringify({ text: inputValue });
+    fetch("/api/summary/process", { ...postRequestOptions, body })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.summary) {
+          setTextInput("Summary API call was successful.");
+          addToHistory({ summary: data.summary });
+        } else {
+          setTextInput("Call to /api/summary/process failed.");
+        }
+      });
+  };
+
+  // Testing function to call Sentiment analysis fn...
+  const getSentiment = () => {
+    const body = JSON.stringify({ text: inputValue });
+    fetch("/api/sentiment/process", { ...postRequestOptions, body })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.sentiment && data.score) {
+          setTextInput("Sentiment API call was successful.");
+          setSentimentText(data.sentiment);
+          setSentimentScore(Math.round(data.score * 100));
+        } else {
+          setTextInput("Call to /api/sentiment/process failed.");
+        }
+      });
+  };
+
   return (
     <div className="mt-10">
       <NavigationBar />
-      <div className="flex inline-flex items-baseline">
-        <p className="flex items-center justify-start space-x-4 text-3xl mt-10 ml-60">
+      <div className="flex justify-between mt-10">
+        <p className="flex items-center items-baseline justify-start space-x-4 text-3xl ml-60">
           Sentiment analysis of the text is:
           <span style={setSentimentStyle()}>
             {sentimentText} {`${Number(sentimentScore)}%`}
           </span>
         </p>
-        <div className="group relative ml-80">
+        <div className="group relative mr-60">
           <button className="bg-gray-300 text-gray-700 py-4 px-6 rounded inline-flex items-center group">
             <span className="mr-1">Change Font</span>
             <svg
@@ -200,29 +196,27 @@ function Home(this: any) {
             </li>
             <li
               className="bg-gray-200 hover:bg-gray-400 py-4 px-4 cursor-pointer"
-              onClick={() => handleFontClick("serif")}
+              onClick={() => handleFontClick("mooli")}
             >
-              Times New Roman
+              Mooli
             </li>
           </ul>
         </div>
       </div>
-      
-      <p className="flex items-center justify-start space-x-4 text-3xl mt-10 ml-60">
-        Emotion analysis result:
-        <span style={setEmotionStyle()}>
-          {emotionLabel}
-        </span>
-      </p>
-
-            
-
+      <div>
+        <p className="flex items-center justify-start space-x-4 text-3xl mt-10 ml-60">
+          Emotion analysis result:
+          <span style={setEmotionStyle()}>{emotionLabel}</span>
+        </p>
+      </div>
       <div className="flex justify-center gap-5 p-10">
         {/* Left text box */}
         <div className="text-box" style={{ position: "relative" }}>
           <div>
             <div>
-              <label htmlFor="inputtedField">Input Field:</label>
+              <label htmlFor="inputtedField">
+                <i>Text to be Summarised:</i>
+              </label>
             </div>
             <div>
               <input
@@ -240,7 +234,8 @@ function Home(this: any) {
           </div>
           <button
             onClick={getSummary}
-            className="mt-8 ml-52 py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded"
+            style={{ backgroundColor: "#2e7faa" }}
+            className="mt-8 ml-52 py-2 px-4 text-white rounded"
           >
             Summarise
           </button>
@@ -251,7 +246,9 @@ function Home(this: any) {
           <div>
             {submitted ? (
               <div className="text-box" style={{ position: "relative" }}>
-                <label htmlFor="inputtedValue">Input Value: </label>
+                <label htmlFor="inputtedValue">
+                  <i>Summarised Text: </i>
+                </label>
                 <div>
                   <input
                     style={{ ...inputStyles, backgroundColor: "#f0f0f0" }}
@@ -260,14 +257,18 @@ function Home(this: any) {
                 </div>
                 <button
                   onClick={getSentiment}
-                  className="mt-8 ml-52 py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded"
+                  style={{ backgroundColor: "#2e7faa" }}
+                  className="mt-8 ml-52 py-2 px-4 text-white rounded"
                 >
                   Sentiment
                 </button>
               </div>
             ) : (
               <div className="text-box" style={{ position: "relative" }}>
-                <label htmlFor="inputtedValue">Input Value: </label>
+                <label htmlFor="inputtedValue">
+                  {" "}
+                  <i>Summarised Text: </i>
+                </label>
                 <div>
                   <input
                     style={{ ...inputStyles, backgroundColor: "#f0f0f0" }}
