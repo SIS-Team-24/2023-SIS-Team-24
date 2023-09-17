@@ -34,8 +34,10 @@ def update_server():
     try:
         remote = "https://github.com/SIS-Team-24/2023-SIS-Team-24.git"
         pull_command = f"git pull {remote}"
+        update_deps_command = "pip install -r server/requirements.txt"
         subprocess.check_output(pull_command, shell=True)
-
+        subprocess.check_output(update_deps_command, shell=True)
+        
         return { "message": "Server code updated and reloading initiated."}
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error: " + str(e))
