@@ -57,11 +57,6 @@ function History() {
         <p className="flex items-center justify-start space-x-4 text-3xl ml-60 mt-10">
           Summary History
         </p>
-        <div className="clearHistory-button">
-          <Button variant="active" onClick={handleClearHistoryClick}>
-            Clear History
-          </Button>
-        </div>
       </h1>
 
       <br />
@@ -89,6 +84,11 @@ function History() {
         ) : (
           <p>No history available.</p>
         )}
+      </div>
+      <div className="p-8 clearHistory-button mr-40">
+        <Button variant="active" onClick={handleClearHistoryClick}>
+          Clear History
+        </Button>
       </div>
       {isModalOpen && (
         <HistoryModal

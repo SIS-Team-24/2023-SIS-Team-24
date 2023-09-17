@@ -282,6 +282,12 @@ function Home(this: any) {
           </div>
         </div>
       </div>
+
+      <p className="flex items-center justify-start space-x-4 text-3xl mt-10 ml-60">
+        Emotion analysis result:
+        <span style={setEmotionStyle()}>{emotionLabel}</span>
+      </p>
+
       <div className="flex justify-center gap-5 p-10">
         {/* Left text box */}
         <div className="text-box" style={{ position: "relative" }}>
