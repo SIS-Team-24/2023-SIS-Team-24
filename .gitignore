@@ -45,3 +45,6 @@ yarn.lock
 .venv
 __pycache__
 input.txt
+
+#cypress build files
+test-results.xml
