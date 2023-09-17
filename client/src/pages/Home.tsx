@@ -14,7 +14,7 @@ function Home(this: any) {
   const [inputValue, setInputValue] = useState<string>("");
   const [sentimentText, setSentimentText] = useState("Neutral"); // "Positive", "Neutral", or "Negative"
   const [sentimentScore, setSentimentScore] = useState(0); // Decimal value e.g. 0.97 for 97%
-  const [emotionLabel, setEmotionLabel] = useState("Happy"); // "Happy", "Sad", "angry"
+  const [emotionLabel, setEmotionLabel] = useState("Not set"); // "Happy", "Sad", "angry"
   const [selectedFont, setSelectedFont] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
 
@@ -75,7 +75,7 @@ function Home(this: any) {
       fetch("/api/emotion/process", { ...postRequestOptions, body })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+       //   console.log(data);
           if (data.emotion) {
             setTextInput("Emotion API call was successful.");
             setEmotionLabel(data.emotion);
@@ -107,6 +107,7 @@ function Home(this: any) {
     }
   };
 
+  // The background colour can change to a coloured border or a button-like design.
   const setEmotionStyle = () => {
     switch (emotionLabel) {
       case "Happy":
