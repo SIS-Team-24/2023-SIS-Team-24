@@ -1,8 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
 from .routes import summary_routes, sentiment_routes
 from .services import summary_service, sentiment_service
 import os
+import subprocess
 
 def load_env():
     # Get the directory where main.py is located
@@ -25,6 +26,19 @@ app.include_router(sentiment_routes.router, prefix="/api/sentiment")
 @app.get("/api")
 def read_root():
     return {"message": "⚡️⚡️⚡️ FastAPI + Python 3 Server! ⚡️⚡️⚡️"}
+
+
+# Webhook to update server whenever git remote updates.
+@app.post("/api/update")
+def update_server():
+    try:
+        remote = "https://github.com/SIS-Team-24/2023-SIS-Team-24.git"
+        pull_command = f"git pull {remote}"
+        subprocess.check_output(pull_command, shell=True)
+
+        return { "message": "Server code updated and reloading initiated."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal Server Error: " + str(e))
 
 if __name__ == "__main__":
     import uvicorn
