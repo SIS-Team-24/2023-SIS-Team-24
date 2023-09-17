@@ -52,11 +52,11 @@ function Questions() {
                 aria-controls={`panella-content-${index}`}
               >
                 <Typography>
-                  <h2 className="font-semibold">{question.q}</h2>
+                  <h2 className="faq-question font-semibold">{question.q}</h2>
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography className="font-normal">
+                <Typography className="faq-answer font-normal">
                   <h2>{question.a}</h2>
                 </Typography>
               </AccordionDetails>
