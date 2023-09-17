@@ -6,7 +6,10 @@ function About(this: any) {
     <div className="mt-10">
       <NavigationBar />
 
-      <p className="flex items-center items-baseline justify-start space-x-4 text-xs ml-60">
+      <p
+        id="AboutDesc"
+        className="flex items-center items-baseline justify-start space-x-4 text-xs ml-60"
+      >
         Text Insights is your go-to solution for harnessing the power of Natural
         Language Processing (NLP). Our product empowers users to effortlessly
         summarise and analyse text content, providing invaluable insights.

@@ -4,5 +4,7 @@ describe("About Page", () => {
     cy.contains("About").click();
 
     cy.url().should("include", "about");
+
+    cy.get("#AboutDesc").should("contain", "Natural Language Processing");
   });
 });
