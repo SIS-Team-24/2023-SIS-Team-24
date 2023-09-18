@@ -79,22 +79,6 @@ function Home(this: any) {
     }
   };
 
-  // Function to update the emotion label
-  const updateEmotionLabel = (newEmotion: string) => {
-    const body = JSON.stringify({ text: inputValue });
-    fetch("/api/emotion/process", { ...postRequestOptions, body })
-      .then((response) => response.json())
-      .then((data) => {
-        //   console.log(data);
-        if (data.emotion) {
-          setTextInput("Emotion API call was successful.");
-          setEmotionLabel(data.emotion);
-        } else {
-          setTextInput("Call to /api/emotion/process failed.");
-        }
-      });
-  };
-
   const inputStyles = {
     fontFamily: selectedFont || "Open Sans",
     backgroundColor: "white",
@@ -111,7 +95,7 @@ function Home(this: any) {
   }, [someState]);
 
   // Event handler for input value change
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: any) => {
     setInputValue(e.target.value); // Update the input value in the state
   };
 
@@ -121,15 +105,16 @@ function Home(this: any) {
   };
 
   // Testing function to call Summary analysis fn...
-  const getSummary = () => {
+  const getSummary = async () => {
     setSubmitted(true);
     console.log("submitted: " + submitted);
     const body = JSON.stringify({ text: inputValue });
-    fetch("/api/summary/process", { ...postRequestOptions, body })
+    await fetch("/api/summary/process", { ...postRequestOptions, body })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data)
         if (data.summary) {
-          setTextInput("Summary API call was successful.");
+          setTextInput(data.summary);
           addToHistory({ summary: data.summary });
         } else {
           setTextInput("Call to /api/summary/process failed.");
@@ -145,9 +130,11 @@ function Home(this: any) {
       .then((data) => {
         console.log(data);
         if (data.sentiment && data.score) {
-          setTextInput("Sentiment API call was successful.");
           setSentimentText(data.sentiment);
           setSentimentScore(Math.round(data.score * 100));
+          if(data.emotions){
+            setEmotionLabel(data.emotions.toString())
+            }
         } else {
           setTextInput("Call to /api/sentiment/process failed.");
         }
@@ -219,17 +206,17 @@ function Home(this: any) {
               </label>
             </div>
             <div>
-              <input
+              <textarea
                 style={{
                   ...inputStyles,
                   border: "2px solid black",
                   padding: "10px",
+                  resize: "none"
                 }}
-                type="text"
                 id="inputted-text"
                 value={inputValue}
-                onChange={handleInputChange}
-              />
+                onChange={(e) => handleInputChange(e)}              
+              ></textarea>
             </div>
           </div>
           <button
@@ -244,39 +231,24 @@ function Home(this: any) {
         {/* Right text box */}
         <div className="text-box" style={{ position: "relative" }}>
           <div>
-            {submitted ? (
-              <div className="text-box" style={{ position: "relative" }}>
-                <label htmlFor="inputtedValue">
-                  <i>Summarised Text: </i>
-                </label>
-                <div>
-                  <input
-                    style={{ ...inputStyles, backgroundColor: "#f0f0f0" }}
-                    value={textInput}
-                  />
-                </div>
-                <button
-                  onClick={getSentiment}
-                  style={{ backgroundColor: "#2e7faa" }}
-                  className="mt-8 ml-52 py-2 px-4 text-white rounded"
-                >
-                  Sentiment
-                </button>
+            <div className="text-box" style={{ position: "relative" }}>
+              <label htmlFor="inputtedValue">
+                {" "}
+                <i>Summarised Text: </i>
+              </label>
+              <div>
+                <p style={{backgroundColor: "#f0f0f0" }} className="h-[568px] w-[547px] p-10">
+                  {textInput}
+                </p>
               </div>
-            ) : (
-              <div className="text-box" style={{ position: "relative" }}>
-                <label htmlFor="inputtedValue">
-                  {" "}
-                  <i>Summarised Text: </i>
-                </label>
-                <div>
-                  <input
-                    style={{ ...inputStyles, backgroundColor: "#f0f0f0" }}
-                    value={"Enter your text to be summarised first..."}
-                  />
-                </div>
-              </div>
-            )}
+            </div>
+            <button
+              onClick={getSentiment}
+              style={{ backgroundColor: "#2e7faa" }}
+              className="mt-8 ml-52 py-2 px-4 text-white rounded"
+            >
+              Sentiment
+            </button>
           </div>
         </div>
       </div>
