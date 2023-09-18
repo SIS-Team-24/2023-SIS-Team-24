@@ -3,46 +3,36 @@ import { Link } from "react-router-dom";
 
 const NavigationBar = () => {
   return (
-    <div id="Navbar" className="mt-8 font-serif">
-      <nav
-        className="navbar navbar-expand-lg navbar-light bg-light"
-        style={{
-          marginTop: 10,
-          marginLeft: 10,
-          marginRight: 10,
-          display: "inline-flex",
-          width: "100%",
-          placeContent: "start space-evenly",
-        }}
-      >
+    <div id="Navbar" className="">
+      <nav className="flex justify-between items-center max-w-6xl mx-auto">
         <img
           src={require("../media/textinsightslogo.png")}
           id="TextInsights"
           width="500"
           alt=""
         />
-        <div className="mt-8 pr-2.5">
-          <Link to={"/"} id="Home" className="nav-link">
+        <div className="">
+          <Link to={"/"} id="Home" className="hover:underline">
             Home
           </Link>
         </div>
-        <div className="mt-8 pr-2.5">
-          <Link to={"/learningMaterialSummary"} className="nav-link">
+        <div className="">
+          <Link to={"/learningMaterialSummary"} className="hover:underline">
             Learning Material Summary
           </Link>
         </div>
-        <div className="mt-8 pr-2.5">
-          <Link to={"/history"} className="nav-link">
+        <div className="">
+          <Link to={"/history"} className="hover:underline">
             Summary History
           </Link>
         </div>
-        <div className="mt-8 pr-2.5">
-          <Link to={"/faq"} className="nav-link">
+        <div className="">
+          <Link to={"/faq"} className="hover:underline">
             Questions
           </Link>
         </div>
-        <div className="mt-8 pr-2.5">
-          <Link to={"/about"} className="nav-link">
+        <div className="">
+          <Link to={"/about"} className="hover:underline">
             About
           </Link>
         </div>
