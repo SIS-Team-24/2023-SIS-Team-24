@@ -1,6 +1,6 @@
 import os
 from transformers import pipeline
-from .common import get_token_count
+from .common import get_token_count, load_sentiment_token_counter, AnalysisKind
 
 # Map to return worded sentiment.
 sentiment_map = {
@@ -23,6 +23,10 @@ def load_model():
     emotion_model_name = "bhadresh-savani/distilbert-base-uncased-emotion" # Source: https://huggingface.co/SamLowe/roberta-base-go_emotions
     emotion_analyser=pipeline('text-classification', emotion_model_name, top_k=3)
     print(f"[server] Loaded Emotion Analysis Model {emotion_model_name} in {os.path.basename(__file__)}")
+
+    # Load token counter
+    load_sentiment_token_counter(sentiment_model_name, emotion_model_name)
+    print("[server] Loaded Sentiment and Emotion token counter")
     
 
 def get_sentiment(input_text:str):
@@ -36,8 +40,8 @@ def get_sentiment(input_text:str):
 
     # Both the sentiment and emotion analyser have a token limit of 512. 
     # Get the token length for both sentiment and emotion models
-    sentiment_token_len = get_token_count(input_text, sentiment_model_name)
-    emotion_token_len = get_token_count(input_text, emotion_model_name)
+    sentiment_token_len = get_token_count(input_text, AnalysisKind.SENTIMENT)
+    emotion_token_len = get_token_count(input_text, AnalysisKind.EMOTION)
 
     # Get the greatest between the two token lengths. 
     max_token_len = max(emotion_token_len, sentiment_token_len)
