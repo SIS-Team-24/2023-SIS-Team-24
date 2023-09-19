@@ -158,7 +158,7 @@ function Home(this: any) {
     <div className="mt-10">
       <NavigationBar />
       <div className="flex justify-between mt-10">
-        <p className="flex items-center items-baseline justify-start space-x-4 text-3xl ml-60">
+        <p className="flex items-center items-baseline justify-start space-x-4 text-xl ml-60">
           Sentiment analysis of the text is:
           <span style={setSentimentStyle()}>
             {sentimentText} {`${Number(sentimentScore)}%`}
@@ -204,7 +204,7 @@ function Home(this: any) {
         </div>
       </div>
       <div>
-        <p className="flex items-center justify-start space-x-4 text-3xl mt-10 ml-60">
+        <p className="flex items-center justify-start space-x-4 text-xl mt-10 ml-60">
           Emotion analysis result:
           <span style={setEmotionStyle()}>{emotionLabel}</span>
         </p>
