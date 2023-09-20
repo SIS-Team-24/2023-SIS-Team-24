@@ -9,8 +9,7 @@ import {
 } from "../components/Utils";
 
 function Home(this: any) {
-  const [someState, setSomeState] = useState("not set");
-  const [textInput, setTextInput] = useState("not set");
+  const [textInput, setTextInput] = useState("");
   const [inputValue, setInputValue] = useState<string>("");
   const [sentimentText, setSentimentText] = useState("Neutral"); // "Positive", "Neutral", or "Negative"
   const [sentimentScore, setSentimentScore] = useState(0); // Decimal value e.g. 0.97 for 97%
@@ -78,17 +77,6 @@ function Home(this: any) {
         };
     }
   };
-
-  const inputStyles = {
-    fontFamily: selectedFont || "Open Sans",
-    border: "2px solid black",
-  };
-
-  useEffect(() => {
-    console.log(`useEffect placeholder... initial state: ${someState}`);
-    setSomeState("some state");
-    console.log(`After state change: ${someState}`);
-  }, [someState]);
 
   // Event handler for input value change
   const handleInputChange = (e: any) => {
