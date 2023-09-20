@@ -112,7 +112,7 @@ function Home(this: any) {
     await fetch("/api/summary/process", { ...postRequestOptions, body })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         if (data.summary) {
           setTextInput(data.summary);
           addToHistory({ summary: data.summary });
@@ -132,9 +132,9 @@ function Home(this: any) {
         if (data.sentiment && data.score) {
           setSentimentText(data.sentiment);
           setSentimentScore(Math.round(data.score * 100));
-          if(data.emotions){
-            setEmotionLabel(data.emotions.toString())
-            }
+          if (data.emotions) {
+            setEmotionLabel(data.emotions.toString());
+          }
         } else {
           setTextInput("Call to /api/sentiment/process failed.");
         }
@@ -211,11 +211,11 @@ function Home(this: any) {
                   ...inputStyles,
                   border: "2px solid black",
                   padding: "10px",
-                  resize: "none"
+                  resize: "none",
                 }}
                 id="inputted-text"
                 value={inputValue}
-                onChange={(e) => handleInputChange(e)}              
+                onChange={(e) => handleInputChange(e)}
               ></textarea>
             </div>
           </div>
@@ -237,7 +237,10 @@ function Home(this: any) {
                 <i>Summarised Text: </i>
               </label>
               <div>
-                <p style={{backgroundColor: "#f0f0f0" }} className="h-[568px] w-[547px] p-10">
+                <p
+                  style={{ ...inputStyles, backgroundColor: "#f0f0f0" }}
+                  className="h-[568px] w-[547px] p-10"
+                >
                   {textInput}
                 </p>
               </div>
