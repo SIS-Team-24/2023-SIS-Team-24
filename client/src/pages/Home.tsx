@@ -9,8 +9,7 @@ import {
 } from "../components/Utils";
 
 function Home(this: any) {
-  const [someState, setSomeState] = useState("not set");
-  const [textInput, setTextInput] = useState("not set");
+  const [textInput, setTextInput] = useState("");
   const [inputValue, setInputValue] = useState<string>("");
   const [sentimentText, setSentimentText] = useState("Neutral"); // "Positive", "Neutral", or "Negative"
   const [sentimentScore, setSentimentScore] = useState(0); // Decimal value e.g. 0.97 for 97%
@@ -79,21 +78,6 @@ function Home(this: any) {
     }
   };
 
-  const inputStyles = {
-    fontFamily: selectedFont || "Open Sans",
-    backgroundColor: "white",
-    border: "2px solid black",
-    padding: "10px",
-    width: "547px",
-    height: "568px",
-  };
-
-  useEffect(() => {
-    console.log(`useEffect placeholder... initial state: ${someState}`);
-    setSomeState("some state");
-    console.log(`After state change: ${someState}`);
-  }, [someState]);
-
   // Event handler for input value change
   const handleInputChange = (e: any) => {
     setInputValue(e.target.value); // Update the input value in the state
@@ -112,7 +96,7 @@ function Home(this: any) {
     await fetch("/api/summary/process", { ...postRequestOptions, body })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         if (data.summary) {
           setTextInput(data.summary);
           addToHistory({ summary: data.summary });
@@ -132,9 +116,9 @@ function Home(this: any) {
         if (data.sentiment && data.score) {
           setSentimentText(data.sentiment);
           setSentimentScore(Math.round(data.score * 100));
-          if(data.emotions){
-            setEmotionLabel(data.emotions.toString())
-            }
+          if (data.emotions) {
+            setEmotionLabel(data.emotions.toString());
+          }
         } else {
           setTextInput("Call to /api/sentiment/process failed.");
         }
@@ -208,14 +192,12 @@ function Home(this: any) {
             <div>
               <textarea
                 style={{
-                  ...inputStyles,
-                  border: "2px solid black",
-                  padding: "10px",
-                  resize: "none"
+                  fontFamily: selectedFont || "Open Sans",
                 }}
+                className="h-[568px] w-[547px] p-10 border-black border-2 border-solid resize-none"
                 id="inputted-text"
                 value={inputValue}
-                onChange={(e) => handleInputChange(e)}              
+                onChange={(e) => handleInputChange(e)}
               ></textarea>
             </div>
           </div>
@@ -237,7 +219,13 @@ function Home(this: any) {
                 <i>Summarised Text: </i>
               </label>
               <div>
-                <p style={{backgroundColor: "#f0f0f0" }} className="h-[568px] w-[547px] p-10">
+                <p
+                  style={{
+                    fontFamily: selectedFont || "Open Sans",
+                    backgroundColor: "#f0f0f0",
+                  }}
+                  className="h-[568px] w-[547px] p-10 border-black border-2 border-solid"
+                >
                   {textInput}
                 </p>
               </div>
