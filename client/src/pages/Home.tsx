@@ -81,11 +81,7 @@ function Home(this: any) {
 
   const inputStyles = {
     fontFamily: selectedFont || "Open Sans",
-    backgroundColor: "white",
     border: "2px solid black",
-    padding: "10px",
-    width: "547px",
-    height: "568px",
   };
 
   useEffect(() => {
@@ -208,11 +204,9 @@ function Home(this: any) {
             <div>
               <textarea
                 style={{
-                  ...inputStyles,
-                  border: "2px solid black",
-                  padding: "10px",
-                  resize: "none",
+                  fontFamily: selectedFont || "Open Sans",
                 }}
+                className="h-[568px] w-[547px] p-10 border-black border-2 border-solid resize-none"
                 id="inputted-text"
                 value={inputValue}
                 onChange={(e) => handleInputChange(e)}
@@ -238,8 +232,11 @@ function Home(this: any) {
               </label>
               <div>
                 <p
-                  style={{ ...inputStyles, backgroundColor: "#f0f0f0" }}
-                  className="h-[568px] w-[547px] p-10"
+                  style={{
+                    fontFamily: selectedFont || "Open Sans",
+                    backgroundColor: "#f0f0f0",
+                  }}
+                  className="h-[568px] w-[547px] p-10 border-black border-2 border-solid"
                 >
                   {textInput}
                 </p>
