@@ -10,11 +10,13 @@ def process_text(input_data: InputData):
     Process user-provided text and return a summary.
     """
     text = input_data.text
+    custom_len = input_data.custom_len
     if not text:
         raise HTTPException(status_code=400, detail="Text is required.")
-    
+    if not custom_len:
+        raise HTTPException(status_code=400, detail="Word_len is required. Either -1 or an integer between 50-400")
     try:
-        summary = summary_service.get_summary(text)
+        summary = summary_service.get_summary(text, custom_len)
         return {"summary": summary}
     except Exception as e:
         # Whenever the backend sends a server error, frontend should render an appropriate error message.
