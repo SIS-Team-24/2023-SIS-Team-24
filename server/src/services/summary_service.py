@@ -1,4 +1,5 @@
 import os
+import math
 from transformers import pipeline
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
@@ -33,9 +34,18 @@ def get_summary(input_text:str):
     # If token_len > 1024, perform extractive summary to get the most meaningful sentences
     if token_len > 1024:
         text_to_analyse = extractive_summary(input_text);
+        token_len = get_token_count(text_to_analyse, AnalysisKind.SUMMARY)
+
+    # Default: Produce a summary that's 25% - 50% of text_to_analyse token length
+    # Note: 
+    # - 512 tokens ~ 400 words --> 1024 tokens ~ 800 words
+    # - Maximum possible input into the summarizer is 1024 tokens, therefore the max possible summary output is 254 - 512 tokens (about 200 - 400 words)
+    # - Making the output range smaller increases the risk of the summary concluding in incomplete sentences [not good :)]
+    # - The 25% - 50% token length range allows the summariser to produce and conclude with COMPLETE sentences [very good :)] 
+    summary_len = math.floor(token_len * 0.25)
 
     # Summary generator
-    result = summarizer(text_to_analyse, min_length=500, max_length=500)[0]
+    result = summarizer(text_to_analyse, min_length=summary_len, max_length=(summary_len * 2))[0]
 
     # Return result text key, propogate error if does not exist
     return result['summary_text']    
