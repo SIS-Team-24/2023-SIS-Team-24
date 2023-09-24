@@ -35,10 +35,10 @@ function Questions() {
   ];
 
   return (
-    <div>
+    <div className="mt-10">
       <NavigationBar />
-      <div className="mt-20">
-        <span className="mb-10 font-bold text-2xl flex flex-col items-center justify-center">
+      <div className="mt-20 font-extrabold">
+        <span className="mb-10 font-bold text-2xl flex flex-col items-center justify-center mt-10">
           Frequently Asked Questions
         </span>
         <div className="font-normal flex flex-col items-center justify-center ">

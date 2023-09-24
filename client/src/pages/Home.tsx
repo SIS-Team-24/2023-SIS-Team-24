@@ -197,7 +197,8 @@ function Home(this: any) {
                 className="h-[568px] w-[547px] p-10 border-black border-2 border-solid resize-none"
                 id="inputted-text"
                 value={inputValue}
-                onChange={(e) => handleInputChange(e)}
+                onChange={(e) => handleInputChange(e)} 
+                spellCheck={true}
               ></textarea>
             </div>
           </div>
@@ -223,6 +224,8 @@ function Home(this: any) {
                   style={{
                     fontFamily: selectedFont || "Open Sans",
                     backgroundColor: "#f0f0f0",
+                    maxHeight: "568px", 
+                    overflowY: "auto", 
                   }}
                   className="h-[568px] w-[547px] p-10 border-black border-2 border-solid"
                 >
