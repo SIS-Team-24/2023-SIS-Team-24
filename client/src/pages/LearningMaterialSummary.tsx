@@ -22,7 +22,7 @@ function LearningMaterialSummary(this: any) {
 
   return (
     <div>
-      <div className="mt-10">
+      <div>
         <NavigationBar />
 
         <h1 className="mt-20 font-extrabold">

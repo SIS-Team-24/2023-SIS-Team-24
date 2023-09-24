@@ -126,7 +126,7 @@ function Home(this: any) {
   };
 
   return (
-    <div className="mt-10">
+    <div>
       <NavigationBar />
       <div className="flex justify-between mt-10">
         <p className="flex items-center items-baseline justify-start space-x-4 text-xl ml-60">

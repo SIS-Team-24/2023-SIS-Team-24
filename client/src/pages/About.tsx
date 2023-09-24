@@ -3,7 +3,7 @@ import NavigationBar from "./NavigationBar";
 
 function About(this: any) {
   return (
-    <div className="mt-10">
+    <div>
       <NavigationBar />
 
       <p

@@ -51,7 +51,7 @@ function History() {
   };
 
   return (
-    <div className="mt-10">
+    <div>
       <NavigationBar />
       <h1 className="mt-20 font-extrabold">
         <p className="flex items-center justify-start space-x-4 text-3xl ml-60 mt-10">
