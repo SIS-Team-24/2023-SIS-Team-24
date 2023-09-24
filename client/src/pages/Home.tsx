@@ -128,6 +128,7 @@ function Home(this: any) {
   return (
     <div>
       <NavigationBar />
+      <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
       <div className="flex justify-between mt-10">
         <p className="flex items-center items-baseline justify-start space-x-4 text-xl ml-60">
           Sentiment analysis of the text is:

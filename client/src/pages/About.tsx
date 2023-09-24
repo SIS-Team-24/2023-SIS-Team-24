@@ -5,7 +5,7 @@ function About(this: any) {
   return (
     <div>
       <NavigationBar />
-
+      <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
       <p
         id="AboutDesc"
         className="flex items-center items-baseline justify-start space-x-4 text-xs ml-60"

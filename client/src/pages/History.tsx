@@ -53,6 +53,7 @@ function History() {
   return (
     <div>
       <NavigationBar />
+      <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
       <h1 className="mt-20 font-extrabold">
         <p className="flex items-center justify-start space-x-4 text-3xl ml-60 mt-10">
           Summary History
