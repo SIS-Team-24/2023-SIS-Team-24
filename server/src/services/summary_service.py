@@ -19,7 +19,7 @@ def load_model():
     load_summary_token_counter(model_name)
     print("[server] Loaded Summary token counter")
 
-def get_summary(input_text:str, custom_len=-1):
+def get_summary(input_text:str, summary_len_option="default"):
     """
     Generate a summary for the input text.
     """
@@ -36,23 +36,26 @@ def get_summary(input_text:str, custom_len=-1):
         text_to_analyse = extractive_summary(input_text);
         token_len = get_token_count(text_to_analyse, AnalysisKind.SUMMARY)
 
-    # Important Note / Assumption:
-    # - There's no universal conversion from "token" to "words"
-    # - 512 tokens ~ 400 words --> 1024 tokens ~ 800 words --> 1 word = 1.28 tokens
+    # Reason to why we can't do (exact) custom word length summary:
+    # - Token to word conversion isn't 1:1, making it difficult to be 
+    #   certain that the summary will be exactly the request custom length.
+    # - Increased risk of outputting a summary that concludes with an incomplete sentence
 
-    if custom_len == -1:
-        # Default: Produce a summary that's at least 25% of text_to_analyse token length
-        # Note: 
-        # - Maximum possible input into the summarizer is 1024 tokens, therefore the max possible summary output is at least 254 tokens (about 200 words)
-        min_len = token_len // 4
+    if summary_len_option == "short":
+        # Short summary = ~12.5% of text_to_analyse token length
+        min_len = token_len // 8
+        max_len = token_len // 2 # It's recommended to make the max_len at least 50% = avoid outputting incomplete sentences.
+    elif summary_len_option == "long":
+        # Long summary = ~50% of text_to_analyse token length
+        min_len = token_len // 2
+        max_len = (token_len // 4) * 3
     else:
-        # If custom_len DOES NOT equal -1, define min. length
-        print(f"\n[server] Taking into account of inputted custom summary length {custom_len}\n")
-        min_len = math.ceil(custom_len * 1.28) # Equate to a token value, take upper bound
+        # Default summary = ~25% of text_to_analyse token length
+        min_len = token_len // 4
+        max_len = token_len // 2
 
     # Summary generator
-    # - Max summary length will ALWAYS be half of the inputted token length. Suggested measure by Transformers
-    result = summarizer(text_to_analyse, min_length=min_len, max_length=(token_len // 2))[0]
+    result = summarizer(text_to_analyse, min_length=min_len, max_length=max_len)[0]
 
     # Return result text key, propogate error if does not exist
     return result['summary_text']    
