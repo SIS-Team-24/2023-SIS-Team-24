@@ -16,7 +16,8 @@ function Home(this: any) {
   const [selectedFont, setSelectedFont] = useState<string | null>(null);
   const [emotionLabel, setEmotionLabel] = useState("Not set"); // "Happy", "Sad", "angry"
   const [submitted, setSubmitted] = useState(false);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true); // Add button state
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [wordCount, setWordCount] = useState(0);
 
   const setSentimentStyle = () => {
     switch (sentimentText) {
@@ -88,7 +89,7 @@ function Home(this: any) {
   // Calc word count
   const calcWordCount = (text: any) => {
     const words = text.trim().split(/\s+/);
-    return words.length;
+    return text.trim() === "" ? 0 : words.length;
   };
 
   // Event handler for input value change
@@ -211,9 +212,17 @@ function Home(this: any) {
                 className="h-[568px] w-[547px] p-10 border-black border-2 border-solid resize-none"
                 id="inputted-text"
                 value={inputValue}
-                onChange={(e) => handleInputChange(e)}
+                onChange={(e) => {
+                  handleInputChange(e);
+                  const count = calcWordCount(e.target.value);
+                  setWordCount(count);
+                }}
+                placeholder="Enter 100 words or more to summarise"
               ></textarea>
             </div>
+            <p>
+              Word Count: {wordCount} {wordCount === 1 ? "word" : "words"}
+            </p>
           </div>
           <button
             id="summarise-button-id"
@@ -224,6 +233,7 @@ function Home(this: any) {
             }}
             className="mt-8 ml-52 py-2 px-4 text-white rounded"
             disabled={isButtonDisabled}
+            title="Enter 100 words to summarise it"
           >
             Summarise
           </button>
