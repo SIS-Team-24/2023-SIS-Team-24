@@ -198,7 +198,7 @@ function Home(this: any) {
                 id="inputted-text"
                 value={inputValue}
                 onChange={(e) => handleInputChange(e)} 
-                spellCheck={true}
+                
               ></textarea>
             </div>
           </div>
