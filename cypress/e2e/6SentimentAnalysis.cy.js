@@ -1,76 +1,47 @@
-// Sentiment Analysis API Tests
-// Test for Positive, Neutral, and Negative inputs
+describe("Sentiment Analysis Test", () => {
+  beforeEach(() => {
+    cy.visit("/");
+  });
 
-describe("Sentiment Analysis API Test", () => {
-  it("should return correct results when posting data to api sentiment process", () => {
-    // Set correct API route
-    const port = process.env.PORT ? parseInt(process.env.PORT) : 8000;
-    const target =
-      process.env.REACT_ENV == "production"
-        ? "https://goat-thankful-iguana.ngrok-free.app" // Production backend URL (currently not used)
-        : `http://127.0.0.1:${port}`; // Default development backend URL (make sure backend is running before running this test)
+  it("should enter positive text, click Sentiment, and check for a positive result", () => {
+    // Type text into the textarea
+    cy.get("#inputted-text").type("I am delighted to announce that this test was a success!");
 
-    /* Positive Test */
+    // Click the Sentiment button
+    cy.get("button").contains("Sentiment").click();
 
-    // Define the request payload
-    const positivePayload = {
-      text: "I am delighted to announce that this test was a success!",
-    };
+    // Wait for the API call and result to appear (you may need to adjust the wait time)
+    cy.wait(3000); // Adjust the wait time as needed
 
-    // Send a POST request to the API endpoint
-    cy.request("POST", `${target}/api/sentiment/process`, positivePayload).then(
-      (response) => {
-        // Assert that the response status is 200 OK
-        expect(response.status).to.eq(200);
+    // Assert that the sentiment result is displayed
+    cy.get("#sentiment-result").should("contain", "Positive");
+  });
 
-        // Assert that the response body contains the expected properties
-        expect(response.body)
-          .to.have.property("sentiment")
-          .and.equal("Positive");
-        expect(response.body).to.have.property("score");
-      }
-    );
+  it("should enter neutral text, click Sentiment, and check for a neutral result", () => {
+    // Type text into the textarea
+    cy.get("#inputted-text").type("This is a test text.");
 
-    /* Neutral Test */
+    // Click the Sentiment button
+    cy.get("button").contains("Sentiment").click();
 
-    // Define the request payload
-    const neutralPayload = {
-      text: "This is a test text.",
-    };
+    // Wait for the API call and result to appear (you may need to adjust the wait time)
+    cy.wait(3000); // Adjust the wait time as needed
 
-    // Send a POST request to the API endpoint
-    cy.request("POST", `${target}/api/sentiment/process`, neutralPayload).then(
-      (response) => {
-        // Assert that the response status is 200 OK
-        expect(response.status).to.eq(200);
+    // Assert that the sentiment result is displayed
+    cy.get("#sentiment-result").should("contain", "Neutral");
+  });
 
-        // Assert that the response body contains the expected properties
-        expect(response.body)
-          .to.have.property("sentiment")
-          .and.equal("Neutral");
-        expect(response.body).to.have.property("score");
-      }
-    );
+  it("should enter negative text, click Sentiment, and check for a negative result", () => {
+    // Type text into the textarea
+    cy.get("#inputted-text").type("I am very disappointed with the outcome of this test.");
 
-    /* Negative Test */
+    // Click the Sentiment button
+    cy.get("button").contains("Sentiment").click();
 
-    // Define the request payload
-    const negativePayload = {
-      text: "I am very disappointed with the outcome of this test.",
-    };
+    // Wait for the API call and result to appear (you may need to adjust the wait time)
+    cy.wait(3000); // Adjust the wait time as needed
 
-    // Send a POST request to the API endpoint
-    cy.request("POST", `${target}/api/sentiment/process`, negativePayload).then(
-      (response) => {
-        // Assert that the response status is 200 OK
-        expect(response.status).to.eq(200);
-
-        // Assert that the response body contains the expected properties
-        expect(response.body)
-          .to.have.property("sentiment")
-          .and.equal("Negative");
-        expect(response.body).to.have.property("score");
-      }
-    );
+    // Assert that the sentiment result is displayed
+    cy.get("#sentiment-result").should("contain", "Negative");
   });
 });
