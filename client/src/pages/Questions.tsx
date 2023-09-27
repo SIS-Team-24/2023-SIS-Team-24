@@ -37,8 +37,13 @@ function Questions() {
   return (
     <div className="mt-10">
       <NavigationBar />
+
+      <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
       <div className="mt-20 font-extrabold">
         <span className="mb-10 font-bold text-2xl flex flex-col items-center justify-center mt-10">
+
+
+     
           Frequently Asked Questions
         </span>
         <div className="font-normal flex flex-col items-center justify-center ">

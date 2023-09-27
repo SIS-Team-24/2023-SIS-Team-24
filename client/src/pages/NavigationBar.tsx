@@ -5,12 +5,14 @@ const NavigationBar = () => {
   return (
     <div id="Navbar" className="">
       <nav className="flex justify-between items-center max-w-7xl mx-auto">
-        <img
-          src={require("../media/textinsightslogo.png")}
-          id="TextInsights"
-          width="400"
-          alt=""
-        />
+        <Link to="/">
+          <img
+            src={require("../media/textinsightslogo.png")}
+            id="TextInsights"
+            width="400"
+            alt=""
+          />
+        </Link>
         <div className="flex justify-center space-x-10">
           <div className="">
             <Link to={"/"} id="Home" className="hover:underline">

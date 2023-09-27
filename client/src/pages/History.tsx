@@ -51,8 +51,9 @@ function History() {
   };
 
   return (
-    <div className="mt-10">
+    <div>
       <NavigationBar />
+      <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
       <h1 className="mt-20 font-extrabold">
         <p className="flex items-center justify-center space-x-4 text-3xl mt-10">
           Summary History
