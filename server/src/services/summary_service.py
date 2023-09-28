@@ -1,4 +1,5 @@
 import os
+import math
 from transformers import pipeline
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
@@ -18,7 +19,7 @@ def load_model():
     load_summary_token_counter(model_name)
     print("[server] Loaded Summary token counter")
 
-def get_summary(input_text:str):
+def get_summary(input_text:str, summary_len_option="default"):
     """
     Generate a summary for the input text.
     """
@@ -33,9 +34,28 @@ def get_summary(input_text:str):
     # If token_len > 1024, perform extractive summary to get the most meaningful sentences
     if token_len > 1024:
         text_to_analyse = extractive_summary(input_text);
+        token_len = get_token_count(text_to_analyse, AnalysisKind.SUMMARY)
+
+    # Reason to why we can't do (exact) custom word length summary:
+    # - Token to word conversion isn't 1:1, making it difficult to be 
+    #   certain that the summary will be exactly the request custom length.
+    # - Increased risk of outputting a summary that concludes with an incomplete sentence
+
+    if summary_len_option == "short":
+        # Short summary = ~12.5% of text_to_analyse token length
+        min_len = token_len // 8
+        max_len = token_len // 2 # It's recommended to make the max_len at least 50% = avoid outputting incomplete sentences.
+    elif summary_len_option == "long":
+        # Long summary = ~50% of text_to_analyse token length
+        min_len = token_len // 2
+        max_len = (token_len // 4) * 3
+    else:
+        # Default summary = ~25% of text_to_analyse token length
+        min_len = token_len // 4
+        max_len = token_len // 2
 
     # Summary generator
-    result = summarizer(text_to_analyse, min_length=500, max_length=500)[0]
+    result = summarizer(text_to_analyse, min_length=min_len, max_length=max_len)[0]
 
     # Return result text key, propogate error if does not exist
     return result['summary_text']    
