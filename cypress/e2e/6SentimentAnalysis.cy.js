@@ -12,11 +12,8 @@ describe("Sentiment Analysis Test", () => {
     // Click the Sentiment button
     cy.get("button").contains("Sentiment").click();
 
-    // Wait for the API call and result to appear (you may need to adjust the wait time)
-    cy.wait(3000); // Adjust the wait time as needed
-
     // Assert that the text contains the sentiment and score
-    cy.get("#sentiment-result", { timeout: 10000 }).then(($span) => {
+    cy.get("#sentiment-result", { timeout: 60000 }).then(($span) => {
       // Get the text content of the <span> element
       const spanText = $span.text();
       expect(spanText).to.include("Positive");
@@ -31,11 +28,8 @@ describe("Sentiment Analysis Test", () => {
     // Click the Sentiment button
     cy.get("button").contains("Sentiment").click();
 
-    // Wait for the API call and result to appear (you may need to adjust the wait time)
-    cy.wait(3000); // Adjust the wait time as needed
-
     // Assert that the text contains the sentiment and score
-    cy.get("#sentiment-result", { timeout: 10000 }).then(($span) => {
+    cy.get("#sentiment-result", { timeout: 60000 }).then(($span) => {
       // Get the text content of the <span> element
       const spanText = $span.text();
       expect(spanText).to.include("Neutral");
@@ -53,7 +47,7 @@ describe("Sentiment Analysis Test", () => {
     cy.get("button").contains("Sentiment").click();
 
     // Assert that the text contains the sentiment and score
-    cy.get("#sentiment-result", { timeout: 10000 }).then(($span) => {
+    cy.get("#sentiment-result", { timeout: 60000 }).then(($span) => {
       // Get the text content of the <span> element
       const spanText = $span.text();
       expect(spanText).to.include("Negative");
