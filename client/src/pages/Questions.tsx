@@ -37,6 +37,7 @@ function Questions() {
   return (
     <div>
       <NavigationBar />
+      <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
       <div className="mt-20">
         <span className="mb-10 font-bold text-2xl flex flex-col items-center justify-center">
           Frequently Asked Questions
