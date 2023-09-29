@@ -7,6 +7,7 @@ from string import punctuation
 from collections import Counter
 from heapq import nlargest
 from .common import get_token_count, load_summary_token_counter, AnalysisKind
+from ..model.data_model import SummaryLengthOption
 
 # Load the machine learning model during app startup
 def load_model():
@@ -19,7 +20,7 @@ def load_model():
     load_summary_token_counter(model_name)
     print("[server] Loaded Summary token counter")
 
-def get_summary(input_text:str, summary_len_option="default"):
+def get_summary(input_text:str, summary_len_option=SummaryLengthOption.DEFAULT):
     """
     Generate a summary for the input text.
     """
@@ -33,7 +34,7 @@ def get_summary(input_text:str, summary_len_option="default"):
 
     # If token_len > 1024, perform extractive summary to get the most meaningful sentences
     if token_len > 1024:
-        text_to_analyse = extractive_summary(input_text);
+        text_to_analyse = extractive_summary(input_text)
         token_len = get_token_count(text_to_analyse, AnalysisKind.SUMMARY)
 
     # Reason to why we can't do (exact) custom word length summary:
@@ -41,11 +42,11 @@ def get_summary(input_text:str, summary_len_option="default"):
     #   certain that the summary will be exactly the request custom length.
     # - Increased risk of outputting a summary that concludes with an incomplete sentence
 
-    if summary_len_option == "short":
+    if summary_len_option == SummaryLengthOption.SHORT:
         # Short summary = ~12.5% of text_to_analyse token length
         min_len = token_len // 8
         max_len = token_len // 2 # It's recommended to make the max_len at least 50% = avoid outputting incomplete sentences.
-    elif summary_len_option == "long":
+    elif summary_len_option == SummaryLengthOption.LONG:
         # Long summary = ~50% of text_to_analyse token length
         min_len = token_len // 2
         max_len = (token_len // 4) * 3
@@ -121,4 +122,4 @@ if __name__ == '__main__':
     # Ensure input.txt exists in server/src for testing.
     load_model()
     with open('input.txt', 'r', errors='ignore', encoding='utf-8') as f:
-        print(get_summary(str(f.read())))
+        print(get_summary(str(f.read()), "default"))
