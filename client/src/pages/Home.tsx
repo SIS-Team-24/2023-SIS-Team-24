@@ -106,7 +106,7 @@ function Home(this: any) {
   const getSummary = async () => {
     setSubmitted(true);
     console.log("submitted: " + submitted);
-    const body = JSON.stringify({ text: inputValue });
+    const body = JSON.stringify({ text: inputValue , summary_len_option: "default"});
     await fetch("/api/summary/process", { ...postRequestOptions, body })
       .then((response) => response.json())
       .then((data) => {

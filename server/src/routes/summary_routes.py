@@ -1,11 +1,11 @@
 from fastapi import APIRouter, HTTPException
-from ..model.data_model import InputData
+from ..model.data_model import SummaryInputData
 from ..services import summary_service
 
 router = APIRouter()
 
 @router.post("/process")
-def process_text(input_data: InputData):
+def process_text(input_data: SummaryInputData):
     """
     Process user-provided text and return a summary.
     """
