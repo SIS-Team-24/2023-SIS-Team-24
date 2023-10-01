@@ -51,10 +51,11 @@ function History() {
   };
 
   return (
-    <div className="mt-10">
+    <div>
       <NavigationBar />
+      <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
       <h1 className="mt-20 font-extrabold">
-        <p className="flex items-center justify-start space-x-4 text-3xl ml-60 mt-10">
+        <p className="flex items-center justify-center space-x-4 text-3xl mt-10">
           Summary History
         </p>
       </h1>
@@ -85,10 +86,14 @@ function History() {
           <p>No history available.</p>
         )}
       </div>
-      <div className="p-8 clearHistory-button mr-40">
-        <Button variant="active" onClick={handleClearHistoryClick}>
-          Clear History
-        </Button>
+      <div className="p-4 clearHistory-button mr-40">
+            <button
+              onClick={handleClearHistoryClick}
+              style={{ backgroundColor: "#2e7faa" }}
+              className="mt-8 ml-52 py-2 px-4 text-white rounded"
+            >
+              Clear History
+            </button>
       </div>
       {isModalOpen && (
         <HistoryModal

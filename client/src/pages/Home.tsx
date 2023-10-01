@@ -16,6 +16,8 @@ function Home(this: any) {
   const [selectedFont, setSelectedFont] = useState<string | null>(null);
   const [emotionLabel, setEmotionLabel] = useState("Not set"); // "Happy", "Sad", "angry"
   const [submitted, setSubmitted] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [wordCount, setWordCount] = useState(0);
 
   const setSentimentStyle = () => {
     switch (sentimentText) {
@@ -78,6 +80,18 @@ function Home(this: any) {
     }
   };
 
+  useEffect(() => {
+    // Calculate word count when inputValue changes
+    const wordCount = calcWordCount(inputValue);
+    setIsButtonDisabled(wordCount < 100);
+  }, [inputValue]); // Run this effect whenever inputValue changes
+
+  // Calc word count
+  const calcWordCount = (text: any) => {
+    const words = text.trim().split(/\s+/);
+    return text.trim() === "" ? 0 : words.length;
+  };
+
   // Event handler for input value change
   const handleInputChange = (e: any) => {
     setInputValue(e.target.value); // Update the input value in the state
@@ -92,7 +106,7 @@ function Home(this: any) {
   const getSummary = async () => {
     setSubmitted(true);
     console.log("submitted: " + submitted);
-    const body = JSON.stringify({ text: inputValue });
+    const body = JSON.stringify({ text: inputValue , summary_len_option: "default"});
     await fetch("/api/summary/process", { ...postRequestOptions, body })
       .then((response) => response.json())
       .then((data) => {
@@ -126,12 +140,13 @@ function Home(this: any) {
   };
 
   return (
-    <div className="mt-10">
+    <div>
       <NavigationBar />
+      <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
       <div className="flex justify-between mt-10">
         <p className="flex items-center items-baseline justify-start space-x-4 text-xl ml-60">
           Sentiment analysis of the text is:
-          <span style={setSentimentStyle()}>
+          <span style={setSentimentStyle()} id="sentiment-result">
             {sentimentText} {`${Number(sentimentScore)}%`}
           </span>
         </p>
@@ -197,14 +212,30 @@ function Home(this: any) {
                 className="h-[568px] w-[547px] p-10 border-black border-2 border-solid resize-none"
                 id="inputted-text"
                 value={inputValue}
-                onChange={(e) => handleInputChange(e)}
+
+                onChange={(e) => {
+                  handleInputChange(e);
+                  const count = calcWordCount(e.target.value);
+                  setWordCount(count);
+                }}
+                placeholder="Enter 100 words or more to summarise"
+
               ></textarea>
             </div>
+            <p>
+              Word Count: {wordCount} {wordCount === 1 ? "word" : "words"}
+            </p>
           </div>
           <button
+            id="summarise-button-id"
             onClick={getSummary}
-            style={{ backgroundColor: "#2e7faa" }}
+            style={{
+              backgroundColor: "#2e7faa",
+              cursor: isButtonDisabled ? "not-allowed" : "pointer",
+            }}
             className="mt-8 ml-52 py-2 px-4 text-white rounded"
+            disabled={isButtonDisabled}
+            title="Enter 100 words to summarise it"
           >
             Summarise
           </button>
@@ -223,6 +254,8 @@ function Home(this: any) {
                   style={{
                     fontFamily: selectedFont || "Open Sans",
                     backgroundColor: "#f0f0f0",
+                    maxHeight: "568px", 
+                    overflowY: "auto", 
                   }}
                   className="h-[568px] w-[547px] p-10 border-black border-2 border-solid"
                 >
