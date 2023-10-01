@@ -270,8 +270,12 @@ function Home(this: any) {
             <button
               id="sentiment-button"
               onClick={getSentiment}
-              style={{ backgroundColor: "#2e7faa" }}
+              style={{
+                backgroundColor: "#2e7faa",
+                cursor: isButtonDisabled ? "not-allowed" : "pointer",
+              }}
               className="mt-8 ml-52 py-2 px-4 text-white rounded"
+              disabled={isButtonDisabled}
             >
               Sentiment
             </button>
