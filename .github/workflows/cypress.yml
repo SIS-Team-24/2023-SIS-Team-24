@@ -45,7 +45,7 @@ jobs:
           done
 
       - name: Run Cypress tests
-        run: npm run cypress || exit 1
+        run: npx cypress run --headless
 
       - name: Stop the server
         run: kill $(cat react_server_pid.txt)
