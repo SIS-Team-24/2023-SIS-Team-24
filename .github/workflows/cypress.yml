@@ -17,6 +17,11 @@ jobs:
         with:
           node-version: '18.x'
 
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
       - name: Resolve dependency error
         working-directory: ./client
         run: npm config set legacy-peer-deps true
@@ -27,20 +32,18 @@ jobs:
     
       - name: Install dev dependencies
         run: npm install --peer
+      
+      - name: Install server dependencies
+        run: pip install -r server/requirements.txt
 
-      - name: Build React app
-        run: npm run build
-        working-directory: ./client
-
-      - name: Start a server for the React app
+      - name: Start a server for frontend and backend
         run: |
-          npm run start &
-          echo $! > react_server_pid.txt
-        working-directory: ./client
+          npm run dev &
+          echo $! > both_server_pid.txt
 
       - name: Wait for the server to start
         run: |
-          while ! curl -s http://localhost:3000; do
+          while ! curl -s http://localhost:3000 && curl -s http://localhost:8000/api ; do
             sleep 1
           done
 
@@ -48,5 +51,4 @@ jobs:
         run: npx cypress run --headless
 
       - name: Stop the server
-        run: kill $(cat react_server_pid.txt)
-        working-directory: ./client
+        run: kill $(cat both_server_pid.txt)
