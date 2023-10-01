@@ -195,7 +195,9 @@ function Home(this: any) {
       <div>
         <p className="flex items-center justify-start space-x-4 text-xl mt-10 ml-60">
           Emotion analysis result:
-          <span style={setEmotionStyle()}>{emotionLabel}</span>
+          <span id="emotion-result" style={setEmotionStyle()}>
+            {emotionLabel}
+          </span>
         </p>
       </div>
       <div className="flex justify-center gap-5 p-10">
@@ -266,9 +268,14 @@ function Home(this: any) {
               </div>
             </div>
             <button
+              id="sentiment-button"
               onClick={getSentiment}
-              style={{ backgroundColor: "#2e7faa" }}
+              style={{
+                backgroundColor: "#2e7faa",
+                cursor: isButtonDisabled ? "not-allowed" : "pointer",
+              }}
               className="mt-8 ml-52 py-2 px-4 text-white rounded"
+              disabled={isButtonDisabled}
             >
               Sentiment
             </button>
