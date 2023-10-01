@@ -18,7 +18,7 @@ describe("Home", () => {
     cy.get("#summary-result", { timeout: 60000 }).then(($p) => {
       // Get the text content of the <span> element
       const sumText = $p.text();
-      expect(sumText).should("have.value");
+      expect(sumText).should("not.have.value", "");
     });
   });
 });
