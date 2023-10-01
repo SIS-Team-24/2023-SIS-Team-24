@@ -34,10 +34,10 @@ describe("Text Font Customisation", () => {
     cy.get('button:contains("Change Font")').click();
     // wait
     cy.wait(1000);
-    // Click on the 'Roboto' font option
+    // Click on the 'Mooli' font option
     cy.contains("Mooli").click({ force: true });
 
-    // Check if the font is equivalent to Roboto
+    // Check if the font is equivalent to Mooli
     cy.get("#inputted-text").should("have.css", "font-family", `mooli`);
   });
 });
