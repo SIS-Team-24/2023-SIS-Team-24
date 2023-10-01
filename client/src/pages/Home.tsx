@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import NavigationBar from "./NavigationBar";
+import Spinner from "./Spinner";
 import {
   addToHistory,
   clearHistory,
@@ -18,6 +19,8 @@ function Home(this: any) {
   const [submitted, setSubmitted] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [wordCount, setWordCount] = useState(0);
+  const [isSummaryLoading, setSummaryLoading] = useState(false);
+  const [isSummaryError, setSummaryError] = useState(false);
 
   const setSentimentStyle = () => {
     switch (sentimentText) {
@@ -105,21 +108,24 @@ function Home(this: any) {
   // Testing function to call Summary analysis fn...
   const getSummary = async () => {
     setSubmitted(true);
-    console.log("submitted: " + submitted);
-    const body = JSON.stringify({
-      text: inputValue,
-      summary_len_option: "default",
-    });
+    setSummaryLoading(true);
+    setSummaryError(false);
+    const body = JSON.stringify({ text: inputValue , summary_len_option: "default"});
     await fetch("/api/summary/process", { ...postRequestOptions, body })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (data.summary) {
-          setTextInput(data.summary);
-          addToHistory({ summary: data.summary });
-        } else {
-          setTextInput("Call to /api/summary/process failed.");
-        }
+        setTextInput(data.summary);
+        addToHistory({ summary: data.summary });
+      })
+      .catch((e) => {
+        // Log this error instead of showing on screen
+        console.log(`Call to /api/summary/process failed. Error: ${e}`);
+        setSummaryError(true);
+      })
+      .finally(() => {
+        setSummaryLoading(false);
+        setSubmitted(false);
       });
   };
 
@@ -130,15 +136,13 @@ function Home(this: any) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (data.sentiment && data.score) {
-          setSentimentText(data.sentiment);
-          setSentimentScore(Math.round(data.score * 100));
-          if (data.emotions) {
-            setEmotionLabel(data.emotions.toString());
-          }
-        } else {
-          setTextInput("Call to /api/sentiment/process failed.");
-        }
+        setSentimentText(data.sentiment);
+        setSentimentScore(Math.round(data.score * 100));
+        setEmotionLabel(data.emotions.toString());
+      })
+      .catch((e) => {
+        // Log this error instead of showing on screen
+        console.log(`Call to /api/sentiment/process failed. Error: ${e}`);
       });
   };
 
@@ -263,7 +267,13 @@ function Home(this: any) {
                   className="h-[568px] w-[547px] p-10 border-black border-2 border-solid"
                   id="summary-result"
                 >
-                  {textInput}
+                  {isSummaryLoading ? (
+                    <Spinner isError={false} /> // Show loading spinner while the API call is in progress
+                  ) : isSummaryError ? (
+                    <Spinner isError={true} /> // Show error spinner if the API call failed
+                  ) : (
+                    textInput // Show the text content
+                  )}
                 </p>
               </div>
             </div>
@@ -281,6 +291,7 @@ function Home(this: any) {
             </button>
           </div>
         </div>
+
       </div>
     </div>
   );
