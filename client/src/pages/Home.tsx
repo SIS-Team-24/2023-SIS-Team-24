@@ -115,14 +115,12 @@ function Home(this: any) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (data.summary) {
-          setTextInput(data.summary);
-          addToHistory({ summary: data.summary });
-        }
+        setTextInput(data.summary);
+        addToHistory({ summary: data.summary });
       })
-      .catch(() => {
+      .catch((e) => {
         // Log this error instead of showing on screen
-        console.log("Call to /api/summary/process failed.");
+        console.log(`Call to /api/summary/process failed. Error: ${e}`);
         setSummaryError(true);
       })
       .finally(() => {
@@ -138,17 +136,13 @@ function Home(this: any) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (data.sentiment && data.score) {
-          setSentimentText(data.sentiment);
-          setSentimentScore(Math.round(data.score * 100));
-          if (data.emotions) {
-            setEmotionLabel(data.emotions.toString());
-          }
-        }
+        setSentimentText(data.sentiment);
+        setSentimentScore(Math.round(data.score * 100));
+        setEmotionLabel(data.emotions.toString());
       })
-      .catch(() => {
+      .catch((e) => {
         // Log this error instead of showing on screen
-        console.log("Call to /api/sentiment/process failed.");
+        console.log(`Call to /api/sentiment/process failed. Error: ${e}`);
       });
   };
 
