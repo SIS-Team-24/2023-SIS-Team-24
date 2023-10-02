@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import NavigationBar from "./NavigationBar";
+import Spinner from "./Spinner";
 import {
   addToHistory,
   clearHistory,
@@ -21,6 +22,8 @@ function Home(this: any) {
   const [submitted, setSubmitted] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [wordCount, setWordCount] = useState(0);
+  const [isSummaryLoading, setSummaryLoading] = useState(false);
+  const [isSummaryError, setSummaryError] = useState(false);
 
   const setSentimentStyle = () => {
     switch (sentimentText) {
@@ -117,12 +120,17 @@ function Home(this: any) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (data.summary) {
-          setTextInput(data.summary);
-          addToHistory({ summary: data.summary });
-        } else {
-          setTextInput("Call to /api/summary/process failed.");
-        }
+        setTextInput(data.summary);
+        addToHistory({ summary: data.summary });
+      })
+      .catch((e) => {
+        // Log this error instead of showing on screen
+        console.log(`Call to /api/summary/process failed. Error: ${e}`);
+        setSummaryError(true);
+      })
+      .finally(() => {
+        setSummaryLoading(false);
+        setSubmitted(false);
       });
   };
 
@@ -133,15 +141,13 @@ function Home(this: any) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (data.sentiment && data.score) {
-          setSentimentText(data.sentiment);
-          setSentimentScore(Math.round(data.score * 100));
-          if (data.emotions) {
-            setEmotionLabel(data.emotions.toString());
-          }
-        } else {
-          setTextInput("Call to /api/sentiment/process failed.");
-        }
+        setSentimentText(data.sentiment);
+        setSentimentScore(Math.round(data.score * 100));
+        setEmotionLabel(data.emotions.toString());
+      })
+      .catch((e) => {
+        // Log this error instead of showing on screen
+        console.log(`Call to /api/sentiment/process failed. Error: ${e}`);
       });
   };
 
@@ -160,56 +166,17 @@ function Home(this: any) {
             {sentimentText} {`${Number(sentimentScore)}%`}
           </span>
         </p>
-        <div className="flex gap-2">
-          <div className="group relative">
-            <button className="bg-gray-300 text-gray-700 py-4 px-6 rounded inline-flex items-center group">
-              <span className="mr-1">{Capitalize(selectedSumLen)} summary</span>
-              <svg
-                className="fill-current h-4 w-4 group-hover:rotate-180 transition-transform"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-              </svg>
-            </button>
-
-            <ul
-              className="absolute hidden text-gray-700 pt-1 group-hover:block w-full"
-              style={{ zIndex: 3 }}
+        <div className="group relative mr-60">
+          <button className="bg-gray-300 text-gray-700 py-4 px-6 rounded inline-flex items-center group">
+            <span className="mr-1">Change Font</span>
+            <svg
+              className="fill-current h-4 w-4 group-hover:rotate-180 transition-transform"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
             >
-              <li
-                className={
-                  "bg-gray-200 hover:bg-gray-100 py-4 px-4 cursor-pointer rounded-t"
-                }
-                onClick={() => setSelectedSumLen("short")}
-              >
-                Short
-              </li>
-              <li
-                className="bg-gray-200 hover:bg-gray-100 py-4 px-4 cursor-pointer"
-                onClick={() => setSelectedSumLen("default")}
-              >
-                Default
-              </li>
-              <li
-                className="bg-gray-200 hover:bg-gray-100 py-4 px-4 cursor-pointer rounded-b"
-                onClick={() => setSelectedSumLen("long")}
-              >
-                Long
-              </li>
-            </ul>
-          </div>
-          <div className="group relative">
-            <button className="bg-gray-300 text-gray-700 py-4 px-6 rounded inline-flex items-center group">
-              <span className="mr-1">Change Font</span>
-              <svg
-                className="fill-current h-4 w-4 group-hover:rotate-180 transition-transform"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-              </svg>
-            </button>
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+            </svg>
+          </button>
 
             <ul
               className="absolute hidden text-gray-700 pt-1 group-hover:block w-full"
@@ -242,7 +209,9 @@ function Home(this: any) {
       <div>
         <p className="flex items-center justify-start space-x-4 text-xl mt-10 ml-60">
           Emotion analysis result:
-          <span style={setEmotionStyle()}>{emotionLabel}</span>
+          <span id="emotion-result" style={setEmotionStyle()}>
+            {emotionLabel}
+          </span>
         </p>
       </div>
       <div className="flex justify-center gap-5 p-10">
@@ -302,17 +271,31 @@ function Home(this: any) {
                   style={{
                     fontFamily: selectedFont || "Open Sans",
                     backgroundColor: "#f0f0f0",
+                    maxHeight: "568px",
+                    overflowY: "auto",
                   }}
                   className="h-[568px] w-[547px] p-10 border-black border-2 border-solid"
+                  id="summary-result"
                 >
-                  {textInput}
+                  {isSummaryLoading ? (
+                    <Spinner isError={false} /> // Show loading spinner while the API call is in progress
+                  ) : isSummaryError ? (
+                    <Spinner isError={true} /> // Show error spinner if the API call failed
+                  ) : (
+                    textInput // Show the text content
+                  )}
                 </p>
               </div>
             </div>
             <button
+              id="sentiment-button"
               onClick={getSentiment}
-              style={{ backgroundColor: "#2e7faa" }}
+              style={{
+                backgroundColor: "#2e7faa",
+                cursor: isButtonDisabled ? "not-allowed" : "pointer",
+              }}
               className="mt-8 ml-52 py-2 px-4 text-white rounded"
+              disabled={isButtonDisabled}
             >
               Sentiment
             </button>
