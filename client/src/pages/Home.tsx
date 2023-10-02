@@ -110,7 +110,10 @@ function Home(this: any) {
     setSubmitted(true);
     setSummaryLoading(true);
     setSummaryError(false);
-    const body = JSON.stringify({ text: inputValue , summary_len_option: "default"});
+    const body = JSON.stringify({
+      text: inputValue,
+      summary_len_option: "default",
+    });
     await fetch("/api/summary/process", { ...postRequestOptions, body })
       .then((response) => response.json())
       .then((data) => {
@@ -228,7 +231,6 @@ function Home(this: any) {
                   setWordCount(count);
                 }}
                 placeholder="Enter 100 words or more to summarise..."
-                placeholder="Enter 100 words or more to summarise"
               ></textarea>
             </div>
             <p>
@@ -293,7 +295,6 @@ function Home(this: any) {
             </button>
           </div>
         </div>
-
       </div>
     </div>
   );
