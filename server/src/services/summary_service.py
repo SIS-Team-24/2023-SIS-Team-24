@@ -24,7 +24,7 @@ def get_summary(input_text:str, summary_len_option=SummaryLengthOption.DEFAULT):
     """
     Generate a summary for the input text.
     """
-    print("[server] Function to generate summary is executing.")
+    print(f"[server] Function to generate {summary_len_option.value} summary is executing.")
 
     # Default: Set text_to_analyse to current input_text
     text_to_analyse = input_text
@@ -45,7 +45,7 @@ def get_summary(input_text:str, summary_len_option=SummaryLengthOption.DEFAULT):
     if summary_len_option == SummaryLengthOption.SHORT:
         # Short summary = ~12.5% of text_to_analyse token length
         min_len = token_len // 8
-        max_len = token_len // 2 # It's recommended to make the max_len at least 50% = avoid outputting incomplete sentences.
+        max_len = token_len // 3 
     elif summary_len_option == SummaryLengthOption.LONG:
         # Long summary = ~50% of text_to_analyse token length
         min_len = token_len // 2

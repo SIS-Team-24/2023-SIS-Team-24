@@ -108,6 +108,11 @@ function Home(this: any) {
     setSelectedFont(selectedFont);
   };
 
+  const handleLengthChange = (selectedLength: "short" | "default" | "long") => {
+    setSelectedSumLen(selectedLength);
+    console.log("Selected length: " + selectedLength);
+  };
+
   // Testing function to call Summary analysis fn...
   const getSummary = async () => {
     setSubmitted(true);
@@ -160,23 +165,24 @@ function Home(this: any) {
       <NavigationBar />
       <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
       <div className="flex justify-between mt-10 mx-60">
-        <p className="flex items-center items-baseline justify-start space-x-4 text-xl">
+        <p className="flex items-baseline justify-start space-x-4 text-xl">
           Sentiment analysis of the text is:
           <span style={setSentimentStyle()} id="sentiment-result">
             {sentimentText} {`${Number(sentimentScore)}%`}
           </span>
         </p>
-        <div className="group relative mr-60">
-          <button className="bg-gray-300 text-gray-700 py-4 px-6 rounded inline-flex items-center group">
-            <span className="mr-1">Change Font</span>
-            <svg
-              className="fill-current h-4 w-4 group-hover:rotate-180 transition-transform"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-            >
-              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-            </svg>
-          </button>
+        <div className="flex gap-2">
+          <div className="group relative">
+            <button className="bg-gray-300 text-gray-700 py-4 px-6 rounded inline-flex items-center group">
+              <span className="mr-1">{Capitalize(selectedSumLen)} summary</span>
+              <svg
+                className="fill-current h-4 w-4 group-hover:rotate-180 transition-transform"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+              </svg>
+            </button>
 
             <ul
               className="absolute hidden text-gray-700 pt-1 group-hover:block w-full"
@@ -186,23 +192,63 @@ function Home(this: any) {
                 className={
                   "bg-gray-200 hover:bg-gray-100 py-4 px-4 cursor-pointer rounded-t"
                 }
-                onClick={() => handleFontClick("open-sans")}
+                onClick={() => handleLengthChange("short")}
               >
-                Open Sans
+                Short
               </li>
               <li
                 className="bg-gray-200 hover:bg-gray-100 py-4 px-4 cursor-pointer"
-                onClick={() => handleFontClick("roboto")}
+                onClick={() => handleLengthChange("default")}
               >
-                Roboto
+                Default
               </li>
               <li
                 className="bg-gray-200 hover:bg-gray-100 py-4 px-4 cursor-pointer rounded-b"
-                onClick={() => handleFontClick("mooli")}
+                onClick={() => handleLengthChange("long")}
               >
-                Mooli
+                Long
               </li>
             </ul>
+          </div>
+
+          <div className="group relative">
+            <button className="bg-gray-300 text-gray-700 py-4 px-6 rounded inline-flex items-center group">
+              <span className="mr-1">Change Font</span>
+              <svg
+                className="fill-current h-4 w-4 group-hover:rotate-180 transition-transform"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+              </svg>
+            </button>
+            <div>
+              <ul
+                className="absolute hidden text-gray-700 pt-1 group-hover:block w-full"
+                style={{ zIndex: 3 }}
+              >
+                <li
+                  className={
+                    "bg-gray-200 hover:bg-gray-100 py-4 px-4 cursor-pointer rounded-t"
+                  }
+                  onClick={() => handleFontClick("open-sans")}
+                >
+                  Open Sans
+                </li>
+                <li
+                  className="bg-gray-200 hover:bg-gray-100 py-4 px-4 cursor-pointer"
+                  onClick={() => handleFontClick("roboto")}
+                >
+                  Roboto
+                </li>
+                <li
+                  className="bg-gray-200 hover:bg-gray-100 py-4 px-4 cursor-pointer rounded-b"
+                  onClick={() => handleFontClick("mooli")}
+                >
+                  Mooli
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
