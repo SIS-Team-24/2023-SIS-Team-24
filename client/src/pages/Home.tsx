@@ -14,6 +14,9 @@ function Home(this: any) {
   const [sentimentText, setSentimentText] = useState("Neutral"); // "Positive", "Neutral", or "Negative"
   const [sentimentScore, setSentimentScore] = useState(0); // Decimal value e.g. 0.97 for 97%
   const [selectedFont, setSelectedFont] = useState<string | null>(null);
+  const [selectedSumLen, setSelectedSumLen] = useState<
+    "short" | "default" | "long"
+  >("default");
   const [emotionLabel, setEmotionLabel] = useState("Not set"); // "Happy", "Sad", "angry"
   const [submitted, setSubmitted] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -106,7 +109,10 @@ function Home(this: any) {
   const getSummary = async () => {
     setSubmitted(true);
     console.log("submitted: " + submitted);
-    const body = JSON.stringify({ text: inputValue });
+    const body = JSON.stringify({
+      text: inputValue,
+      summary_len_option: selectedSumLen,
+    });
     await fetch("/api/summary/process", { ...postRequestOptions, body })
       .then((response) => response.json())
       .then((data) => {
@@ -139,54 +145,98 @@ function Home(this: any) {
       });
   };
 
+  const Capitalize = (input: string) => {
+    return input.charAt(0).toUpperCase() + input.slice(1);
+  };
+
   return (
     <div>
       <NavigationBar />
       <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
-      <div className="flex justify-between mt-10">
-        <p className="flex items-center items-baseline justify-start space-x-4 text-xl ml-60">
+      <div className="flex justify-between mt-10 mx-60">
+        <p className="flex items-center items-baseline justify-start space-x-4 text-xl">
           Sentiment analysis of the text is:
           <span style={setSentimentStyle()} id="sentiment-result">
             {sentimentText} {`${Number(sentimentScore)}%`}
           </span>
         </p>
-        <div className="group relative mr-60">
-          <button className="bg-gray-300 text-gray-700 py-4 px-6 rounded inline-flex items-center group">
-            <span className="mr-1">Change Font</span>
-            <svg
-              className="fill-current h-4 w-4 group-hover:rotate-180 transition-transform"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-            >
-              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-            </svg>
-          </button>
+        <div className="flex gap-2">
+          <div className="group relative">
+            <button className="bg-gray-300 text-gray-700 py-4 px-6 rounded inline-flex items-center group">
+              <span className="mr-1">{Capitalize(selectedSumLen)} summary</span>
+              <svg
+                className="fill-current h-4 w-4 group-hover:rotate-180 transition-transform"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+              </svg>
+            </button>
 
-          <ul
-            className="rounded absolute hidden text-gray-700 pt-1 group-hover:block w-56"
-            style={{ zIndex: 3 }}
-          >
-            <li
-              className={
-                "bg-gray-200 hover:bg-gray-400 py-4 px-4 cursor-pointer"
-              }
-              onClick={() => handleFontClick("open-sans")}
+            <ul
+              className="absolute hidden text-gray-700 pt-1 group-hover:block w-full"
+              style={{ zIndex: 3 }}
             >
-              Open Sans
-            </li>
-            <li
-              className="bg-gray-200 hover:bg-gray-400 py-4 px-4 cursor-pointer"
-              onClick={() => handleFontClick("roboto")}
+              <li
+                className={
+                  "bg-gray-200 hover:bg-gray-100 py-4 px-4 cursor-pointer rounded-t"
+                }
+                onClick={() => setSelectedSumLen("short")}
+              >
+                Short
+              </li>
+              <li
+                className="bg-gray-200 hover:bg-gray-100 py-4 px-4 cursor-pointer"
+                onClick={() => setSelectedSumLen("default")}
+              >
+                Default
+              </li>
+              <li
+                className="bg-gray-200 hover:bg-gray-100 py-4 px-4 cursor-pointer rounded-b"
+                onClick={() => setSelectedSumLen("long")}
+              >
+                Long
+              </li>
+            </ul>
+          </div>
+          <div className="group relative">
+            <button className="bg-gray-300 text-gray-700 py-4 px-6 rounded inline-flex items-center group">
+              <span className="mr-1">Change Font</span>
+              <svg
+                className="fill-current h-4 w-4 group-hover:rotate-180 transition-transform"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+              </svg>
+            </button>
+
+            <ul
+              className="absolute hidden text-gray-700 pt-1 group-hover:block w-full"
+              style={{ zIndex: 3 }}
             >
-              Roboto
-            </li>
-            <li
-              className="bg-gray-200 hover:bg-gray-400 py-4 px-4 cursor-pointer"
-              onClick={() => handleFontClick("mooli")}
-            >
-              Mooli
-            </li>
-          </ul>
+              <li
+                className={
+                  "bg-gray-200 hover:bg-gray-100 py-4 px-4 cursor-pointer rounded-t"
+                }
+                onClick={() => handleFontClick("open-sans")}
+              >
+                Open Sans
+              </li>
+              <li
+                className="bg-gray-200 hover:bg-gray-100 py-4 px-4 cursor-pointer"
+                onClick={() => handleFontClick("roboto")}
+              >
+                Roboto
+              </li>
+              <li
+                className="bg-gray-200 hover:bg-gray-100 py-4 px-4 cursor-pointer rounded-b"
+                onClick={() => handleFontClick("mooli")}
+              >
+                Mooli
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <div>
