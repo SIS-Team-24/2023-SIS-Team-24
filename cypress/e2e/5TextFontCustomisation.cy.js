@@ -6,11 +6,11 @@ describe("Text Font Customisation", () => {
     const text = "NLP Sentiment Analysis";
 
     // Check if the Roboto font exists in the dropdown box
-    cy.get(".rounded.absolute.text-gray-700.pt-1").contains("Roboto");
+    cy.get(".absolute.text-gray-700.pt-1").contains("Roboto");
     // Check if the Open Sans font exists in the dropdown box
-    cy.get(".rounded.absolute.text-gray-700.pt-1").contains("Open Sans");
+    cy.get(".absolute.text-gray-700.pt-1").contains("Open Sans");
     // Check if the Mooli font exists in the dropdown box
-    cy.get(".rounded.absolute.text-gray-700.pt-1").contains("Mooli");
+    cy.get(".absolute.text-gray-700.pt-1").contains("Mooli");
 
     // Enter text in the input area text box
     cy.get("#inputted-text").type(text);
