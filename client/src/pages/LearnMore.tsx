@@ -13,6 +13,10 @@ function LearnMore() {
       a: "Text Insights is an online text summariser application that provides users with concise summaries of longer text documents. Additionally, it offers sentiment analysis to determine whether the text is positive, negative, or neutral, along with a percentage score.",
     },
     {
+      q: "What is NLP?",
+      a: "Natural Language Processing (NLP) is a field of artificial intelligence that focuses on enabling computers to understand, interpret, and generate human language, facilitating interaction between machines and humans.",
+    },
+    {
       q: "How does Text Insights summarise text?",
       a: "Text Insights uses the powerful BERT (Bidirectional Encoder Representations from Transformers) model for text summarisation. BERT's advanced natural language understanding capabilities help identify key sentences and phrases, allowing it to create coherent and accurate summaries.",
     },
@@ -83,7 +87,7 @@ function LearnMore() {
         </div>
 
         <span className="mb-10 font-bold text-2xl flex flex-col items-center justify-center mt-10">
-          Machine Learning Material Summary
+          Machine Learning (NLP) Material Summary
         </span>
 
         <div className="mt-50" />
