@@ -2,6 +2,7 @@ describe("Testing the Learn More Page", () => {
     beforeEach(() => {
         cy.viewport(1536, 960);
     });
+
     it("Checking the Frequently Asked Question section", () => {
         cy.visit("/");
         cy.contains("Learn More").click();
