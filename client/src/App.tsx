@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import React from "react";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Questions from "./pages/Questions";
+import LearnMore from "./pages/LearnMore";
 import LearningMaterialSummary from "./pages/LearningMaterialSummary";
 import History from "./pages/History";
 
@@ -17,7 +17,7 @@ const App: React.FC<{}> = () => {
             element={<LearningMaterialSummary />}
           />
           <Route path="/history" element={<History />} />
-          <Route path="/faq" element={<Questions />} />
+          <Route path="/learnmore" element={<LearnMore />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </div>
