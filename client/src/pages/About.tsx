@@ -6,22 +6,52 @@ function About(this: any) {
     <div>
       <NavigationBar />
       <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
-      <p
-        id="AboutDesc"
-        className="flex items-center items-baseline justify-start space-x-4 text-xs ml-60"
-      >
-        Text Insights is your go-to solution for harnessing the power of Natural
-        Language Processing (NLP). Our product empowers users to effortlessly
-        summarise and analyse text content, providing invaluable insights.
-        Whether you're a student grappling with voluminous textbooks, an
-        educator seeking efficient content evaluation, or a professional
-        navigating the digital landscape, Text Insights has you covered. We
-        prioritise simplicity, customisation, and accuracy, making complex tasks
-        a breeze. Powered by open-source models, our tool offers an ethical and
-        transparent approach to text processing. With Text Insights, you unlock
-        a world of concise understanding and sentiment analysis, enriching your
-        text-related endeavours.
-      </p>
+      <div className="mx-auto max-w-2xl p-4 mt-10 text-center"> 
+        <h1 className="text-3xl font-extrabold">About</h1> 
+        <p className="mt-4 text-sm font-bold">
+          Text Insights is your go-to solution for harnessing the power of Natural
+          Language Processing (NLP). Our product empowers users to effortlessly
+          summarize and analyze text content, providing invaluable insights.
+          Whether you're a student grappling with voluminous textbooks, an
+          educator seeking efficient content evaluation, or a professional
+          navigating the digital landscape, Text Insights has you covered. We
+          prioritize simplicity, customization, and accuracy, making complex tasks
+          a breeze. Powered by open-source models, our tool offers an ethical and
+          transparent approach to text processing. With Text Insights, you unlock
+          a world of concise understanding and sentiment analysis, enriching your
+          text-related endeavors.
+        </p>
+        {/* Key Features Section */}
+        <div className="mt-8">
+          <h2 className="text-xl font-bold">Key Features</h2>
+          <ul className="mt-2 text-left list-disc list-inside">
+            <li>Automatic text summarization</li>
+            <li>Sentiment analysis</li>
+            <li>Emotion analysis</li>
+            <li>Customizable text fonts</li>
+            <li>Adjustable summary length (Short, Medium, Long)</li>
+            <li>
+              
+              User-friendly interface
+            </li>
+          </ul>
+        </div>
+
+        {/* User Scenarios Section */}
+        <div className="mt-8">
+          <h2 className="text-xl font-bold">How Text Insights Can Help You</h2>
+          <p className="mt-2">
+            Imagine easily condensing lengthy documents into concise summaries for quick understanding. Whether you're a student preparing for exams, an educator evaluating coursework, or a professional analyzing reports, Text Insights streamlines your workflow.
+          </p>
+        </div>
+
+        {/* Call to Action */}
+        <div className="mt-10">
+          <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+          <a href="/">Try Text Insights</a>
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

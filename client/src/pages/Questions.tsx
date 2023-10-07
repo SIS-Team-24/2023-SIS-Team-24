@@ -35,7 +35,7 @@ function Questions() {
   ];
 
   return (
-    <div className="mt-10">
+    <div>
       <NavigationBar />
 
       <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
