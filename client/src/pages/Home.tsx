@@ -12,13 +12,16 @@ import {
 function Home(this: any) {
   const [textInput, setTextInput] = useState("");
   const [inputValue, setInputValue] = useState<string>("");
-  const [sentimentText, setSentimentText] = useState("Neutral"); // "Positive", "Neutral", or "Negative"
+  const [sentimentTextPlaceholder, setSentimentPlaceholder] = useState("");
+  const [emotionalTextPlaceholder, setEmotionalPlaceholder] = useState("");
+  const [percent, setPercent] = useState("");
+  const [sentimentText, setSentimentText] = useState(""); // "Positive", "Neutral", or "Negative"
   const [sentimentScore, setSentimentScore] = useState(0); // Decimal value e.g. 0.97 for 97%
   const [selectedFont, setSelectedFont] = useState<string | null>(null);
   const [selectedSumLen, setSelectedSumLen] = useState<
     "short" | "default" | "long"
   >("default");
-  const [emotionLabel, setEmotionLabel] = useState("Not set"); // "Happy", "Sad", "angry"
+  const [emotionLabel, setEmotionLabel] = useState(""); // "Happy", "Sad", "angry"
   const [submitted, setSubmitted] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [wordCount, setWordCount] = useState(0);
@@ -143,19 +146,32 @@ function Home(this: any) {
 
   // Testing function to call Sentiment analysis fn...
   const getSentiment = () => {
-    const body = JSON.stringify({ text: inputValue });
-    fetch("/api/sentiment/process", { ...postRequestOptions, body })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setSentimentText(data.sentiment);
-        setSentimentScore(Math.round(data.score * 100));
-        setEmotionLabel(data.emotions.toString());
-      })
-      .catch((e) => {
-        // Log this error instead of showing on screen
-        console.log(`Call to /api/sentiment/process failed. Error: ${e}`);
-      });
+    if (inputValue.trim() === "") {
+      // When the input is empty
+      // set all the states if a user clicks on the sentiment button
+      // this should also hold true and follow thru too (the states which are set)
+      // when a user inputs something in the text box and clicks on it
+      setSentimentText("None");
+      setSentimentScore(0);
+      setEmotionLabel("Not set");
+      setSentimentPlaceholder("Sentiment analysis of the text is:");
+      setEmotionalPlaceholder("Emotional analysis result:");
+      setPercent("%");
+    } else {
+      const body = JSON.stringify({ text: inputValue });
+      fetch("/api/sentiment/process", { ...postRequestOptions, body })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setSentimentText(data.sentiment);
+          setSentimentScore(Math.round(data.score * 100));
+          setEmotionLabel(data.emotions.toString());
+        })
+        .catch((e) => {
+          // Log this error instead of showing on screen
+          console.log(`Call to /api/sentiment/process failed. Error: ${e}`);
+        });
+    }
   };
 
   const Capitalize = (input: string) => {
@@ -168,9 +184,10 @@ function Home(this: any) {
       <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
       <div className="flex justify-between mt-10 mx-60">
         <p className="flex items-baseline justify-start space-x-4 text-xl">
-          Sentiment analysis of the text is:
+          {sentimentTextPlaceholder}
           <span style={setSentimentStyle()} id="sentiment-result">
-            {sentimentText} {`${Number(sentimentScore)}%`}
+            {sentimentText !== "" &&
+              `${sentimentText} ${sentimentScore}${percent}`}
           </span>
         </p>
         <div className="flex gap-2">
@@ -256,7 +273,7 @@ function Home(this: any) {
       </div>
       <div>
         <p className="flex items-center justify-start space-x-4 text-xl mt-10 ml-60">
-          Emotion analysis result:
+          {emotionalTextPlaceholder}
           <span id="emotion-result" style={setEmotionStyle()}>
             {emotionLabel}
           </span>
@@ -276,7 +293,7 @@ function Home(this: any) {
                 style={{
                   fontFamily: selectedFont || "Open Sans",
                 }}
-                className="h-[568px] w-[547px] p-10 border-black border-2 border-solid resize-none"
+                className="h-[508px] w-[547px] p-10 border-black border-2 border-solid resize-none"
                 id="inputted-text"
                 value={inputValue}
                 spellCheck={true}
@@ -320,10 +337,10 @@ function Home(this: any) {
                   style={{
                     fontFamily: selectedFont || "Open Sans",
                     backgroundColor: "#f0f0f0",
-                    maxHeight: "568px",
+                    maxHeight: "508px",
                     overflowY: "auto",
                   }}
-                  className="h-[568px] w-[547px] p-10 border-black border-2 border-solid"
+                  className="h-[508px] w-[547px] p-10 border-black border-2 border-solid"
                   id="summary-result"
                 >
                   {isSummaryLoading ? (
@@ -341,10 +358,9 @@ function Home(this: any) {
               onClick={getSentiment}
               style={{
                 backgroundColor: "#2e7faa",
-                cursor: isButtonDisabled ? "not-allowed" : "pointer",
               }}
               className="mt-8 ml-52 py-2 px-4 text-white rounded"
-              disabled={isButtonDisabled}
+              // disabled={isButtonDisabled}
             >
               Sentiment
             </button>
