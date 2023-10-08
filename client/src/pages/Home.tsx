@@ -116,11 +116,13 @@ function Home(this: any) {
   // Testing function to call Summary analysis fn...
   const getSummary = async () => {
     setSubmitted(true);
-    console.log("submitted: " + submitted);
+    setSummaryLoading(true);
+    setSummaryError(false);
     const body = JSON.stringify({
       text: inputValue,
       summary_len_option: selectedSumLen,
     });
+    console.log("submitted: " + submitted);
     await fetch("/api/summary/process", { ...postRequestOptions, body })
       .then((response) => response.json())
       .then((data) => {
@@ -277,12 +279,13 @@ function Home(this: any) {
                 className="h-[568px] w-[547px] p-10 border-black border-2 border-solid resize-none"
                 id="inputted-text"
                 value={inputValue}
+                spellCheck={true}
                 onChange={(e) => {
                   handleInputChange(e);
                   const count = calcWordCount(e.target.value);
                   setWordCount(count);
                 }}
-                placeholder="Enter 100 words or more to summarise"
+                placeholder="Enter 100 words or more to summarise..."
               ></textarea>
             </div>
             <p>
