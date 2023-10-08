@@ -116,10 +116,3 @@ def extractive_summary(input_text:str):
 
     print("[server] Finished Extractive summary.")
     return final_summary 
-
-# TODO: delete after function finalisation...
-if __name__ == '__main__':
-    # Ensure input.txt exists in server/src for testing.
-    load_model()
-    with open('input.txt', 'r', errors='ignore', encoding='utf-8') as f:
-        print(get_summary(str(f.read()), "default"))

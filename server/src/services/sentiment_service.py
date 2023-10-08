@@ -64,11 +64,3 @@ def get_sentiment(input_text:str):
     emotions = [res['label'] for res in res_emotion]
     
     return {"sentiment": sentiment_map[res_sentiment["label"]], 'score': res_sentiment["score"], 'emotions':emotions}
-
-
-# TODO: delete after function finalisation...
-if __name__ == '__main__':
-    # Ensure input.txt exists in server/src for testing.
-    load_model()
-    with open('input.txt', 'r', errors='ignore') as f:
-        print(get_sentiment(str(f.read())))     
