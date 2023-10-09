@@ -145,35 +145,23 @@ function Home(this: any) {
 
   // Testing function to call Sentiment analysis fn...
   const getSentiment = () => {
-    if (inputValue.trim() === "") {
-      // When the input is empty
-      // set all the states if a user clicks on the sentiment button
-      // when a user inputs something in the text box and clicks on it
-      setSentimentText("None");
-      setSentimentScore(0);
-      setEmotionLabel("Not set");
-      setSentimentPlaceholder("Sentiment analysis of the text is:");
-      setEmotionalPlaceholder("Emotional analysis result:");
-    } else {
-      setSentimentText("None");
-      setSentimentScore(0);
-      setEmotionLabel("Not set");
-      setSentimentPlaceholder("Sentiment analysis of the text is:");
-      setEmotionalPlaceholder("Emotional analysis result:");
-      const body = JSON.stringify({ text: inputValue });
-      fetch("/api/sentiment/process", { ...postRequestOptions, body })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setSentimentText(data.sentiment);
-          setSentimentScore(Math.round(data.score * 100));
-          setEmotionLabel(data.emotions.toString());
-        })
-        .catch((e) => {
-          // Log this error instead of showing on screen
-          console.log(`Call to /api/sentiment/process failed. Error: ${e}`);
-        });
-    }
+    // set all the states if a user clicks on the sentiment button
+    // when a user inputs something in the text box and clicks on it
+    const body = JSON.stringify({ text: inputValue });
+    fetch("/api/sentiment/process", { ...postRequestOptions, body })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setSentimentPlaceholder("Sentiment analysis of the text is:");
+        setEmotionalPlaceholder("Emotional analysis result:");
+        setSentimentText(data.sentiment);
+        setSentimentScore(Math.round(data.score * 100));
+        setEmotionLabel(data.emotions.toString());
+      })
+      .catch((e) => {
+        // Log this error instead of showing on screen
+        console.log(`Call to /api/sentiment/process failed. Error: ${e}`);
+      });
   };
 
   const Capitalize = (input: string) => {
@@ -359,9 +347,10 @@ function Home(this: any) {
               onClick={getSentiment}
               style={{
                 backgroundColor: "#2e7faa",
+                cursor: isButtonDisabled ? "not-allowed" : "pointer",
               }}
               className="mt-8 ml-52 py-2 px-4 text-white rounded"
-              // disabled={isButtonDisabled}
+              disabled={isButtonDisabled}
             >
               Sentiment
             </button>
