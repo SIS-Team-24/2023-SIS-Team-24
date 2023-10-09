@@ -11,10 +11,10 @@ describe("Testing the Learn More Page", () => {
         cy.url().should("include", "learnmore");
 
         //   Check whether 6 questions exist
-        cy.get(".faq-question").should("have.length", 6);
+        cy.get(".faq-question").should("have.length", 7);
 
         //   Check whether 6 answers exist
-        cy.get(".faq-answer").should("have.length", 6);
+        cy.get(".faq-answer").should("have.length", 7);
 
         //   Check if all the 6 questions whether they exist
         cy.contains("What is Text Insights?").click();
