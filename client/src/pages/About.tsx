@@ -8,7 +8,7 @@ function About(this: any) {
       <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
       <div className="mx-auto max-w-2xl p-4 mt-10 text-center"> 
         <h1 className="text-3xl font-extrabold">About</h1> 
-        <p className="mt-4 text-sm font-bold">
+        <p id="AboutDesc" className="mt-4 text-sm font-bold">
           Text Insights is your go-to solution for harnessing the power of Natural
           Language Processing (NLP). Our product empowers users to effortlessly
           summarise and analyse text content, providing invaluable insights.
