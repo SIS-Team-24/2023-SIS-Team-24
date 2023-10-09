@@ -20,18 +20,13 @@ const NavigationBar = () => {
             </Link>
           </div>
           <div className="">
-            <Link to={"/learningMaterialSummary"} className="hover:underline">
-              Learning Material Summary
-            </Link>
-          </div>
-          <div className="">
             <Link to={"/history"} className="hover:underline">
               Summary History
             </Link>
           </div>
           <div className="">
-            <Link to={"/faq"} className="hover:underline">
-              Questions
+            <Link to={"/learnmore"} className="hover:underline">
+              Learn More
             </Link>
           </div>
           <div className="">
