@@ -14,7 +14,6 @@ function Home(this: any) {
   const [inputValue, setInputValue] = useState<string>("");
   const [sentimentTextPlaceholder, setSentimentPlaceholder] = useState("");
   const [emotionalTextPlaceholder, setEmotionalPlaceholder] = useState("");
-  const [percent, setPercent] = useState("");
   const [sentimentText, setSentimentText] = useState(""); // "Positive", "Neutral", or "Negative"
   const [sentimentScore, setSentimentScore] = useState(0); // Decimal value e.g. 0.97 for 97%
   const [selectedFont, setSelectedFont] = useState<string | null>(null);
@@ -149,15 +148,18 @@ function Home(this: any) {
     if (inputValue.trim() === "") {
       // When the input is empty
       // set all the states if a user clicks on the sentiment button
-      // this should also hold true and follow thru too (the states which are set)
       // when a user inputs something in the text box and clicks on it
       setSentimentText("None");
       setSentimentScore(0);
       setEmotionLabel("Not set");
       setSentimentPlaceholder("Sentiment analysis of the text is:");
       setEmotionalPlaceholder("Emotional analysis result:");
-      setPercent("%");
     } else {
+      setSentimentText("None");
+      setSentimentScore(0);
+      setEmotionLabel("Not set");
+      setSentimentPlaceholder("Sentiment analysis of the text is:");
+      setEmotionalPlaceholder("Emotional analysis result:");
       const body = JSON.stringify({ text: inputValue });
       fetch("/api/sentiment/process", { ...postRequestOptions, body })
         .then((response) => response.json())
@@ -186,8 +188,7 @@ function Home(this: any) {
         <p className="flex items-baseline justify-start space-x-4 text-xl">
           {sentimentTextPlaceholder}
           <span style={setSentimentStyle()} id="sentiment-result">
-            {sentimentText !== "" &&
-              `${sentimentText} ${sentimentScore}${percent}`}
+            {sentimentText !== "" && `${sentimentText} ${sentimentScore}%`}
           </span>
         </p>
         <div className="flex gap-2">
