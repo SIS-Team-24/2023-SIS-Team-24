@@ -10,8 +10,10 @@ from src.main import app
 @pytest.fixture(scope="module")
 def client():
     # "with" will cause event handlers ('startup' to load models) to run in the tests
+    print("here")
     with TestClient(app) as c:
         yield c
+    print("hello")
 
 # Define tests here
 
