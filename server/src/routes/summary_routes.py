@@ -16,8 +16,8 @@ def process_text(input_data: SummaryInputData):
     if not summary_len_option:
         raise HTTPException(status_code=400, detail="summary_len_option is required. The value is either 'short', 'long', or 'default'")
     try:
-        summary = summary_service.get_summary(text, summary_len_option)
-        return {"summary": summary}
+        result = summary_service.get_summary(text, summary_len_option)
+        return {"summary": result['summary'], "keywords": result['keywords']}  
     except Exception as e:
         # Whenever the backend sends a server error, frontend should render an appropriate error message.
         return HTTPException(status_code=500, detail="Server error: " + str(e))
