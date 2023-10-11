@@ -38,9 +38,10 @@ def test_fetch_emotion(client):
 # TODO: sentiment testing
 # def test_fetch_sentiment(client):
 
-# Medium length input (400 words) - tests the basic API call works, and we get a response that 'summarises', i.e. shorter than the input.
+# Medium length input (400 words) - tests the basic API call works, and we get a response length within the defined bounds.
 def test_fetch_summary_input_medium(client):
     from src.model.data_model import SummaryLengthOption
+    from src.services.common import get_token_count, AnalysisKind
     from test.summary_inputs.medium_len import text
 
     # Define the input data for testing
@@ -58,13 +59,18 @@ def test_fetch_summary_input_medium(client):
     # Assert the response has a summary component
     assert 'summary' in response.json()
 
-    # Assert the summary length is shorter than the input (can probably refine to a specific ratio, but hard based on tokens)
-    assert len(response.json()['summary']) < 0.8 * len(text)
+    # Get the token counts
+    num_input_tokens = get_token_count(text, AnalysisKind.SUMMARY)
+    num_output_tokens = get_token_count(response.json()['summary'], AnalysisKind.SUMMARY)
+
+    # Assert the summary length is within min/max token range for summary_len_option
+    assert num_output_tokens > num_input_tokens // 4 and num_output_tokens < num_input_tokens // 2
 
 
-# Short length input (100 words) - tests the basic API call works, and we get a response that 'summarises', i.e. shorter than the input.
+# Short length input (100 words) - tests the basic API call works, and we get a response length within the defined bounds.
 def test_fetch_summary_input_short(client):
     from src.model.data_model import SummaryLengthOption
+    from src.services.common import get_token_count, AnalysisKind
     from test.summary_inputs.short_len import text
 
     # Define the input data for testing
@@ -82,13 +88,18 @@ def test_fetch_summary_input_short(client):
     # Assert the response has a summary component
     assert 'summary' in response.json()
 
-    # Assert the summary length is shorter than the input (can probably refine to a specific ratio, but hard based on tokens)
-    assert len(response.json()['summary']) < 0.8 * len(text)
+    # Get the token counts
+    num_input_tokens = get_token_count(text, AnalysisKind.SUMMARY)
+    num_output_tokens = get_token_count(response.json()['summary'], AnalysisKind.SUMMARY)
+
+    # Assert the summary length is within min/max token range for summary_len_option
+    assert num_output_tokens > num_input_tokens // 4 and num_output_tokens < num_input_tokens // 2
 
 
-# Medium length input (1000 words) - tests the basic API call works, and we get a response that 'summarises', i.e. shorter than the input.
+# Long length input (1000 words) - tests the basic API call works, and we get a response length within the defined bounds.
 def test_fetch_summary_input_long(client):
     from src.model.data_model import SummaryLengthOption
+    from src.services.common import get_token_count, AnalysisKind
     from test.summary_inputs.long_len import text
 
     # Define the input data for testing
@@ -106,7 +117,11 @@ def test_fetch_summary_input_long(client):
     # Assert the response has a summary component
     assert 'summary' in response.json()
 
-    # Assert the summary length is shorter than the input (can probably refine to a specific ratio, but hard based on tokens)
-    assert len(response.json()['summary']) < 0.8 * len(text)
+    # Get the token counts
+    num_input_tokens = get_token_count(text, AnalysisKind.SUMMARY)
+    num_output_tokens = get_token_count(response.json()['summary'], AnalysisKind.SUMMARY)
+
+    # Assert the summary length is within min/max token range for summary_len_option
+    assert num_output_tokens > num_input_tokens // 4 and num_output_tokens < num_input_tokens // 2
 
 # TODO: Add futher tests for summary (i.e. performance testing, testing length ratios, testing summary length options, testing accuracy or expected outcomes)
