@@ -1,3 +1,5 @@
+# 400 words from ChatGPT
+
 text = """Once upon a shimmering dawn in Elmridge, a quiet village nestled within emerald valleys, lived Emma, a skilled potter known for crafting exquisite, magical pottery. Emma's creations possessed a unique allure, echoing with whispers of ancient tales and secret lore held within the clay.
 
 Emma's workshop, a cozy, sun-kissed nook, buzzed with ethereal energy, and her hands danced gracefully over the wheel, conjuring vessels of unparalleled beauty. The magic wove delicate threads of resilience and love into each piece, blessing recipients with good fortune and joy.
