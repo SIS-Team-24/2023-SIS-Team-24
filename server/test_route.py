@@ -35,8 +35,29 @@ def test_fetch_emotion(client):
 
 # You can add more test functions for different scenarios
 
-# TODO: sentiment testing
-# def test_fetch_sentiment(client):
+# Sentiment testing
+def test_fetch_sentiment(client):
+    # Define the input data for testing
+    input_data = {"text": "I am happy."}
+
+    # Test case for a successful POST request to /api/sentiment/process
+    response = client.post("/api/sentiment/process", json=input_data)
+
+    # Assert the response status code is 200 OK (or the desired status code)
+    assert response.status_code == 200
+
+    # Assert the response contains expected data or structure
+    # You can assert specific JSON keys or the response structure based on your API
+    assert "sentiment" in response.json()
+    assert "score" in response.json()
+
+    # Assert that 'sentiment' = "Positive"
+    expected_sentiment = "Positive"
+    assert response.json()["sentiment"] and response.json()["sentiment"] == expected_sentiment
+
+    # Assert that 'score' = {exact decimal}
+    expected_score = 0.9796596169471741
+    assert response.json()["score"] and response.json()["score"] == expected_score
 
 # TODO: summary testing
 # def test_fetch_summary(client):
