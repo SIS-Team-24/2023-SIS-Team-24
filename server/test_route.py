@@ -38,5 +38,90 @@ def test_fetch_emotion(client):
 # TODO: sentiment testing
 # def test_fetch_sentiment(client):
 
-# TODO: summary testing
-# def test_fetch_summary(client):
+# Medium length input (400 words) - tests the basic API call works, and we get a response length within the defined bounds.
+def test_fetch_summary_input_medium(client):
+    from src.model.data_model import SummaryLengthOption
+    from src.services.common import get_token_count, AnalysisKind
+    from test.summary_inputs.medium_len import text
+
+    # Define the input data for testing
+    input_data = {
+        "text": text,
+        "summary_len_option": SummaryLengthOption.DEFAULT.value
+        }
+
+    # Test case for a successful POST request to /api/summary/process
+    response = client.post("/api/summary/process", json=input_data)
+
+    # Assert the response status code is 200 OK (or the desired status code)
+    assert response.status_code == 200
+
+    # Assert the response has a summary component
+    assert 'summary' in response.json()
+
+    # Get the token counts
+    num_input_tokens = get_token_count(text, AnalysisKind.SUMMARY)
+    num_output_tokens = get_token_count(response.json()['summary'], AnalysisKind.SUMMARY)
+
+    # Assert the summary length is within min/max token range for summary_len_option
+    assert num_output_tokens > num_input_tokens // 4 and num_output_tokens < num_input_tokens // 2
+
+
+# Short length input (100 words) - tests the basic API call works, and we get a response length within the defined bounds.
+def test_fetch_summary_input_short(client):
+    from src.model.data_model import SummaryLengthOption
+    from src.services.common import get_token_count, AnalysisKind
+    from test.summary_inputs.short_len import text
+
+    # Define the input data for testing
+    input_data = {
+        "text": text,
+        "summary_len_option": SummaryLengthOption.DEFAULT.value
+        }
+
+    # Test case for a successful POST request to /api/summary/process
+    response = client.post("/api/summary/process", json=input_data)
+
+    # Assert the response status code is 200 OK (or the desired status code)
+    assert response.status_code == 200
+
+    # Assert the response has a summary component
+    assert 'summary' in response.json()
+
+    # Get the token counts
+    num_input_tokens = get_token_count(text, AnalysisKind.SUMMARY)
+    num_output_tokens = get_token_count(response.json()['summary'], AnalysisKind.SUMMARY)
+
+    # Assert the summary length is within min/max token range for summary_len_option
+    assert num_output_tokens > num_input_tokens // 4 and num_output_tokens < num_input_tokens // 2
+
+
+# Long length input (1000 words) - tests the basic API call works, and we get a response length within the defined bounds.
+def test_fetch_summary_input_long(client):
+    from src.model.data_model import SummaryLengthOption
+    from src.services.common import get_token_count, AnalysisKind
+    from test.summary_inputs.long_len import text
+
+    # Define the input data for testing
+    input_data = {
+        "text": text,
+        "summary_len_option": SummaryLengthOption.DEFAULT.value
+        }
+
+    # Test case for a successful POST request to /api/summary/process
+    response = client.post("/api/summary/process", json=input_data)
+
+    # Assert the response status code is 200 OK (or the desired status code)
+    assert response.status_code == 200
+
+    # Assert the response has a summary component
+    assert 'summary' in response.json()
+
+    # Get the token counts
+    num_input_tokens = get_token_count(text, AnalysisKind.SUMMARY)
+    num_output_tokens = get_token_count(response.json()['summary'], AnalysisKind.SUMMARY)
+
+    # Assert the summary length is within min/max token range for summary_len_option
+    assert num_output_tokens > num_input_tokens // 4 and num_output_tokens < num_input_tokens // 2
+
+# TODO: Add futher tests for summary (i.e. performance testing, testing length ratios, testing summary length options, testing accuracy or expected outcomes)
