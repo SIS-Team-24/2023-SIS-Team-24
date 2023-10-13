@@ -173,13 +173,16 @@ function Home(this: any) {
       <NavigationBar />
       <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
       <div className="flex justify-between mt-10 mx-60">
+        {/* Sentiment text start */}
         <p className="flex items-baseline justify-start space-x-4 text-xl">
           {sentimentTextPlaceholder}
           <span style={setSentimentStyle()} id="sentiment-result">
             {sentimentText !== "" && `${sentimentText} ${sentimentScore}%`}
           </span>
         </p>
+        {/* Sentiment text end */}
         <div className="flex gap-2">
+          {/* Summary length start */}
           <div className="group relative">
             <button className="bg-gray-300 text-gray-700 py-4 px-6 rounded inline-flex items-center group">
               <span className="mr-1">{Capitalize(selectedSumLen)} summary</span>
@@ -218,7 +221,9 @@ function Home(this: any) {
               </li>
             </ul>
           </div>
+          {/* Summary length end */}
 
+          {/* Change font start */}
           <div className="group relative">
             <button className="bg-gray-300 text-gray-700 py-4 px-6 rounded inline-flex items-center group">
               <span className="mr-1">Change Font</span>
@@ -258,8 +263,12 @@ function Home(this: any) {
               </ul>
             </div>
           </div>
+
+          {/* Change font end */}
         </div>
       </div>
+      {/* end */}
+      {/* start */}
       <div>
         <p className="flex items-center justify-start space-x-4 text-xl mt-10 ml-60">
           {emotionalTextPlaceholder}
@@ -268,6 +277,7 @@ function Home(this: any) {
           </span>
         </p>
       </div>
+      {/* end */}
       <div className="flex justify-center gap-5 p-10">
         {/* Left text box */}
         <div className="text-box" style={{ position: "relative" }}>
@@ -298,6 +308,7 @@ function Home(this: any) {
               Word Count: {wordCount} {wordCount === 1 ? "word" : "words"}
             </p>
           </div>
+          {/* Summarise button start*/}
           <button
             id="summarise-button-id"
             onClick={getSummary}
@@ -311,6 +322,7 @@ function Home(this: any) {
           >
             Summarise
           </button>
+          {/* Summarise button end */}
         </div>
 
         {/* Right text box */}
@@ -321,6 +333,7 @@ function Home(this: any) {
                 {" "}
                 <i>Summarised Text: </i>
               </label>
+              {/* Summary  */}
               <div>
                 <p
                   style={{
@@ -342,6 +355,7 @@ function Home(this: any) {
                 </p>
               </div>
             </div>
+            {/* Sentiment button start */}
             <button
               id="sentiment-button"
               onClick={getSentiment}
@@ -354,8 +368,10 @@ function Home(this: any) {
             >
               Sentiment
             </button>
+            {/* Sentiment button end */}
           </div>
         </div>
+        {/* Right text box end*/}
       </div>
     </div>
   );
