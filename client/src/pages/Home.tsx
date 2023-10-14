@@ -175,72 +175,27 @@ function Home(this: any) {
       {/* Navigation Bar end */}
       <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
       <div className="container mx-auto m-8 ">
-        <div className="max-w-[747px]">
-          <div className="flex">
-            {/* Left text box start */}
-            <div className="text-box">
-              <div>
-                <label htmlFor="inputtedField">
-                  <i>Text to be Summarised:</i>
-                </label>
-              </div>
-              <div>
-                <textarea
-                  style={{
-                    fontFamily: selectedFont || "Open Sans",
-                  }}
-                  className="h-[268px] w-[747px] p-5 border-black border-2 border-solid resize-none"
-                  id="inputted-text"
-                  value={inputValue}
-                  spellCheck={true}
-                  onChange={(e) => {
-                    handleInputChange(e);
-                    const count = calcWordCount(e.target.value);
-                    setWordCount(count);
-                  }}
-                  placeholder="Enter 100 words or more to summarise..."
-                ></textarea>
-              </div>
-              <p className="ml-1">
-                Word Count: {wordCount} {wordCount === 1 ? "word" : "words"}
-              </p>
-              {/* Summarise button start*/}
-              <button
-                id="summarise-button-id"
-                onClick={getSummary}
-                style={{
-                  backgroundColor: "#2e7faa",
-                  cursor: isButtonDisabled ? "not-allowed" : "pointer",
-                }}
-                className="mt-4 ml-44 py-2 px-4 text-white rounded"
-                disabled={isButtonDisabled}
-                title="Enter 100 words to summarise it"
-              >
-                Summarise
-              </button>
-              {/* Summarise button end */}
-              {/* Sentiment button start */}
-              <button
-                id="sentiment-button"
-                onClick={getSentiment}
-                style={{
-                  backgroundColor: "#2e7faa",
-                  cursor: isButtonDisabled ? "not-allowed" : "pointer",
-                }}
-                className="mt-4 ml-32 py-2 px-4 text-white rounded"
-                disabled={isButtonDisabled}
-              >
-                Sentiment
-              </button>
-              {/* Sentiment button end */}
-            </div>
-            {/* Left text box end */}
+        <div className="w-[747px]">
+          <div className="flex justify-end">
+            {/* Summarise button start*/}
+            <button
+              id="summarise-button-id"
+              onClick={getSummary}
+              style={{
+                backgroundColor: "#2e7faa",
+                cursor: isButtonDisabled ? "not-allowed" : "pointer",
+              }}
+              className="py-2 px-4 mr-6 text-white rounded"
+              disabled={isButtonDisabled}
+              title="Enter 100 words to summarise it"
+            >
+              Summarise
+            </button>
+            {/* Summarise button end */}
             {/* Summary length start */}
-            <div className="group relative m-6">
+            <div className="group relative">
               <button className="bg-gray-300 text-gray-700 py-2 px-6 rounded inline-flex items-center group">
-                <span className="mr-1">
-                  {Capitalize(selectedSumLen)} summary
-                </span>
+                <span className="">{Capitalize(selectedSumLen)} summary</span>
                 <svg
                   className="fill-current h-4 w-4 group-hover:rotate-180 transition-transform"
                   xmlns="http://www.w3.org/2000/svg"
@@ -277,9 +232,65 @@ function Home(this: any) {
               </ul>
             </div>
             {/* Summary length end */}
-            <div className="group relative m-6">
+          </div>
+          <div className="flex">
+            {/* Left text box start */}
+            <div className="text-box">
+              <div>
+                <label htmlFor="inputtedField">
+                  <i>Text to be Summarised:</i>
+                </label>
+              </div>
+              <div className="flex flex-row">
+                <textarea
+                  style={{
+                    fontFamily: selectedFont || "Open Sans",
+                  }}
+                  className="h-[268px] w-[747px] p-5 border-black border-2 border-solid resize-none"
+                  id="inputted-text"
+                  value={inputValue}
+                  spellCheck={true}
+                  onChange={(e) => {
+                    handleInputChange(e);
+                    const count = calcWordCount(e.target.value);
+                    setWordCount(count);
+                  }}
+                  placeholder="Enter 100 words or more to summarise..."
+                ></textarea>
+                <div>
+                  <p className="flex flex-col ml-36 items-start text-xl ">
+                    <div>{emotionalTextPlaceholder}</div>
+                    <span id="emotion-result" style={setEmotionStyle()}>
+                      {emotionLabel}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <p className="ml-1">
+                Word Count: {wordCount} {wordCount === 1 ? "word" : "words"}
+              </p>
+            </div>
+            {/* Left text box end */}
+          </div>
+
+          <div className="flex justify-end">
+            {/* Sentiment button start */}
+            <button
+              id="sentiment-button"
+              onClick={getSentiment}
+              style={{
+                backgroundColor: "#2e7faa",
+                cursor: isButtonDisabled ? "not-allowed" : "pointer",
+              }}
+              className="py-2 px-4 mr-16 text-white rounded"
+              disabled={isButtonDisabled}
+            >
+              Sentiment
+            </button>
+            {/* Sentiment button end */}
+            <div className="group relative">
               <button className="bg-gray-300 text-gray-700 py-2 px-6 rounded inline-flex items-center group">
-                <span className="mr-1">Change Font</span>
+                <span className="">Change Font</span>
                 <svg
                   className="fill-current h-4 w-4 group-hover:rotate-180 transition-transform"
                   xmlns="http://www.w3.org/2000/svg"
@@ -317,7 +328,6 @@ function Home(this: any) {
               </div>
             </div>
           </div>
-
           {/* Right text box */}
           <div className="text-box">
             <div>
