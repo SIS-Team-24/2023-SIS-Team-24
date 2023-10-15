@@ -1,5 +1,7 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { pdfjs } from 'react-pdf';
+import { getDocument, PDFDocumentProxy } from 'pdfjs-dist';
 import NavigationBar from "./NavigationBar";
 import Spinner from "./Spinner";
 import {
@@ -26,6 +28,7 @@ function Home(this: any) {
   const [wordCount, setWordCount] = useState(0);
   const [isSummaryLoading, setSummaryLoading] = useState(false);
   const [isSummaryError, setSummaryError] = useState(false);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const setSentimentStyle = () => {
     switch (sentimentText) {
@@ -168,6 +171,69 @@ function Home(this: any) {
     return input.charAt(0).toUpperCase() + input.slice(1);
   };
 
+  // Handle PDF input
+  const handlePDFDrop = async (e: React.DragEvent<HTMLTextAreaElement>) => {
+    // Specify the PDF.js worker path
+    pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+
+    if (file.type !== "application/pdf") {
+      alert("Only PDFs are allowed.");
+      return;
+    }
+
+    try {
+      const pdf = await getDocument(URL.createObjectURL(file)).promise;
+      let content = "";
+
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const pageContent = await page.getTextContent();
+        
+        // Handle some parsing errors due to how PDF extracts whitespace in text (would be random whitespace without below)
+        let lastItem = pageContent.items[0] as any;
+
+        if ("str" in lastItem) {
+          content += lastItem.str;
+  
+          for (let j = 1; j < pageContent.items.length; j++) {
+            const currentItem = pageContent.items[j] as any;
+  
+            if ("str" in currentItem) {
+              const isSameLine = Math.abs(lastItem.transform[5] - currentItem.transform[5]) < 5; // y-coordinate
+              const isContinuous = (currentItem.transform[4] - (lastItem.transform[4] + lastItem.width)) < 2; // x-coordinate
+              
+              if (isSameLine && isContinuous) {
+                content += currentItem.str;
+              } else {
+                content += ` ${currentItem.str}`;
+              }
+            }
+  
+            lastItem = currentItem;
+          }
+        }  
+      }
+
+      content = cleanExtractedContent(content); 
+      setInputValue(content);
+      const count = calcWordCount(content);
+      setWordCount(count);
+
+    } catch (error) {
+      console.error("Error reading PDF:", error);
+      alert("Error processing PDF. Please try again.");
+    }
+  };
+
+  const cleanExtractedContent = (content: string) => {
+    content = content.replace(/-\s+/g, ""); // Handle hyphens at the end of lines
+    content = content.replace(/\s+/g, " "); // Normalize spaces to single spaces
+    return content.trim(); // Trim any spaces at the start or end
+  };
+
   return (
     <div>
       <NavigationBar />
@@ -291,6 +357,13 @@ function Home(this: any) {
                   const count = calcWordCount(e.target.value);
                   setWordCount(count);
                 }}
+                // PDF Input handlers
+                ref={textAreaRef}
+                onDrop={(e) => {
+                  handlePDFDrop(e);
+                  handleInputChange(e);
+                }}
+                onDragOver={(e) => e.preventDefault()}
                 placeholder="Enter 100 words or more to summarise..."
               ></textarea>
             </div>
