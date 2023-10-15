@@ -357,24 +357,44 @@ function Home(this: any) {
           </div>
         </div>
         {/* Emotional analysis & Sentiment analysis result */}
-        <div className=" mt-5 flex flex-col">
-          <div>
-            <p className="flex items-center justify-start space-x-4 text-xl ">
-              {emotionalTextPlaceholder}
-              <span id="emotion-result" style={setEmotionStyle()}>
-                {emotionLabel}
-              </span>
-            </p>
+        <div className="flex flex-col justify-center">
+          <div className="mb-8">
+            <div>
+              <p className="flex items-center justify-start space-x-4 text-xl ">
+                {emotionalTextPlaceholder}
+                <span id="emotion-result" style={setEmotionStyle()}>
+                  {emotionLabel}
+                </span>
+              </p>
+            </div>
+            <div>
+              {/* Sentiment text start */}
+              <p className="flex items-baseline justify-start space-x-4 text-xl">
+                {sentimentTextPlaceholder}
+                <span style={setSentimentStyle()} id="sentiment-result">
+                  {sentimentText !== "" &&
+                    `${sentimentText} ${sentimentScore}%`}
+                </span>
+              </p>
+              {/* Sentiment text end */}
+            </div>
           </div>
-          <div>
-            {/* Sentiment text start */}
-            <p className="flex items-baseline justify-start space-x-4 text-xl">
-              {sentimentTextPlaceholder}
-              <span style={setSentimentStyle()} id="sentiment-result">
-                {sentimentText !== "" && `${sentimentText} ${sentimentScore}%`}
-              </span>
-            </p>
-            {/* Sentiment text end */}
+          <div className="">
+            <div className="w-[268px]">
+              <p
+                className="h-[268px] w-[368px] p-5 border-black border-2 border-solid"
+                id="summary-result"
+              ></p>
+            </div>
+          </div>
+
+          <div className="mt-14">
+            <div className="w-[268px]">
+              <p
+                className="h-[268px] w-[368px] p-5 border-black border-2 border-solid"
+                id="summary-result"
+              ></p>
+            </div>
           </div>
         </div>
         {/* Emotional analysis & Sentiment analysis end */}
