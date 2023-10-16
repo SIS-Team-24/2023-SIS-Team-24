@@ -326,7 +326,16 @@ function Home(this: any) {
                     const count = calcWordCount(e.target.value);
                     setWordCount(count);
                   }}
-                  placeholder="Enter 100 words or more to summarise..."
+                  // PDF Input handlers
+                  ref={textAreaRef}
+                  onDrop={(e) => {
+                    handlePDFDrop(e);
+                    handleInputChange(e);
+                  }}
+                  onDragOver={(e) => e.preventDefault()}
+                  placeholder=" Enter 100 words or more to summarise...
+                                ──────────── OR ────────────
+                                Drag and drop a PDF file to use as input..."
                 ></textarea>
               </div>
               <p className="ml-1">
