@@ -13,11 +13,12 @@ numberOfKeywords = 10
 
 # Load the machine learning model during app startup
 def load_model():
-    global summarizer, nlp, model_name
+    global summarizer, nlp_short, nlp_long, model_name
     model_name = "facebook/bart-large-cnn" # Source: https://huggingface.co/facebook/bart-large-cnn
     summarizer = pipeline("summarization", model_name)
     print(f"[server] Loaded Summary Model {model_name} in {os.path.basename(__file__)}")
-    nlp = spacy.load('en_core_web_trf')
+    nlp_short = spacy.load('en_core_web_trf')
+    nlp_long = spacy.load('en_core_web_sm')
     print(f"[server] Loaded spaCy in {os.path.basename(__file__)}")
     load_summary_token_counter(model_name)
     print("[server] Loaded Summary token counter")
@@ -34,12 +35,16 @@ def get_summary(input_text:str, summary_len_option=SummaryLengthOption.DEFAULT) 
     # Get the token length of input, according to summarisation model
     token_len = get_token_count(input_text, AnalysisKind.SUMMARY)
 
+
+    # Specify the NLP model based on input length
+    nlp = nlp_short if token_len < 5000 else nlp_long
+    
     # Arr for keywords
     keywords = []
 
     # If token_len > 1024, perform extractive summary to get the most meaningful sentences
     if token_len > 1024:
-        result = extractive_summary(input_text)
+        result = extractive_summary(input_text, token_len)
         text_to_analyse = result['summary']
         keywords = result['keywords']
         token_len = get_token_count(text_to_analyse, AnalysisKind.SUMMARY)
@@ -93,7 +98,9 @@ def count_keywords(doc:str):
     return keywords
 
 # Use Extractive summary to cap the inputted text to 1024 tokens to allow abstractive summarisation.
-def extractive_summary(input_text:str) ->  SummaryKeywordOutput:
+def extractive_summary(input_text:str, token_len:int) ->  SummaryKeywordOutput:
+    nlp = nlp_short if token_len < 5000 else nlp_long
+
     # Step 1: Get the text
     doc = nlp(' '.join(input_text.splitlines()))
 
