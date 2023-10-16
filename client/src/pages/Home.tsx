@@ -322,6 +322,13 @@ function Home(this: any) {
                       const count = calcWordCount(e.target.value);
                       setWordCount(count);
                     }}
+                    // PDF Input handlers
+                    ref={textAreaRef}
+                    onDrop={(e) => {
+                      handlePDFDrop(e);
+                      handleInputChange(e);
+                    }}
+                    onDragOver={(e) => e.preventDefault()}
                     placeholder="Enter 100 words or more to summarise..."
                   ></textarea>
                 </div>
