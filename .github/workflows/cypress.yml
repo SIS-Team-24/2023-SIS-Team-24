@@ -34,7 +34,7 @@ jobs:
         run: npm install --peer
       
       - name: Install server dependencies
-        run: pip install -r server/requirements.txt && python3 -m spacy download 'en_core_web_trf'
+        run: pip install -r server/requirements.txt && python3 -m spacy download 'en_core_web_trf' && python3 -m spacy download 'en_core_web_sm'
 
       - name: Start a server for frontend and backend
         run: |
