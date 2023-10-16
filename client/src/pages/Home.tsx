@@ -195,7 +195,7 @@ function Home(this: any) {
         // Handle some parsing errors due to how PDF extracts whitespace in text (would be random whitespace without below)
         let lastItem = pageContent.items[0] as any;
 
-        if ("str" in lastItem) {
+        if (lastItem && "str" in lastItem) {
           content += lastItem.str;
   
           for (let j = 1; j < pageContent.items.length; j++) {
