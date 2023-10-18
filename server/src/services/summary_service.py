@@ -35,6 +35,7 @@ def get_summary(input_text:str, summary_len_option=SummaryLengthOption.DEFAULT) 
     # Get the token length of input, according to summarisation model
     token_len = get_token_count(input_text, AnalysisKind.SUMMARY)
 
+
     # Specify the NLP model based on input length
     nlp = nlp_short if token_len < 5000 else nlp_long
     
