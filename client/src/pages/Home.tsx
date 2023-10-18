@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { pdfjs } from 'react-pdf';
 import { getDocument } from 'pdfjs-dist';
 import NavigationBar from "./NavigationBar";
-import Spinner from "./Spinner";
+import Spinner from "../components/Spinner";
+import ShareButton from '../components/ShareButton';
 import { getStateFromUrl, generateSharableUrl, serializeState } from "./../statePreservationUtils";
 import {
   addToHistory,
@@ -821,13 +822,7 @@ function Home(this: any) {
             </div>
           </div>
         {/* Share URL button*/}
-        <button 
-            style={{ backgroundColor: "#2e7faa" }}
-            className="py-2 px-4 text-white rounded flex items-center justify-center" 
-            onClick={(e) => shareURL(e)}>
-            Share URL
-            <img src='/share-icon.png' alt="Share" className="ml-3 w-4 h-4 transform scale-150" />
-        </button>
+        <ShareButton onClickFunction={(e) => shareURL(e)} />
         </div>
         {/* Emotional analysis & Sentiment analysis end */}
       </div>
