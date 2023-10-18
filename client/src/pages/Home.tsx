@@ -313,6 +313,8 @@ function Home(this: any) {
       setWordCount(initialStateFromUrl.wordCount || 0);
       setSentimentPlaceholder(initialStateFromUrl.sentimentTextPlaceholder || "");
       setEmotionalPlaceholder(initialStateFromUrl.emotionalTextPlaceholder || "");
+      setSentimentText(initialStateFromUrl.sentimentText ?? "");
+      setSentimentScore(initialStateFromUrl.sentimentScore ?? "");
       setKeywords(initialStateFromUrl.keywords || {});
       setEmotionLabel(initialStateFromUrl.emotionLabel || "");
       setSelectedFont(initialStateFromUrl.selectedFont || "");
@@ -327,6 +329,8 @@ function Home(this: any) {
       wordCount,
       sentimentTextPlaceholder,
       emotionalTextPlaceholder,
+      sentimentText,
+      sentimentScore,
       keywords,
       emotionLabel,
       selectedFont,
@@ -337,7 +341,7 @@ function Home(this: any) {
     // Update the URL without adding a new history entry
     window.history.replaceState(null, "", newUrl);
   },
-  [textInput, inputValue, wordCount, sentimentTextPlaceholder, emotionalTextPlaceholder, keywords, emotionLabel, selectedFont]);
+  [textInput, inputValue, wordCount, sentimentTextPlaceholder, emotionalTextPlaceholder, sentimentText, sentimentScore, keywords, emotionLabel, selectedFont]);
 
   useEffect(() => {
     // Calculate word count when inputValue changes
@@ -490,6 +494,8 @@ function Home(this: any) {
         wordCount,
         sentimentTextPlaceholder,
         emotionalTextPlaceholder,
+        sentimentText,
+        sentimentScore,
         keywords,
         emotionLabel,
         selectedFont
