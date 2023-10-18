@@ -310,38 +310,6 @@ function Home(this: any) {
       // Set the states from the URL
       setTextInput(initialStateFromUrl.textInput || "");
       setInputValue(initialStateFromUrl.inputValue || "");
-      setSentimentPlaceholder(initialStateFromUrl.sentimentTextPlaceholder || "");
-      setEmotionalPlaceholder(initialStateFromUrl.emotionalTextPlaceholder || "");
-      setKeywords(initialStateFromUrl.keywords || {});
-      setEmotionLabel(initialStateFromUrl.emotionLabel || "");
-    }
-  }, []);
-
-  // Serialize the current state into the URL (make sure this comes after the initial loading)
-  useEffect(() => {
-    const currentState = {
-      textInput,
-      inputValue,
-      sentimentTextPlaceholder,
-      emotionalTextPlaceholder,
-      keywords,
-      emotionLabel,
-    };
-    const serializedState = serializeState(currentState);
-    const newUrl = `${window.location.origin}${window.location.pathname}?state=${serializedState}`;
-
-    // Update the URL without adding a new history entry
-    window.history.replaceState(null, "", newUrl);
-  },
-  [textInput, inputValue, sentimentTextPlaceholder, emotionalTextPlaceholder, keywords, emotionLabel]);
-
-  // Load the initial state from the URL (if the URL has encoded any state)
-  useEffect(() => {
-    const initialStateFromUrl = getStateFromUrl();
-    if (initialStateFromUrl) {
-      // Set the states from the URL
-      setTextInput(initialStateFromUrl.textInput || "");
-      setInputValue(initialStateFromUrl.inputValue || "");
       setWordCount(initialStateFromUrl.wordCount || 0);
       setSentimentPlaceholder(initialStateFromUrl.sentimentTextPlaceholder || "");
       setEmotionalPlaceholder(initialStateFromUrl.emotionalTextPlaceholder || "");
