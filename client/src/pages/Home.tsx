@@ -103,10 +103,12 @@ function Home(this: any) {
       // Set the states from the URL
       setTextInput(initialStateFromUrl.textInput || "");
       setInputValue(initialStateFromUrl.inputValue || "");
+      setWordCount(initialStateFromUrl.wordCount || 0);
       setSentimentPlaceholder(initialStateFromUrl.sentimentTextPlaceholder || "");
       setEmotionalPlaceholder(initialStateFromUrl.emotionalTextPlaceholder || "");
       setKeywords(initialStateFromUrl.keywords || {});
       setEmotionLabel(initialStateFromUrl.emotionLabel || "");
+      setSelectedFont(initialStateFromUrl.selectedFont || "");
     }
   }, []);
 
@@ -115,10 +117,12 @@ function Home(this: any) {
     const currentState = {
       textInput,
       inputValue,
+      wordCount,
       sentimentTextPlaceholder,
       emotionalTextPlaceholder,
       keywords,
       emotionLabel,
+      selectedFont,
     };
     const serializedState = serializeState(currentState);
     const newUrl = `${window.location.origin}${window.location.pathname}?state=${serializedState}`;
@@ -126,7 +130,7 @@ function Home(this: any) {
     // Update the URL without adding a new history entry
     window.history.replaceState(null, "", newUrl);
   },
-  [textInput, inputValue, sentimentTextPlaceholder, emotionalTextPlaceholder, keywords, emotionLabel]);
+  [textInput, inputValue, wordCount, sentimentTextPlaceholder, emotionalTextPlaceholder, keywords, emotionLabel, selectedFont]);
 
   useEffect(() => {
     // Calculate word count when inputValue changes
@@ -276,10 +280,12 @@ function Home(this: any) {
     const currentState = {
         textInput,
         inputValue,
+        wordCount,
         sentimentTextPlaceholder,
         emotionalTextPlaceholder,
         keywords,
         emotionLabel,
+        selectedFont
     };
     const sharableLink = generateSharableUrl(currentState);
 

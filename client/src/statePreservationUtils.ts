@@ -1,7 +1,6 @@
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from "lz-string";
 
 export const serializeState = (state: any) => {
-  console.log(state)
   const jsonString = JSON.stringify(state);
   return compressToEncodedURIComponent(jsonString);
 };
