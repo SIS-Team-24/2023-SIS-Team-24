@@ -359,7 +359,7 @@ function Home(this: any) {
         setKeywords(data.keywords);
         addToHistory({ summary: data.summary });
 
-        setIsCopyButtonDisabled(data.summary === "");
+        setIsCopyButtonDisabled(!data.summary || data.summary === "");
       })
       .catch((e) => {
         // Log this error instead of showing on screen
@@ -664,10 +664,10 @@ function Home(this: any) {
         onClick={copyTextToClipboard}
         style={{
           backgroundColor: "#2e7faa",
-          cursor: isButtonDisabled ? "not-allowed" : "pointer",
+          cursor: isCopyButtonDisabled ? "not-allowed" : "pointer",
         }}
         className="py-2 px-4 mr-16 text-white rounded"
-        disabled={isButtonDisabled}
+        disabled={isCopyButtonDisabled}
       >
         Copy Text to Clipboard
       </button>
