@@ -25,11 +25,26 @@ function Home(this: any) {
   const [emotionLabel, setEmotionLabel] = useState(""); // "Happy", "Sad", "angry"
   const [submitted, setSubmitted] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isCopyButtonDisabled, setIsCopyButtonDisabled] = useState(true);
   const [wordCount, setWordCount] = useState(0);
   const [isSummaryLoading, setSummaryLoading] = useState(false);
   const [isSummaryError, setSummaryError] = useState(false);
   const [keywords, setKeywords] = useState<{ [k: string]: number }>({});
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  
+  const copyTextToClipboard = () => {
+    const summarisedText = document.getElementById("summary-result");
+    if (summarisedText) {
+      const textToCopy = summarisedText.innerText;
+      const textArea = document.createElement("textarea");
+      textArea.value = textToCopy;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      alert("Summarised text copied to clipboard!");
+    }
+  };
 
   const setSentimentStyle = () => {
     switch (sentimentText) {
@@ -343,6 +358,8 @@ function Home(this: any) {
         setTextInput(data.summary);
         setKeywords(data.keywords);
         addToHistory({ summary: data.summary });
+
+        setIsCopyButtonDisabled(data.summary === "");
       })
       .catch((e) => {
         // Log this error instead of showing on screen
@@ -640,8 +657,24 @@ function Home(this: any) {
               </div>
             </div>
           </div>
-        </div>
 
+        {/* Copy Summarised Text to Clipboard Button*/}  
+        <div className="text-box mt-5 flex -m-16 justify-end">
+        <button 
+        onClick={copyTextToClipboard}
+        style={{
+          backgroundColor: "#2e7faa",
+          cursor: isButtonDisabled ? "not-allowed" : "pointer",
+        }}
+        className="py-2 px-4 mr-16 text-white rounded"
+        disabled={isButtonDisabled}
+      >
+        Copy Text to Clipboard
+      </button>
+      </div>
+      
+        </div>
+                      
         {/* Right Column */}
         <div className="flex flex-col w-96 gap-4 mt-8">
           {/* Heading */}
