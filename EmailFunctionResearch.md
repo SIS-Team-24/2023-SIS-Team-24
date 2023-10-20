@@ -44,3 +44,6 @@ print("Message sent!")
 send_email(subject, body, sender, recipients, password)
 
 Once this is all implemented, users should be able to freely email themselves summaries!
+
+Email: textinsights@gmail.com
+PW: SoftInnoStudio2023%

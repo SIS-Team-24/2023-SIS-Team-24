@@ -27,6 +27,7 @@
     "cypress": "^13.2.0"
   },
   "dependencies": {
+    "child_process": "^1.0.2",
     "dotenv": "^16.3.1"
   }
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "./Button";
+import sendEmail from "./EmailFunction";
 
 interface HistoryItem {
   id: number;
@@ -26,6 +27,11 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
           {item?.summaryTitle} - {item?.date}
         </h2>
         <p>{item?.summary}</p>
+        <div className="flex justify-start mt-4">
+          <button id="executeButton" onClick={sendEmail}>
+            Email Summary
+          </button>
+        </div>
         <div className="flex justify-end mt-4">
           <Button onClick={onClose} variant="active">
             Close
