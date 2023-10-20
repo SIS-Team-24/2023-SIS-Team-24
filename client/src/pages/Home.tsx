@@ -31,21 +31,64 @@ function Home(this: any) {
   const [isSummaryError, setSummaryError] = useState(false);
   const [keywords, setKeywords] = useState<{ [k: string]: number }>({});
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Global DOM tracker
+  let currentPopup: any = null;
+
   
   const copyTextToClipboard = () => {
     const summarisedText = document.getElementById("summary-result");
     if (summarisedText) {
       const textToCopy = summarisedText.innerText;
+      showMousePopup(100, 100, "Summarised text copied to clipboard!");
       const textArea = document.createElement("textarea");
       textArea.value = textToCopy;
       document.body.appendChild(textArea);
       textArea.select();
       document.execCommand("copy");
       document.body.removeChild(textArea);
-      alert("Summarised text copied to clipboard!");
     }
   };
 
+  const showMousePopup = (mouseX: Number, mouseY: Number, text: string) => {
+    // If there's an existing popup, remove it
+    if (currentPopup) {
+      currentPopup.remove(); // Using the remove method, which is simpler and avoids the error.
+      currentPopup = null; // Reset the currentPopup reference
+    }
+
+    // Create a new element for the popup
+    const popup = document.createElement('div');
+    popup.textContent = text;
+    popup.style.position = 'absolute';
+    popup.style.left = `${mouseX}px`;
+    popup.style.top = `${mouseY}px`;
+    popup.style.backgroundColor = '#000';
+    popup.style.color = '#fff';
+    popup.style.padding = '8px';
+    popup.style.borderRadius = '4px';
+    popup.style.zIndex = '1000';
+    popup.style.transform = 'translate(-50%, 100%)';
+    popup.style.transition = 'opacity 0.5s'; // Fade out animation
+    document.body.appendChild(popup);
+
+    // Store the current popup
+    currentPopup = popup;
+
+    // Fade out the popup after a delay and then remove it from the DOM
+    setTimeout(() => {
+        popup.style.opacity = '0';
+        setTimeout(() => {
+            if (popup.parentElement) {  // Ensure the popup still has a parent
+                popup.remove();
+            }
+            if (popup === currentPopup) {
+                currentPopup = null;
+            }
+        }, 500); // match the duration of the transition
+    }, 1000);
+  };
+  
   const setSentimentStyle = () => {
     switch (sentimentText) {
       case "Positive":
@@ -661,7 +704,10 @@ function Home(this: any) {
         {/* Copy Summarised Text to Clipboard Button*/}  
         <div className="text-box mt-5 flex -m-16 justify-end">
         <button 
-        onClick={copyTextToClipboard}
+        onClick={(e) => {
+          copyTextToClipboard();
+          showMousePopup(e.clientX, e.clientY, "Summarised text copied to clipboard!");
+        }}
         style={{
           backgroundColor: "#2e7faa",
           cursor: isCopyButtonDisabled ? "not-allowed" : "pointer",
