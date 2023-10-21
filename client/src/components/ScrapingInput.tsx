@@ -39,7 +39,7 @@ const ScrapingInput: React.FC<ScrapingInputProps> = ({
           type="text"
           placeholder={
             scrapeError
-              ? "Please enter a real URL"
+              ? "Website does not allow summary"
               : "Enter URL to summarise a website"
           }
           value={url}

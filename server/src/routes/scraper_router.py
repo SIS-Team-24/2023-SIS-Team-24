@@ -10,7 +10,6 @@ async def scrape_website(url: str) -> str:
     article.parse()
 
     scraped_text = article.text
-    print(scraped_text)
     return scraped_text
 
 
