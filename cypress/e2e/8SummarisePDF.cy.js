@@ -10,7 +10,10 @@ describe("Cypress Testing PDF", () => {
     cy.wait(1000);
 
     // call my readPdf custom function (cypress.config.ts) on task
-    cy.task("readPdf", "/cypress/case-study.pdf").then((pdfText) => {
+    cy.task(
+      "readPdf",
+      Cypress.config("fileServerFolder") + "/cypress/case-study.pdf"
+    ).then((pdfText) => {
       // Input/Type it on to the text area
       cy.get("#inputted-text").type(pdfText);
 
