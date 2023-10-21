@@ -28,9 +28,9 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
         </h2>
         <p>{item?.summary}</p>
         <div className="flex justify-start mt-4">
-          <button id="executeButton" onClick={sendEmail}>
+          <Button onClick={sendEmail} variant="active">
             Email Summary
-          </button>
+          </Button>
         </div>
         <div className="flex justify-end mt-4">
           <Button onClick={onClose} variant="active">

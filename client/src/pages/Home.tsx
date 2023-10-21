@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useRef, useState } from "react";
-import { pdfjs } from 'react-pdf';
-import { getDocument, PDFDocumentProxy } from 'pdfjs-dist';
+import { pdfjs } from "react-pdf";
+import { getDocument, PDFDocumentProxy } from "pdfjs-dist";
 import NavigationBar from "./NavigationBar";
 import Spinner from "./Spinner";
 import {
@@ -51,7 +51,7 @@ function Home(this: any) {
     }
   };
 
-  const setEmotionStyle = (emotionLabel:string) => {
+  const setEmotionStyle = (emotionLabel: string) => {
     switch (emotionLabel) {
       case "Anger":
         return {
@@ -77,178 +77,178 @@ function Home(this: any) {
       case "Annoyance":
         return {
           backgroundColor: "darkred",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Approval":
-          return {
-            backgroundColor: "green",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Caring":
-          return {
-            backgroundColor: "lavender",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Confusion":
-          return {
-            backgroundColor: "lightgrey",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Curiosity":
-          return {
-            backgroundColor: "lightyellow",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Desire":
-          return {
-            backgroundColor: "darkpink",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Disappointment":
-          return {
-            backgroundColor: "grey",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Disapproval":
-          return {
-            backgroundColor: "darkorange",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Disgust":
-          return {
-            backgroundColor: "darkgreen",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Embarrassment":
-          return {
-            backgroundColor: "lightpink",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Excitement":
-          return {
-            backgroundColor: "brightyellow",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Fear":
-          return {
-            backgroundColor: "darkblue",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Gratitude":
-          return {
-            backgroundColor: "limegreen",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Grief":
-          return {
-            backgroundColor: "darkgrey",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Joy":
-          return {
-            backgroundColor: "lightgreen",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Love":
-          return {
-            backgroundColor: "pink",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Nervousness":
-          return {
-            backgroundColor: "lightblue",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Optimism":
-          return {
-            backgroundColor: "brightyellow",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Pride":
-          return {
-            backgroundColor: "royalblue",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Realization":
-          return {
-            backgroundColor: "darkpurple",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Relief":
-          return {
-            backgroundColor: "limegreen",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Remorse":
-          return {
-            backgroundColor: "darkgrey",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Sadness":
-          return {
-            backgroundColor: "lightblue",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Surprise":
-          return {
-            backgroundColor: "lightpink",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-          case "Neutral":
-          return {
-            backgroundColor: "white",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Approval":
+        return {
+          backgroundColor: "green",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Caring":
+        return {
+          backgroundColor: "lavender",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Confusion":
+        return {
+          backgroundColor: "lightgrey",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Curiosity":
+        return {
+          backgroundColor: "lightyellow",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Desire":
+        return {
+          backgroundColor: "darkpink",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Disappointment":
+        return {
+          backgroundColor: "grey",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Disapproval":
+        return {
+          backgroundColor: "darkorange",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Disgust":
+        return {
+          backgroundColor: "darkgreen",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Embarrassment":
+        return {
+          backgroundColor: "lightpink",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Excitement":
+        return {
+          backgroundColor: "brightyellow",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Fear":
+        return {
+          backgroundColor: "darkblue",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Gratitude":
+        return {
+          backgroundColor: "limegreen",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Grief":
+        return {
+          backgroundColor: "darkgrey",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Joy":
+        return {
+          backgroundColor: "lightgreen",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Love":
+        return {
+          backgroundColor: "pink",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Nervousness":
+        return {
+          backgroundColor: "lightblue",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Optimism":
+        return {
+          backgroundColor: "brightyellow",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Pride":
+        return {
+          backgroundColor: "royalblue",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Realization":
+        return {
+          backgroundColor: "darkpurple",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Relief":
+        return {
+          backgroundColor: "limegreen",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Remorse":
+        return {
+          backgroundColor: "darkgrey",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Sadness":
+        return {
+          backgroundColor: "lightblue",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Surprise":
+        return {
+          backgroundColor: "lightpink",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Neutral":
+        return {
+          backgroundColor: "white",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
       default:
         return {
           backgroundColor: "white",
@@ -258,7 +258,7 @@ function Home(this: any) {
         };
     }
   };
-  
+
   const getEmojiForEmotion = (emotion: string) => {
     const emojiMap: { [key: string]: string } = {
       joy: "😄",
@@ -400,37 +400,40 @@ function Home(this: any) {
       for (let i = 1; i <= pdf.numPages; i++) {
         const page = await pdf.getPage(i);
         const pageContent = await page.getTextContent();
-        
+
         // Handle some parsing errors due to how PDF extracts whitespace in text (would be random whitespace without below)
         let lastItem = pageContent.items[0] as any;
 
         if (lastItem && "str" in lastItem) {
           content += lastItem.str;
-  
+
           for (let j = 1; j < pageContent.items.length; j++) {
             const currentItem = pageContent.items[j] as any;
-  
+
             if ("str" in currentItem) {
-              const isSameLine = Math.abs(lastItem.transform[5] - currentItem.transform[5]) < 5; // y-coordinate
-              const isContinuous = (currentItem.transform[4] - (lastItem.transform[4] + lastItem.width)) < 2; // x-coordinate
-              
+              const isSameLine =
+                Math.abs(lastItem.transform[5] - currentItem.transform[5]) < 5; // y-coordinate
+              const isContinuous =
+                currentItem.transform[4] -
+                  (lastItem.transform[4] + lastItem.width) <
+                2; // x-coordinate
+
               if (isSameLine && isContinuous) {
                 content += currentItem.str;
               } else {
                 content += ` ${currentItem.str}`;
               }
             }
-  
+
             lastItem = currentItem;
           }
-        }  
+        }
       }
 
-      content = cleanExtractedContent(content); 
+      content = cleanExtractedContent(content);
       setInputValue(content);
       const count = calcWordCount(content);
       setWordCount(count);
-
     } catch (error) {
       console.error("Error reading PDF:", error);
       alert("Error processing PDF. Please try again.");
@@ -533,7 +536,6 @@ function Home(this: any) {
                     const count = calcWordCount(e.target.value);
                     setWordCount(count);
                   }}
-
                   // PDF Input handlers
                   ref={textAreaRef}
                   onDrop={(e) => {
@@ -544,7 +546,6 @@ function Home(this: any) {
                   placeholder=" Enter 100 words or more to summarise...
                                 ──────────── OR ────────────
                                 Drag and drop a PDF file to use as input..."
-
                 ></textarea>
               </div>
               <p className="ml-1">
@@ -680,13 +681,18 @@ function Home(this: any) {
           <div className="h-32">
             {/* Emotion text */}
             <div className="flex flex-col sdivace-x-4 text-l w-full py-2 gap-2">
-              <div className="">
-                {emotionalTextPlaceholder}
-              </div>
-              <div className="w-full flex gap-4 justify-center">  
-                {emotionLabel.split(',').map((emotion, index) => (
-                  <div key={index} id="emotion-result" style={setEmotionStyle(emotion.charAt(0).toUpperCase() + emotion.slice(1))}>
-                    {emotion.charAt(0).toUpperCase() + emotion.slice(1)} {getEmojiForEmotion(emotion)}
+              <div className="">{emotionalTextPlaceholder}</div>
+              <div className="w-full flex gap-4 justify-center">
+                {emotionLabel.split(",").map((emotion, index) => (
+                  <div
+                    key={index}
+                    id="emotion-result"
+                    style={setEmotionStyle(
+                      emotion.charAt(0).toUpperCase() + emotion.slice(1)
+                    )}
+                  >
+                    {emotion.charAt(0).toUpperCase() + emotion.slice(1)}{" "}
+                    {getEmojiForEmotion(emotion)}
                   </div>
                 ))}
               </div>
