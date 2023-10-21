@@ -1,8 +1,9 @@
 import React from "react";
 import { useEffect, useRef, useState } from "react";
-import { pdfjs } from 'react-pdf';
-import { getDocument, PDFDocumentProxy } from 'pdfjs-dist';
+import { pdfjs } from "react-pdf";
+import { getDocument, PDFDocumentProxy } from "pdfjs-dist";
 import NavigationBar from "./NavigationBar";
+import ScrapingInput from "../components/ScrapingInput";
 import Spinner from "./Spinner";
 import {
   addToHistory,
@@ -27,6 +28,9 @@ function Home(this: any) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isCopyButtonDisabled, setIsCopyButtonDisabled] = useState(true);
   const [wordCount, setWordCount] = useState(0);
+  const [urlValue, setUrlValue] = useState("");
+  const [scrapeError, setScrapeError] = useState(false);
+  const [isScrapeLoading, setScrapeLoading] = useState(false);
   const [isSummaryLoading, setSummaryLoading] = useState(false);
   const [isSummaryError, setSummaryError] = useState(false);
   const [keywords, setKeywords] = useState<{ [k: string]: number }>({});
@@ -35,7 +39,6 @@ function Home(this: any) {
   // Global DOM tracker
   let currentPopup: any = null;
 
-  
   const copyTextToClipboard = () => {
     const summarisedText = document.getElementById("summary-result");
     if (summarisedText) {
@@ -58,18 +61,18 @@ function Home(this: any) {
     }
 
     // Create a new element for the popup
-    const popup = document.createElement('div');
+    const popup = document.createElement("div");
     popup.textContent = text;
-    popup.style.position = 'absolute';
+    popup.style.position = "absolute";
     popup.style.left = `${mouseX}px`;
     popup.style.top = `${mouseY}px`;
-    popup.style.backgroundColor = '#000';
-    popup.style.color = '#fff';
-    popup.style.padding = '8px';
-    popup.style.borderRadius = '4px';
-    popup.style.zIndex = '1000';
-    popup.style.transform = 'translate(-50%, 100%)';
-    popup.style.transition = 'opacity 0.5s'; // Fade out animation
+    popup.style.backgroundColor = "#000";
+    popup.style.color = "#fff";
+    popup.style.padding = "8px";
+    popup.style.borderRadius = "4px";
+    popup.style.zIndex = "1000";
+    popup.style.transform = "translate(-50%, 100%)";
+    popup.style.transition = "opacity 0.5s"; // Fade out animation
     document.body.appendChild(popup);
 
     // Store the current popup
@@ -77,18 +80,19 @@ function Home(this: any) {
 
     // Fade out the popup after a delay and then remove it from the DOM
     setTimeout(() => {
-        popup.style.opacity = '0';
-        setTimeout(() => {
-            if (popup.parentElement) {  // Ensure the popup still has a parent
-                popup.remove();
-            }
-            if (popup === currentPopup) {
-                currentPopup = null;
-            }
-        }, 500); // match the duration of the transition
+      popup.style.opacity = "0";
+      setTimeout(() => {
+        if (popup.parentElement) {
+          // Ensure the popup still has a parent
+          popup.remove();
+        }
+        if (popup === currentPopup) {
+          currentPopup = null;
+        }
+      }, 500); // match the duration of the transition
     }, 1000);
   };
-  
+
   const setSentimentStyle = () => {
     switch (sentimentText) {
       case "Positive":
@@ -109,7 +113,7 @@ function Home(this: any) {
     }
   };
 
-  const setEmotionStyle = (emotionLabel:string) => {
+  const setEmotionStyle = (emotionLabel: string) => {
     switch (emotionLabel) {
       case "Anger":
         return {
@@ -135,178 +139,178 @@ function Home(this: any) {
       case "Annoyance":
         return {
           backgroundColor: "darkred",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Approval":
-          return {
-            backgroundColor: "green",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Caring":
-          return {
-            backgroundColor: "lavender",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Confusion":
-          return {
-            backgroundColor: "lightgrey",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Curiosity":
-          return {
-            backgroundColor: "lightyellow",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Desire":
-          return {
-            backgroundColor: "darkpink",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Disappointment":
-          return {
-            backgroundColor: "grey",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Disapproval":
-          return {
-            backgroundColor: "darkorange",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Disgust":
-          return {
-            backgroundColor: "darkgreen",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Embarrassment":
-          return {
-            backgroundColor: "lightpink",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Excitement":
-          return {
-            backgroundColor: "brightyellow",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Fear":
-          return {
-            backgroundColor: "darkblue",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Gratitude":
-          return {
-            backgroundColor: "limegreen",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Grief":
-          return {
-            backgroundColor: "darkgrey",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Joy":
-          return {
-            backgroundColor: "lightgreen",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Love":
-          return {
-            backgroundColor: "pink",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Nervousness":
-          return {
-            backgroundColor: "lightblue",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Optimism":
-          return {
-            backgroundColor: "brightyellow",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Pride":
-          return {
-            backgroundColor: "royalblue",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Realization":
-          return {
-            backgroundColor: "darkpurple",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Relief":
-          return {
-            backgroundColor: "limegreen",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Remorse":
-          return {
-            backgroundColor: "darkgrey",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Sadness":
-          return {
-            backgroundColor: "lightblue",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-        case "Surprise":
-          return {
-            backgroundColor: "lightpink",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
-          case "Neutral":
-          return {
-            backgroundColor: "white",
-            color: "black",
-            padding: "8px",
-            borderRadius: "4px",
-          };
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Approval":
+        return {
+          backgroundColor: "green",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Caring":
+        return {
+          backgroundColor: "lavender",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Confusion":
+        return {
+          backgroundColor: "lightgrey",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Curiosity":
+        return {
+          backgroundColor: "lightyellow",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Desire":
+        return {
+          backgroundColor: "darkpink",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Disappointment":
+        return {
+          backgroundColor: "grey",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Disapproval":
+        return {
+          backgroundColor: "darkorange",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Disgust":
+        return {
+          backgroundColor: "darkgreen",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Embarrassment":
+        return {
+          backgroundColor: "lightpink",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Excitement":
+        return {
+          backgroundColor: "brightyellow",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Fear":
+        return {
+          backgroundColor: "darkblue",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Gratitude":
+        return {
+          backgroundColor: "limegreen",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Grief":
+        return {
+          backgroundColor: "darkgrey",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Joy":
+        return {
+          backgroundColor: "lightgreen",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Love":
+        return {
+          backgroundColor: "pink",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Nervousness":
+        return {
+          backgroundColor: "lightblue",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Optimism":
+        return {
+          backgroundColor: "brightyellow",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Pride":
+        return {
+          backgroundColor: "royalblue",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Realization":
+        return {
+          backgroundColor: "darkpurple",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Relief":
+        return {
+          backgroundColor: "limegreen",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Remorse":
+        return {
+          backgroundColor: "darkgrey",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Sadness":
+        return {
+          backgroundColor: "lightblue",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Surprise":
+        return {
+          backgroundColor: "lightpink",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
+      case "Neutral":
+        return {
+          backgroundColor: "white",
+          color: "black",
+          padding: "8px",
+          borderRadius: "4px",
+        };
       default:
         return {
           backgroundColor: "white",
@@ -316,7 +320,7 @@ function Home(this: any) {
         };
     }
   };
-  
+
   const getEmojiForEmotion = (emotion: string) => {
     const emojiMap: { [key: string]: string } = {
       joy: "😄",
@@ -438,11 +442,8 @@ function Home(this: any) {
 
   // Function to call the scraper API using fetch
   const getScrapedText = async () => {
-    // setSubmitted(true);
-    // setScrapeLoading(true);
-    // setScrapeError(false);
-    // console.log("submitted: " + submitted);
-    const urlValue = "https://en.wikipedia.org/wiki/Baldwin_IV_of_Jerusalem";
+    setScrapeLoading(true);
+    setScrapeError(false);
     try {
       const response = await fetch("/api/scraper/scrape?url=" + urlValue);
       if (!response.ok) {
@@ -451,17 +452,14 @@ function Home(this: any) {
         );
       }
       const data = await response.json();
-      // setScrapedText(data.text);
-      // addToHistory({ summary: data.text });
-      setInputValue(data.text);
-      console.log(data);
+      setInputValue(data?.text);
+      const count = calcWordCount(data?.text);
+      setWordCount(count);
     } catch (error) {
-      // Log this error instead of showing on the screen
       console.log(`Call to the scraper API failed. Error: ${error}`);
-      // setScrapeError(true);
+      setScrapeError(true);
     } finally {
-      // setScrapeLoading(false);
-      // setSubmitted(false);
+      setScrapeLoading(false);
     }
   };
 
@@ -489,37 +487,40 @@ function Home(this: any) {
       for (let i = 1; i <= pdf.numPages; i++) {
         const page = await pdf.getPage(i);
         const pageContent = await page.getTextContent();
-        
+
         // Handle some parsing errors due to how PDF extracts whitespace in text (would be random whitespace without below)
         let lastItem = pageContent.items[0] as any;
 
         if (lastItem && "str" in lastItem) {
           content += lastItem.str;
-  
+
           for (let j = 1; j < pageContent.items.length; j++) {
             const currentItem = pageContent.items[j] as any;
-  
+
             if ("str" in currentItem) {
-              const isSameLine = Math.abs(lastItem.transform[5] - currentItem.transform[5]) < 5; // y-coordinate
-              const isContinuous = (currentItem.transform[4] - (lastItem.transform[4] + lastItem.width)) < 2; // x-coordinate
-              
+              const isSameLine =
+                Math.abs(lastItem.transform[5] - currentItem.transform[5]) < 5; // y-coordinate
+              const isContinuous =
+                currentItem.transform[4] -
+                  (lastItem.transform[4] + lastItem.width) <
+                2; // x-coordinate
+
               if (isSameLine && isContinuous) {
                 content += currentItem.str;
               } else {
                 content += ` ${currentItem.str}`;
               }
             }
-  
+
             lastItem = currentItem;
           }
-        }  
+        }
       }
 
-      content = cleanExtractedContent(content); 
+      content = cleanExtractedContent(content);
       setInputValue(content);
       const count = calcWordCount(content);
       setWordCount(count);
-
     } catch (error) {
       console.error("Error reading PDF:", error);
       alert("Error processing PDF. Please try again.");
@@ -542,24 +543,35 @@ function Home(this: any) {
         {/* Left Column */}
         <div className="w-[750px] mt-8">
           {/* Summarise btn + Summary length */}
-          <div className="flex justify-end">
+          <div className="flex justify-between">
+            {/* Render the ScrapingInput component */}
+            <div className="flex-shrink-0">
+              <ScrapingInput
+                onScrape={getScrapedText}
+                isScrapeLoading={isScrapeLoading}
+                setUrlValue={setUrlValue}
+                scrapeError={scrapeError}
+              />
+            </div>
             {/* Summarise button start*/}
-            <button
-              id="summarise-button-id"
-              onClick={getSummary}
-              style={{
-                backgroundColor: "#2e7faa",
-                cursor: isButtonDisabled ? "not-allowed" : "pointer",
-              }}
-              className="py-2 px-4 mr-6 text-white rounded"
-              disabled={isButtonDisabled}
-              title="Enter 100 words to summarise it"
-            >
-              Summarise
-            </button>
+            <div className="flex-shrink-0 ml-auto">
+              <button
+                id="summarise-button-id"
+                onClick={getSummary}
+                style={{
+                  backgroundColor: "#2e7faa",
+                  cursor: isButtonDisabled ? "not-allowed" : "pointer",
+                }}
+                className="py-2 px-4 mr-6 text-white rounded"
+                disabled={isButtonDisabled}
+                title="Enter 100 words to summarise it"
+              >
+                Summarise
+              </button>
+            </div>
             {/* Summarise button end */}
             {/* Summary length start */}
-            <div className="group relative">
+            <div className="group relative flex-shrink-0">
               <button className="bg-gray-300 text-gray-700 py-2 px-6 rounded inline-flex items-center group">
                 <span className="">{Capitalize(selectedSumLen)} summary</span>
                 <svg
@@ -622,7 +634,6 @@ function Home(this: any) {
                     const count = calcWordCount(e.target.value);
                     setWordCount(count);
                   }}
-
                   // PDF Input handlers
                   ref={textAreaRef}
                   onDrop={(e) => {
@@ -633,7 +644,6 @@ function Home(this: any) {
                   placeholder=" Enter 100 words or more to summarise...
                                 ──────────── OR ────────────
                                 Drag and drop a PDF file to use as input..."
-
                 ></textarea>
               </div>
               <p className="ml-1">
@@ -730,26 +740,29 @@ function Home(this: any) {
             </div>
           </div>
 
-        {/* Copy Summarised Text to Clipboard Button*/}  
-        <div className="text-box mt-5 flex -m-16 justify-end">
-        <button 
-        onClick={(e) => {
-          copyTextToClipboard();
-          showMousePopup(e.clientX, e.clientY, "Summarised text copied to clipboard!");
-        }}
-        style={{
-          backgroundColor: "#2e7faa",
-          cursor: isCopyButtonDisabled ? "not-allowed" : "pointer",
-        }}
-        className="py-2 px-4 mr-16 text-white rounded"
-        disabled={isCopyButtonDisabled}
-      >
-        Copy Text to Clipboard
-      </button>
-      </div>
-      
+          {/* Copy Summarised Text to Clipboard Button*/}
+          <div className="text-box mt-5 flex -m-16 justify-end">
+            <button
+              onClick={(e) => {
+                copyTextToClipboard();
+                showMousePopup(
+                  e.clientX,
+                  e.clientY,
+                  "Summarised text copied to clipboard!"
+                );
+              }}
+              style={{
+                backgroundColor: "#2e7faa",
+                cursor: isCopyButtonDisabled ? "not-allowed" : "pointer",
+              }}
+              className="py-2 px-4 mr-16 text-white rounded"
+              disabled={isCopyButtonDisabled}
+            >
+              Copy Text to Clipboard
+            </button>
+          </div>
         </div>
-                      
+
         {/* Right Column */}
         <div className="flex flex-col w-96 gap-4 mt-8">
           {/* Heading */}
@@ -788,13 +801,18 @@ function Home(this: any) {
           <div className="h-32">
             {/* Emotion text */}
             <div className="flex flex-col sdivace-x-4 text-l w-full py-2 gap-2">
-              <div className="">
-                {emotionalTextPlaceholder}
-              </div>
-              <div className="w-full flex gap-4 justify-center">  
-                {emotionLabel.split(',').map((emotion, index) => (
-                  <div key={index} id="emotion-result" style={setEmotionStyle(emotion.charAt(0).toUpperCase() + emotion.slice(1))}>
-                    {emotion.charAt(0).toUpperCase() + emotion.slice(1)} {getEmojiForEmotion(emotion)}
+              <div className="">{emotionalTextPlaceholder}</div>
+              <div className="w-full flex gap-4 justify-center">
+                {emotionLabel.split(",").map((emotion, index) => (
+                  <div
+                    key={index}
+                    id="emotion-result"
+                    style={setEmotionStyle(
+                      emotion.charAt(0).toUpperCase() + emotion.slice(1)
+                    )}
+                  >
+                    {emotion.charAt(0).toUpperCase() + emotion.slice(1)}{" "}
+                    {getEmojiForEmotion(emotion)}
                   </div>
                 ))}
               </div>
