@@ -19,7 +19,7 @@ const ScrapingInput: React.FC<ScrapingInputProps> = ({
     if (scrapeError) {
       setUrlValue("");
     }
-  }, [scrapeError]);
+  }, [scrapeError, setUrlValue]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUrlValue(e.target.value);
