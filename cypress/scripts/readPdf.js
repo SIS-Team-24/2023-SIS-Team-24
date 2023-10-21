@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const pdf = require("pdf-parse");
 
-export async function readPdf(pdfFilePath) {
+async function readPdf(pdfFilePath) {
   try {
     // Read the PDF file
     const pdfBuffer = fs.readFileSync(pdfFilePath);
@@ -18,3 +18,5 @@ export async function readPdf(pdfFilePath) {
     throw error;
   }
 }
+
+module.exports = { readPdf };
