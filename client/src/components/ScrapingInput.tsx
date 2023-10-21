@@ -3,6 +3,7 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 interface ScrapingInputProps {
   onScrape: (url: string) => void;
   setUrlValue: (urlValue: string) => void;
+  urlValue: string;
   isScrapeLoading: boolean;
   scrapeError: boolean;
 }
@@ -10,26 +11,23 @@ interface ScrapingInputProps {
 const ScrapingInput: React.FC<ScrapingInputProps> = ({
   onScrape,
   setUrlValue,
+  urlValue,
   isScrapeLoading,
   scrapeError,
 }) => {
-  const [url, setUrl] = useState("");
-
   useEffect(() => {
     if (scrapeError) {
-      setUrl("");
       setUrlValue("");
     }
   }, [scrapeError]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setUrl(e.target.value);
     setUrlValue(e.target.value);
   };
 
   const handleScrapeClick = () => {
     // Call the onScrape function with the entered URL
-    onScrape(url);
+    onScrape(urlValue);
   };
 
   return (
@@ -42,16 +40,16 @@ const ScrapingInput: React.FC<ScrapingInputProps> = ({
               ? "Website does not allow summary"
               : "Enter URL to summarise a website"
           }
-          value={url}
+          value={urlValue}
           onChange={handleInputChange}
-          className="border border-2 border-customBlue focus:border-blue-400 rounded p-2 w-[280px]"
-        />
+          className="border border-2 border-customBlue focus:border-blue-400 rounded p-2 w-[280px] h-full" // Added h-full class
+          />
       </div>
       <button
         style={{
           backgroundColor: "#2e7faa",
         }}
-        className="py-2 px-4 text-white rounded"
+        className="py-2 px-4 mr-6 text-white rounded h-full" // Added h-full class
         onClick={handleScrapeClick}
       >
         {isScrapeLoading ? (

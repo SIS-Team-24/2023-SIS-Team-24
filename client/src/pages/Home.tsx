@@ -612,10 +612,11 @@ function Home(this: any) {
           {/* Summarise btn + Summary length */}
           <div className="flex justify-between">
             {/* Render the ScrapingInput component */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 ">
               <ScrapingInput
                 onScrape={getScrapedText}
                 isScrapeLoading={isScrapeLoading}
+                urlValue={urlValue}
                 setUrlValue={setUrlValue}
                 scrapeError={scrapeError}
               />
