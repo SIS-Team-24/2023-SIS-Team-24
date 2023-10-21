@@ -164,6 +164,35 @@ function Home(this: any) {
       });
   };
 
+  // Function to call the scraper API using fetch
+  const getScrapedText = async () => {
+    // setSubmitted(true);
+    // setScrapeLoading(true);
+    // setScrapeError(false);
+    // console.log("submitted: " + submitted);
+    const urlValue = "https://en.wikipedia.org/wiki/Baldwin_IV_of_Jerusalem";
+    try {
+      const response = await fetch("/api/scraper/scrape?url=" + urlValue);
+      if (!response.ok) {
+        throw new Error(
+          `Call to /api/scrape failed with status ${response.status}`
+        );
+      }
+      const data = await response.json();
+      // setScrapedText(data.text);
+      // addToHistory({ summary: data.text });
+      setInputValue(data.text);
+      console.log(data);
+    } catch (error) {
+      // Log this error instead of showing on the screen
+      console.log(`Call to the scraper API failed. Error: ${error}`);
+      // setScrapeError(true);
+    } finally {
+      // setScrapeLoading(false);
+      // setSubmitted(false);
+    }
+  };
+
   const Capitalize = (input: string) => {
     return input.charAt(0).toUpperCase() + input.slice(1);
   };
@@ -179,6 +208,7 @@ function Home(this: any) {
           <div className="w-[747px]">
             <div className="flex justify-end">
               {/* Summarise button start*/}
+              <button onClick={getScrapedText}>Scrape Website</button>
               <button
                 id="summarise-button-id"
                 onClick={getSummary}
