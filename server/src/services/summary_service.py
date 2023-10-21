@@ -7,22 +7,25 @@ from string import punctuation
 from collections import Counter
 from heapq import nlargest
 from .common import get_token_count, load_summary_token_counter, AnalysisKind
-from ..model.data_model import SummaryLengthOption
+from ..model.data_model import SummaryKeywordOutput, SummaryLengthOption
+
+numberOfKeywords = 10
 
 # Load the machine learning model during app startup
 def load_model():
-    global summarizer, nlp, model_name
+    global summarizer, nlp_short, nlp_long, model_name
     model_name = "facebook/bart-large-cnn" # Source: https://huggingface.co/facebook/bart-large-cnn
     summarizer = pipeline("summarization", model_name)
     print(f"[server] Loaded Summary Model {model_name} in {os.path.basename(__file__)}")
-    nlp = spacy.load('en_core_web_trf')
+    nlp_short = spacy.load('en_core_web_trf')
+    nlp_long = spacy.load('en_core_web_sm')
     print(f"[server] Loaded spaCy in {os.path.basename(__file__)}")
     load_summary_token_counter(model_name)
     print("[server] Loaded Summary token counter")
 
-def get_summary(input_text:str, summary_len_option=SummaryLengthOption.DEFAULT):
+def get_summary(input_text:str, summary_len_option=SummaryLengthOption.DEFAULT) -> SummaryKeywordOutput:
     """
-    Generate a summary for the input text.
+    Generate a summary, and collates the top 10 keywords, for the input text.
     """
     print(f"[server] Function to generate {summary_len_option.value} summary is executing.")
 
@@ -32,10 +35,29 @@ def get_summary(input_text:str, summary_len_option=SummaryLengthOption.DEFAULT):
     # Get the token length of input, according to summarisation model
     token_len = get_token_count(input_text, AnalysisKind.SUMMARY)
 
+
+    # Specify the NLP model based on input length
+    nlp = nlp_short if token_len < 5000 else nlp_long
+    
+    # Arr for keywords
+    keywords = []
+
     # If token_len > 1024, perform extractive summary to get the most meaningful sentences
     if token_len > 1024:
-        text_to_analyse = extractive_summary(input_text)
+        result = extractive_summary(input_text, token_len)
+        text_to_analyse = result['summary']
+        keywords = result['keywords']
         token_len = get_token_count(text_to_analyse, AnalysisKind.SUMMARY)
+    
+    # Get keywords if not retrieved yet
+    if len(keywords) < 1:
+        doc = nlp(' '.join(input_text.splitlines()))
+        keywords = Counter(count_keywords(doc)).most_common(numberOfKeywords)
+    
+    # format keywords to be key:value
+    formattedKeywords = {}
+    for word in keywords:
+        formattedKeywords[word[0]] = word[1]
 
     # Reason to why we can't do (exact) custom word length summary:
     # - Token to word conversion isn't 1:1, making it difficult to be 
@@ -56,19 +78,14 @@ def get_summary(input_text:str, summary_len_option=SummaryLengthOption.DEFAULT):
         max_len = token_len // 2
 
     # Summary generator
-    result = summarizer(text_to_analyse, min_length=min_len, max_length=max_len)[0]
+    summary = summarizer(text_to_analyse, min_length=min_len, max_length=max_len)[0]['summary_text']
 
     # Return result text key, propogate error if does not exist
-    return result['summary_text']    
+    return {"summary": summary, "keywords": formattedKeywords}  
 
-# Use Extractive summary to cap the inputted text to 1024 tokens to allow abstractive summarisation.
-def extractive_summary(input_text:str):
-    # Step 1: Get the text
-    doc = nlp(' '.join(input_text.splitlines()))
+def count_keywords(doc:str):
+    print(f"[server] Collating keywords...")
 
-    # Step 2: Filtering tokens
-    # Get the keywords from the text, ignoring filler words, and count how many times they appear in the text.
-    # Note: make all words lowercase to ensure each word is counted properly.
     keywords = []
     stopwords = list(STOP_WORDS) # filler words
     pos_tag = ['PROPN', 'ADJ', 'NOUN', 'VERB']
@@ -77,6 +94,20 @@ def extractive_summary(input_text:str):
             continue
         if(token.pos_ in pos_tag):
             keywords.append(token.text)
+
+    return keywords
+
+# Use Extractive summary to cap the inputted text to 1024 tokens to allow abstractive summarisation.
+def extractive_summary(input_text:str, token_len:int) ->  SummaryKeywordOutput:
+    nlp = nlp_short if token_len < 5000 else nlp_long
+
+    # Step 1: Get the text
+    doc = nlp(' '.join(input_text.splitlines()))
+
+    # Step 2: Filtering tokens + calculating word frequencies
+    # Get the keywords from the text, ignoring filler words, and count how many times they appear in the text.
+    # Note: make all words lowercase to ensure each word is counted properly.
+    keywords = count_keywords(doc)
 
     # Step 3: Normalization - IMPORTANT PART!!! 
     # Frequency can be normalised for better processing and it can be done by word's freq / max_freq.
@@ -115,4 +146,4 @@ def extractive_summary(input_text:str):
         final_summary += sentence.text + " "
 
     print("[server] Finished Extractive summary.")
-    return final_summary 
+    return {"summary": final_summary, "keywords": Counter(keywords).most_common(numberOfKeywords)} 

@@ -52,7 +52,7 @@ def get_sentiment(input_text:str):
         # Load get_summary() only when this condition is met.
         from .summary_service import get_summary
         # TODO: currently get_summary() is set to return a summary of 100 words - change following implementation upon related project progress.
-        text_to_analyse = get_summary(input_text)
+        text_to_analyse = get_summary(input_text)['summary']
 
     # Both analysers return an arr - take first index.
     # Execute sentiment analyser.   
