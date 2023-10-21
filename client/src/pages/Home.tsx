@@ -1,9 +1,11 @@
 import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { pdfjs } from 'react-pdf';
-import { getDocument, PDFDocumentProxy } from 'pdfjs-dist';
+import { getDocument } from 'pdfjs-dist';
 import NavigationBar from "./NavigationBar";
-import Spinner from "./Spinner";
+import Spinner from "../components/Spinner";
+import ShareButton from '../components/ShareButton';
+import { getStateFromUrl, generateSharableUrl, serializeState } from "./../statePreservationUtils";
 import {
   addToHistory,
   clearHistory,
@@ -35,7 +37,6 @@ function Home(this: any) {
   // Global DOM tracker
   let currentPopup: any = null;
 
-  
   const copyTextToClipboard = () => {
     const summarisedText = document.getElementById("summary-result");
     if (summarisedText) {
@@ -48,45 +49,6 @@ function Home(this: any) {
       document.execCommand("copy");
       document.body.removeChild(textArea);
     }
-  };
-
-  const showMousePopup = (mouseX: Number, mouseY: Number, text: string) => {
-    // If there's an existing popup, remove it
-    if (currentPopup) {
-      currentPopup.remove(); // Using the remove method, which is simpler and avoids the error.
-      currentPopup = null; // Reset the currentPopup reference
-    }
-
-    // Create a new element for the popup
-    const popup = document.createElement('div');
-    popup.textContent = text;
-    popup.style.position = 'absolute';
-    popup.style.left = `${mouseX}px`;
-    popup.style.top = `${mouseY}px`;
-    popup.style.backgroundColor = '#000';
-    popup.style.color = '#fff';
-    popup.style.padding = '8px';
-    popup.style.borderRadius = '4px';
-    popup.style.zIndex = '1000';
-    popup.style.transform = 'translate(-50%, 100%)';
-    popup.style.transition = 'opacity 0.5s'; // Fade out animation
-    document.body.appendChild(popup);
-
-    // Store the current popup
-    currentPopup = popup;
-
-    // Fade out the popup after a delay and then remove it from the DOM
-    setTimeout(() => {
-        popup.style.opacity = '0';
-        setTimeout(() => {
-            if (popup.parentElement) {  // Ensure the popup still has a parent
-                popup.remove();
-            }
-            if (popup === currentPopup) {
-                currentPopup = null;
-            }
-        }, 500); // match the duration of the transition
-    }, 1000);
   };
   
   const setSentimentStyle = () => {
@@ -357,6 +319,46 @@ function Home(this: any) {
     ) : null;
   };
 
+  // Load the initial state from the URL (if the URL has encoded any state)
+  useEffect(() => {
+    const initialStateFromUrl = getStateFromUrl();
+    if (initialStateFromUrl) {
+      // Set the states from the URL
+      setTextInput(initialStateFromUrl.textInput || "");
+      setInputValue(initialStateFromUrl.inputValue || "");
+      setWordCount(initialStateFromUrl.wordCount || 0);
+      setSentimentPlaceholder(initialStateFromUrl.sentimentTextPlaceholder || "");
+      setEmotionalPlaceholder(initialStateFromUrl.emotionalTextPlaceholder || "");
+      setSentimentText(initialStateFromUrl.sentimentText ?? "");
+      setSentimentScore(initialStateFromUrl.sentimentScore ?? "");
+      setKeywords(initialStateFromUrl.keywords || {});
+      setEmotionLabel(initialStateFromUrl.emotionLabel || "");
+      setSelectedFont(initialStateFromUrl.selectedFont || "");
+    }
+  }, []);
+
+  // Serialize the current state into the URL (make sure this comes after the initial loading)
+  useEffect(() => {
+    const currentState = {
+      textInput,
+      inputValue,
+      wordCount,
+      sentimentTextPlaceholder,
+      emotionalTextPlaceholder,
+      sentimentText,
+      sentimentScore,
+      keywords,
+      emotionLabel,
+      selectedFont,
+    };
+    const serializedState = serializeState(currentState);
+    const newUrl = `${window.location.origin}${window.location.pathname}?state=${serializedState}`;
+
+    // Update the URL without adding a new history entry
+    window.history.replaceState(null, "", newUrl);
+  },
+  [textInput, inputValue, wordCount, sentimentTextPlaceholder, emotionalTextPlaceholder, sentimentText, sentimentScore, keywords, emotionLabel, selectedFont]);
+
   useEffect(() => {
     // Calculate word count when inputValue changes
     const wordCount = calcWordCount(inputValue);
@@ -501,6 +503,71 @@ function Home(this: any) {
     content = content.replace(/-\s+/g, ""); // Handle hyphens at the end of lines
     content = content.replace(/\s+/g, " "); // Normalize spaces to single spaces
     return content.trim(); // Trim any spaces at the start or end
+  };
+
+  const shareURL = (event: any) => {
+    const currentState = {
+        textInput,
+        inputValue,
+        wordCount,
+        sentimentTextPlaceholder,
+        emotionalTextPlaceholder,
+        sentimentText,
+        sentimentScore,
+        keywords,
+        emotionLabel,
+        selectedFont
+    };
+    const sharableLink = generateSharableUrl(currentState);
+
+    // Copy to clipboard
+    navigator.clipboard.writeText(sharableLink).then(() => {
+        console.log('Link copied to clipboard');
+        const text = 'Link copied!'
+        // Show the popup
+        showMousePopup(event.clientX, event.clientY, text);
+    }).catch(err => {
+        console.error('Failed to copy link: ', err);
+    });
+  };
+
+  const showMousePopup = (mouseX: Number, mouseY: Number, text: string) => {
+    // If there's an existing popup, remove it
+    if (currentPopup) {
+      currentPopup.remove(); // Using the remove method, which is simpler and avoids the error.
+      currentPopup = null; // Reset the currentPopup reference
+    }
+
+    // Create a new element for the popup
+    const popup = document.createElement('div');
+    popup.textContent = text;
+    popup.style.position = 'absolute';
+    popup.style.left = `${mouseX}px`;
+    popup.style.top = `${mouseY}px`;
+    popup.style.backgroundColor = '#000';
+    popup.style.color = '#fff';
+    popup.style.padding = '8px';
+    popup.style.borderRadius = '4px';
+    popup.style.zIndex = '1000';
+    popup.style.transform = 'translate(-50%, 100%)';
+    popup.style.transition = 'opacity 0.5s'; // Fade out animation
+    document.body.appendChild(popup);
+
+    // Store the current popup
+    currentPopup = popup;
+
+    // Fade out the popup after a delay and then remove it from the DOM
+    setTimeout(() => {
+        popup.style.opacity = '0';
+        setTimeout(() => {
+            if (popup.parentElement) {  // Ensure the popup still has a parent
+                popup.remove();
+            }
+            if (popup === currentPopup) {
+                currentPopup = null;
+            }
+        }, 500); // match the duration of the transition
+    }, 1000);
   };
 
   return (
@@ -790,6 +857,8 @@ function Home(this: any) {
               ></p>
             </div>
           </div>
+        {/* Share URL button*/}
+        <ShareButton onClickFunction={(e) => shareURL(e)} />
         </div>
         {/* Emotional analysis & Sentiment analysis end */}
       </div>
