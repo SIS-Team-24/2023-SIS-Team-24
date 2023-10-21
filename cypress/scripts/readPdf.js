@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const pdf = require("pdf-parse");
 
-export async function readPdf(pdfFilePath: string): Promise<string> {
+export async function readPdf(pdfFilePath) {
   try {
     // Read the PDF file
     const pdfBuffer = fs.readFileSync(pdfFilePath);
