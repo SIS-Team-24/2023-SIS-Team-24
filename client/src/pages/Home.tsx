@@ -1,12 +1,16 @@
 import React from "react";
 import { useEffect, useRef, useState } from "react";
-import { pdfjs } from 'react-pdf';
-import { getDocument } from 'pdfjs-dist';
+import { pdfjs } from "react-pdf";
+import { getDocument, PDFDocumentProxy } from "pdfjs-dist";
 import NavigationBar from "./NavigationBar";
 import Spinner from "../components/Spinner";
-import ShareButton from '../components/ShareButton';
+import ShareButton from "../components/ShareButton";
 import ScrapingInput from "../components/ScrapingInput";
-import { getStateFromUrl, generateSharableUrl, serializeState } from "./../statePreservationUtils";
+import {
+  getStateFromUrl,
+  generateSharableUrl,
+  serializeState,
+} from "./../statePreservationUtils";
 import {
   addToHistory,
   clearHistory,
@@ -54,7 +58,7 @@ function Home(this: any) {
       document.body.removeChild(textArea);
     }
   };
-  
+
   const setSentimentStyle = () => {
     switch (sentimentText) {
       case "Positive":
@@ -331,8 +335,12 @@ function Home(this: any) {
       setTextInput(initialStateFromUrl.textInput || "");
       setInputValue(initialStateFromUrl.inputValue || "");
       setWordCount(initialStateFromUrl.wordCount || 0);
-      setSentimentPlaceholder(initialStateFromUrl.sentimentTextPlaceholder || "");
-      setEmotionalPlaceholder(initialStateFromUrl.emotionalTextPlaceholder || "");
+      setSentimentPlaceholder(
+        initialStateFromUrl.sentimentTextPlaceholder || ""
+      );
+      setEmotionalPlaceholder(
+        initialStateFromUrl.emotionalTextPlaceholder || ""
+      );
       setSentimentText(initialStateFromUrl.sentimentText ?? "");
       setSentimentScore(initialStateFromUrl.sentimentScore ?? "");
       setKeywords(initialStateFromUrl.keywords || {});
@@ -360,8 +368,18 @@ function Home(this: any) {
 
     // Update the URL without adding a new history entry
     window.history.replaceState(null, "", newUrl);
-  },
-  [textInput, inputValue, wordCount, sentimentTextPlaceholder, emotionalTextPlaceholder, sentimentText, sentimentScore, keywords, emotionLabel, selectedFont]);
+  }, [
+    textInput,
+    inputValue,
+    wordCount,
+    sentimentTextPlaceholder,
+    emotionalTextPlaceholder,
+    sentimentText,
+    sentimentScore,
+    keywords,
+    emotionLabel,
+    selectedFont,
+  ]);
 
   useEffect(() => {
     // Calculate word count when inputValue changes
@@ -537,28 +555,31 @@ function Home(this: any) {
 
   const shareURL = (event: any) => {
     const currentState = {
-        textInput,
-        inputValue,
-        wordCount,
-        sentimentTextPlaceholder,
-        emotionalTextPlaceholder,
-        sentimentText,
-        sentimentScore,
-        keywords,
-        emotionLabel,
-        selectedFont
+      textInput,
+      inputValue,
+      wordCount,
+      sentimentTextPlaceholder,
+      emotionalTextPlaceholder,
+      sentimentText,
+      sentimentScore,
+      keywords,
+      emotionLabel,
+      selectedFont,
     };
     const sharableLink = generateSharableUrl(currentState);
 
     // Copy to clipboard
-    navigator.clipboard.writeText(sharableLink).then(() => {
-        console.log('Link copied to clipboard');
-        const text = 'Link copied!'
+    navigator.clipboard
+      .writeText(sharableLink)
+      .then(() => {
+        console.log("Link copied to clipboard");
+        const text = "Link copied!";
         // Show the popup
         showMousePopup(event.clientX, event.clientY, text);
-    }).catch(err => {
-        console.error('Failed to copy link: ', err);
-    });
+      })
+      .catch((err) => {
+        console.error("Failed to copy link: ", err);
+      });
   };
 
   const showMousePopup = (mouseX: Number, mouseY: Number, text: string) => {
@@ -569,18 +590,18 @@ function Home(this: any) {
     }
 
     // Create a new element for the popup
-    const popup = document.createElement('div');
+    const popup = document.createElement("div");
     popup.textContent = text;
-    popup.style.position = 'absolute';
+    popup.style.position = "absolute";
     popup.style.left = `${mouseX}px`;
     popup.style.top = `${mouseY}px`;
-    popup.style.backgroundColor = '#000';
-    popup.style.color = '#fff';
-    popup.style.padding = '8px';
-    popup.style.borderRadius = '4px';
-    popup.style.zIndex = '1000';
-    popup.style.transform = 'translate(-50%, 100%)';
-    popup.style.transition = 'opacity 0.5s'; // Fade out animation
+    popup.style.backgroundColor = "#000";
+    popup.style.color = "#fff";
+    popup.style.padding = "8px";
+    popup.style.borderRadius = "4px";
+    popup.style.zIndex = "1000";
+    popup.style.transform = "translate(-50%, 100%)";
+    popup.style.transition = "opacity 0.5s"; // Fade out animation
     document.body.appendChild(popup);
 
     // Store the current popup
@@ -588,15 +609,16 @@ function Home(this: any) {
 
     // Fade out the popup after a delay and then remove it from the DOM
     setTimeout(() => {
-        popup.style.opacity = '0';
-        setTimeout(() => {
-            if (popup.parentElement) {  // Ensure the popup still has a parent
-                popup.remove();
-            }
-            if (popup === currentPopup) {
-                currentPopup = null;
-            }
-        }, 500); // match the duration of the transition
+      popup.style.opacity = "0";
+      setTimeout(() => {
+        if (popup.parentElement) {
+          // Ensure the popup still has a parent
+          popup.remove();
+        }
+        if (popup === currentPopup) {
+          currentPopup = null;
+        }
+      }, 500); // match the duration of the transition
     }, 1000);
   };
 
@@ -695,6 +717,7 @@ function Home(this: any) {
                   }}
                   className="h-80 w-[750px] p-5 border-black border-2 border-solid resize-none"
                   id="inputted-text"
+                  data-cy="input_textarea"
                   value={inputValue}
                   spellCheck={true}
                   onChange={(e) => {
@@ -905,8 +928,8 @@ function Home(this: any) {
               ></p>
             </div>
           </div>
-        {/* Share URL button*/}
-        <ShareButton onClickFunction={(e) => shareURL(e)} />
+          {/* Share URL button*/}
+          <ShareButton onClickFunction={(e) => shareURL(e)} />
         </div>
         {/* Emotional analysis & Sentiment analysis end */}
       </div>

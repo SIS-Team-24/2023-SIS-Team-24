@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
-from .routes import summary_routes, sentiment_routes, scraper_router
+from .routes import summary_routes, sentiment_routes, email_routes, scraper_router
 from .services import summary_service, sentiment_service
 import os
 import subprocess
@@ -23,6 +23,7 @@ async def load_models():
 app.include_router(summary_routes.router, prefix="/api/summary")
 app.include_router(sentiment_routes.router, prefix="/api/sentiment")
 app.include_router(scraper_router.router, prefix="/api/scraper")
+app.include_router(email_routes.router, prefix="/api/email")
 
 @app.get("/api")
 def read_root():
