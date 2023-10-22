@@ -47,3 +47,4 @@ Once this is all implemented, users should be able to freely email themselves su
 
 Email: textinsights@gmail.com
 PW: SoftInnoStudio2023%
+App Password: lgoi fdyt jvin auaj

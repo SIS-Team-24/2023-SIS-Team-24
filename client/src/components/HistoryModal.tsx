@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import Button from "./Button";
 import sendEmail from "./EmailFunction";
 
@@ -19,6 +20,7 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
   onClose,
   ...props
 }: HistoryModalProps) => {
+  const [emailBody, setEmailBody] = useState("");
   return (
     <div className="fixed inset-0 flex items-center justify-center content-center z-50 max-w-[80%] mx-auto">
       <div className="modal-bg fixed inset-0 bg-black opacity-50"></div>
@@ -27,15 +29,34 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
           {item?.summaryTitle} - {item?.date}
         </h2>
         <p>{item?.summary}</p>
-        <div className="flex justify-start mt-4">
-          <Button onClick={sendEmail} variant="active">
-            Email Summary
-          </Button>
-        </div>
-        <div className="flex justify-end mt-4">
-          <Button onClick={onClose} variant="active">
-            Close
-          </Button>
+        <div className="flex justify-evenly mt-12">
+          <div className="flex mt-4">
+            <input
+              type="text"
+              style={{ width: "20rem", padding: "1rem" }}
+              value={emailBody}
+              onChange={(e) => setEmailBody(e.target.value)}
+              placeholder="Enter your email"
+            />
+          </div>
+          <div className="flex mt-4 ">
+            <Button
+              onClick={() =>
+                sendEmail(
+                  "Here is your Text Insights Summary: " + item?.summary,
+                  emailBody
+                )
+              }
+              variant="active"
+            >
+              Email Summary
+            </Button>
+          </div>
+          <div className="flex mt-4">
+            <Button onClick={onClose} variant="active">
+              Close
+            </Button>
+          </div>
         </div>
       </div>
     </div>

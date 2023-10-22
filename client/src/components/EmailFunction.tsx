@@ -1,10 +1,16 @@
-import { exec } from "child_process";
+import { postRequestOptions } from "./Utils";
 
-const executeButton = document.getElementById("executeButton");
-
-const sendEmail = async () => {
-  const recipient = "kieren.karanjia@gmail.com";
-  await fetch("/api/email/send_email");
+const sendEmail = async (
+  body: string | undefined,
+  recipient: string | undefined
+) => {
+  await fetch("/api/email/send_email", {
+    ...postRequestOptions,
+    body: JSON.stringify({
+      body: body,
+      recipient: recipient,
+    }),
+  });
 };
 
 export default sendEmail;
