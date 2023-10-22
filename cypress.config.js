@@ -1,14 +1,14 @@
-// {
-//     "baseUrl": "http://localhost:3000",
-//     "viewportWidth": 1300,
-//     "viewportHeight": 800
-// }
-
-const { defineConfig } = require('cypress')
+const { defineConfig } = require("cypress");
+const { readPdf } = require("./cypress/scripts/readPdf");
 
 module.exports = defineConfig({
-    e2e: {
-      baseUrl: 'http://localhost:3000',
-      supportFile: false,
+  e2e: {
+    setupNodeEvents(on, config) {
+      on("task", {
+        readPdf,
+      });
     },
-  })
+    baseUrl: "http://localhost:3000",
+    supportFile: false,
+  },
+});

@@ -87,6 +87,26 @@ def test_fetch_summary_input_medium(client):
     # Assert the summary length is within min/max token range for summary_len_option
     assert num_output_tokens > num_input_tokens // 4 and num_output_tokens < num_input_tokens // 2
 
+    # Assert the response has keywords
+    assert 'keywords' in response.json()
+    
+    # Expected keywords
+    expectedKeywords = {
+        "Emma": 9,
+        "pottery": 5,
+        "shadow": 5,
+        "ancient": 4,
+        "earth": 4,
+        "dawn": 3,
+        "Elmridge": 3,
+        "magical": 3,
+        "creations": 3,
+        "woods": 3
+    }
+
+    # Check if the response has expected keywords...
+    assert response.json()['keywords'] == expectedKeywords
+
 
 # Short length input (100 words) - tests the basic API call works, and we get a response length within the defined bounds.
 def test_fetch_summary_input_short(client):
@@ -116,6 +136,26 @@ def test_fetch_summary_input_short(client):
     # Assert the summary length is within min/max token range for summary_len_option
     assert num_output_tokens > num_input_tokens // 4 and num_output_tokens < num_input_tokens // 2
 
+    # Assert the response has keywords
+    assert 'keywords' in response.json()
+    
+    # Expected keywords
+    expectedKeywords = {
+        "Eldertown": 3,
+        "Elara": 3,
+        "stone": 3,
+        "magical": 2,
+        "whispering": 2,
+        "holding": 2,
+        "tales": 2,
+        "shadows": 2,
+        "mystical": 1,
+        "village": 1
+    }
+
+    # Check if the response has expected keywords...
+    assert response.json()['keywords'] == expectedKeywords
+
 
 # Long length input (1000 words) - tests the basic API call works, and we get a response length within the defined bounds.
 def test_fetch_summary_input_long(client):
@@ -144,5 +184,25 @@ def test_fetch_summary_input_long(client):
 
     # Assert the summary length is within min/max token range for summary_len_option
     assert num_output_tokens > num_input_tokens // 4 and num_output_tokens < num_input_tokens // 2
+
+    # Assert the response has keywords
+    assert 'keywords' in response.json()
+    
+    # Expected keywords
+    expectedKeywords = {
+        "stone": 13,
+        "Eldertown": 10,
+        "tales": 9,
+        "Elara": 8,
+        "whispering": 7,
+        "ancient": 6,
+        "sky": 6,
+        "night": 6,
+        "magical": 5,
+        "eyes": 5
+    }
+
+    # Check if the response has expected keywords...
+    assert response.json()['keywords'] == expectedKeywords
 
 # TODO: Add futher tests for summary (i.e. performance testing, testing length ratios, testing summary length options, testing accuracy or expected outcomes)

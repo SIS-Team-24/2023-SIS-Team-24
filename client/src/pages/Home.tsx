@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import { pdfjs } from "react-pdf";
 import { getDocument, PDFDocumentProxy } from "pdfjs-dist";
 import NavigationBar from "./NavigationBar";
-import Spinner from "./Spinner";
+import Spinner from "../components/Spinner";
+import ShareButton from '../components/ShareButton';
+import { getStateFromUrl, generateSharableUrl, serializeState } from "./../statePreservationUtils";
 import {
   addToHistory,
   clearHistory,
@@ -25,12 +27,30 @@ function Home(this: any) {
   const [emotionLabel, setEmotionLabel] = useState(""); // "Happy", "Sad", "angry"
   const [submitted, setSubmitted] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isCopyButtonDisabled, setIsCopyButtonDisabled] = useState(true);
   const [wordCount, setWordCount] = useState(0);
   const [isSummaryLoading, setSummaryLoading] = useState(false);
   const [isSummaryError, setSummaryError] = useState(false);
   const [keywords, setKeywords] = useState<{ [k: string]: number }>({});
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
+  // Global DOM tracker
+  let currentPopup: any = null;
+
+  const copyTextToClipboard = () => {
+    const summarisedText = document.getElementById("summary-result");
+    if (summarisedText) {
+      const textToCopy = summarisedText.innerText;
+      showMousePopup(100, 100, "Summarised text copied to clipboard!");
+      const textArea = document.createElement("textarea");
+      textArea.value = textToCopy;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+    }
+  };
+  
   const setSentimentStyle = () => {
     switch (sentimentText) {
       case "Positive":
@@ -299,6 +319,46 @@ function Home(this: any) {
     ) : null;
   };
 
+  // Load the initial state from the URL (if the URL has encoded any state)
+  useEffect(() => {
+    const initialStateFromUrl = getStateFromUrl();
+    if (initialStateFromUrl) {
+      // Set the states from the URL
+      setTextInput(initialStateFromUrl.textInput || "");
+      setInputValue(initialStateFromUrl.inputValue || "");
+      setWordCount(initialStateFromUrl.wordCount || 0);
+      setSentimentPlaceholder(initialStateFromUrl.sentimentTextPlaceholder || "");
+      setEmotionalPlaceholder(initialStateFromUrl.emotionalTextPlaceholder || "");
+      setSentimentText(initialStateFromUrl.sentimentText ?? "");
+      setSentimentScore(initialStateFromUrl.sentimentScore ?? "");
+      setKeywords(initialStateFromUrl.keywords || {});
+      setEmotionLabel(initialStateFromUrl.emotionLabel || "");
+      setSelectedFont(initialStateFromUrl.selectedFont || "");
+    }
+  }, []);
+
+  // Serialize the current state into the URL (make sure this comes after the initial loading)
+  useEffect(() => {
+    const currentState = {
+      textInput,
+      inputValue,
+      wordCount,
+      sentimentTextPlaceholder,
+      emotionalTextPlaceholder,
+      sentimentText,
+      sentimentScore,
+      keywords,
+      emotionLabel,
+      selectedFont,
+    };
+    const serializedState = serializeState(currentState);
+    const newUrl = `${window.location.origin}${window.location.pathname}?state=${serializedState}`;
+
+    // Update the URL without adding a new history entry
+    window.history.replaceState(null, "", newUrl);
+  },
+  [textInput, inputValue, wordCount, sentimentTextPlaceholder, emotionalTextPlaceholder, sentimentText, sentimentScore, keywords, emotionLabel, selectedFont]);
+
   useEffect(() => {
     // Calculate word count when inputValue changes
     const wordCount = calcWordCount(inputValue);
@@ -343,6 +403,8 @@ function Home(this: any) {
         setTextInput(data.summary);
         setKeywords(data.keywords);
         addToHistory({ summary: data.summary });
+
+        setIsCopyButtonDisabled(!data.summary || data.summary === "");
       })
       .catch((e) => {
         // Log this error instead of showing on screen
@@ -446,6 +508,71 @@ function Home(this: any) {
     return content.trim(); // Trim any spaces at the start or end
   };
 
+  const shareURL = (event: any) => {
+    const currentState = {
+        textInput,
+        inputValue,
+        wordCount,
+        sentimentTextPlaceholder,
+        emotionalTextPlaceholder,
+        sentimentText,
+        sentimentScore,
+        keywords,
+        emotionLabel,
+        selectedFont
+    };
+    const sharableLink = generateSharableUrl(currentState);
+
+    // Copy to clipboard
+    navigator.clipboard.writeText(sharableLink).then(() => {
+        console.log('Link copied to clipboard');
+        const text = 'Link copied!'
+        // Show the popup
+        showMousePopup(event.clientX, event.clientY, text);
+    }).catch(err => {
+        console.error('Failed to copy link: ', err);
+    });
+  };
+
+  const showMousePopup = (mouseX: Number, mouseY: Number, text: string) => {
+    // If there's an existing popup, remove it
+    if (currentPopup) {
+      currentPopup.remove(); // Using the remove method, which is simpler and avoids the error.
+      currentPopup = null; // Reset the currentPopup reference
+    }
+
+    // Create a new element for the popup
+    const popup = document.createElement('div');
+    popup.textContent = text;
+    popup.style.position = 'absolute';
+    popup.style.left = `${mouseX}px`;
+    popup.style.top = `${mouseY}px`;
+    popup.style.backgroundColor = '#000';
+    popup.style.color = '#fff';
+    popup.style.padding = '8px';
+    popup.style.borderRadius = '4px';
+    popup.style.zIndex = '1000';
+    popup.style.transform = 'translate(-50%, 100%)';
+    popup.style.transition = 'opacity 0.5s'; // Fade out animation
+    document.body.appendChild(popup);
+
+    // Store the current popup
+    currentPopup = popup;
+
+    // Fade out the popup after a delay and then remove it from the DOM
+    setTimeout(() => {
+        popup.style.opacity = '0';
+        setTimeout(() => {
+            if (popup.parentElement) {  // Ensure the popup still has a parent
+                popup.remove();
+            }
+            if (popup === currentPopup) {
+                currentPopup = null;
+            }
+        }, 500); // match the duration of the transition
+    }, 1000);
+  };
+
   return (
     <div className="mb-10">
       {/* Navigation Bar start*/}
@@ -529,6 +656,7 @@ function Home(this: any) {
                   }}
                   className="h-80 w-[750px] p-5 border-black border-2 border-solid resize-none"
                   id="inputted-text"
+                  data-cy="input_textarea"
                   value={inputValue}
                   spellCheck={true}
                   onChange={(e) => {
@@ -641,8 +769,27 @@ function Home(this: any) {
               </div>
             </div>
           </div>
-        </div>
 
+        {/* Copy Summarised Text to Clipboard Button*/}  
+        <div className="text-box mt-5 flex -m-16 justify-end">
+        <button 
+        onClick={(e) => {
+          copyTextToClipboard();
+          showMousePopup(e.clientX, e.clientY, "Summarised text copied to clipboard!");
+        }}
+        style={{
+          backgroundColor: "#2e7faa",
+          cursor: isCopyButtonDisabled ? "not-allowed" : "pointer",
+        }}
+        className="py-2 px-4 mr-16 text-white rounded"
+        disabled={isCopyButtonDisabled}
+      >
+        Copy Text to Clipboard
+      </button>
+      </div>
+      
+        </div>
+                      
         {/* Right Column */}
         <div className="flex flex-col w-96 gap-4 mt-8">
           {/* Heading */}
@@ -717,6 +864,8 @@ function Home(this: any) {
               ></p>
             </div>
           </div>
+        {/* Share URL button*/}
+        <ShareButton onClickFunction={(e) => shareURL(e)} />
         </div>
         {/* Emotional analysis & Sentiment analysis end */}
       </div>
