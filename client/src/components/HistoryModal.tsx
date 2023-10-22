@@ -21,6 +21,7 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
   ...props
 }: HistoryModalProps) => {
   const [emailBody, setEmailBody] = useState("");
+  const isButtonDisabled = emailBody.trim() === "";
   return (
     <div className="fixed inset-0 flex items-center justify-center content-center z-50 max-w-[80%] mx-auto">
       <div className="modal-bg fixed inset-0 bg-black opacity-50"></div>
@@ -43,11 +44,17 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
             <Button
               onClick={() =>
                 sendEmail(
-                  "Here is your Text Insights Summary: " + item?.summary,
+                  "Here is your Text Insights Summary: \n \n" +
+                    item?.summary +
+                    "\n \nThanks for using Text Insights!",
                   emailBody
                 )
               }
               variant="active"
+              style={{
+                cursor: isButtonDisabled ? "not-allowed" : "pointer",
+              }}
+              disabled={isButtonDisabled}
             >
               Email Summary
             </Button>

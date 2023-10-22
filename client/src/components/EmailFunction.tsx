@@ -1,9 +1,6 @@
 import { postRequestOptions } from "./Utils";
 
-const sendEmail = async (
-  body: string | undefined,
-  recipient: string | undefined
-) => {
+const sendEmail = async (body: string, recipient: string) => {
   try {
     const response = await fetch("/api/email/send_email", {
       ...postRequestOptions,
