@@ -9,15 +9,14 @@ describe("Cypress Testing PDF", () => {
     // wait
     cy.wait(1000);
 
-    // call my readPdf custom function (cypress.config.ts) on task
-    cy.task(
-      "readPdf",
-      Cypress.config("fileServerFolder") + "/cypress/case-study.pdf"
-    ).then((pdfText) => {
-      // Input/Type it on to the text area
-      cy.get("#inputted-text").type(pdfText);
+    // const textareaSelector = '[data-cy="input_textarea"]';
 
-      cy.get("#summarise-button-id").click();
+    cy.get("textarea#inputted-text").selectFile("case-study.pdf", {
+      action: "drag-drop",
     });
+
+    cy.get("#summarise-button-id").should("be.enabled");
+
+    cy.get("#summarise-button-id").click();
   });
 });
