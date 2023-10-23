@@ -19,7 +19,7 @@ describe("Home", () => {
         cy.get("#summarise-button-id").click();
 
         // Assert that the text contains the sentiment and score
-        cy.get("#summary-result", {timeout: 20000}).then(($div) => {
+        cy.get("#summary-result", {timeout: 20000}).should(($div) => {
             // Get the text content of the <div> element
             const divText = $div.text();
             expect(divText).to.not.be.empty;
