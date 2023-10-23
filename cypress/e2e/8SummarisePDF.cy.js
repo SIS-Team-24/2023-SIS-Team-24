@@ -11,7 +11,7 @@ describe("Cypress Testing PDF", () => {
 
     // const textareaSelector = '[data-cy="input_textarea"]';
 
-    cy.get("textarea#inputted-text").selectFile("case-study.pdf", {
+    cy.get("textarea#inputted-text").selectFile("cypress/testfiles/case-study.pdf", {
       action: "drag-drop",
     });
 
