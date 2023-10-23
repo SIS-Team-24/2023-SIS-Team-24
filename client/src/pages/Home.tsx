@@ -660,7 +660,7 @@ function Home(this: any) {
                 }}
                 className="py-2 px-4 mr-6 text-white rounded"
                 disabled={isButtonDisabled}
-                title="Enter 100 words to summarise it"
+                title="Enter 100 words or more to analyse"
               >
                 Summarise
               </button>
