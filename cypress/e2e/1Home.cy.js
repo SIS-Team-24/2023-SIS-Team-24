@@ -32,7 +32,7 @@ describe("Testing the Home Page", () => {
 
     it("Double Checking the Text Font Customisation Exists", () => {
         cy.visit("/");
-        cy.contains("Change Font").click();
+        cy.contains("Change font").click();
 
         // Check if the Roboto font exists in the dropdown box
         cy.get(".absolute.text-gray-700.pt-1").contains("Roboto");
@@ -54,7 +54,7 @@ describe("Testing the Home Page", () => {
         cy.get("#inputted-text").should("have.css", "font-family", `"Open Sans"`);
 
         // Click the button to open the font options
-        cy.get('button:contains("Change Font")').click();
+        cy.get('button:contains("Change font")').click();
         // wait
         cy.wait(1000);
         // Click on the 'Roboto' font option
@@ -64,7 +64,7 @@ describe("Testing the Home Page", () => {
         cy.get("#inputted-text").should("have.css", "font-family", `roboto`);
 
         // Re-Click the button to open the font options again
-        cy.get('button:contains("Change Font")').click();
+        cy.get('button:contains("Font: Roboto")').click();
         // wait
         cy.wait(1000);
         // Click on the 'Mooli' font option
@@ -83,7 +83,7 @@ describe("Testing the Home Page", () => {
         cy.get("#inputted-text").should("have.value", text);
 
         // Click the button to open the font options
-        cy.get('button:contains("Change Font")').click();
+        cy.get('button:contains("Change font")').click();
         // wait
         cy.wait(1000);
         // Click on the 'Roboto' font option
@@ -102,7 +102,7 @@ describe("Testing the Home Page", () => {
         cy.get("#inputted-text").should("have.value", text);
 
         // Re-Click the button to open the font options again
-        cy.get('button:contains("Change Font")').click();
+        cy.get('button:contains("Change font")').click();
         // wait
         cy.wait(1000);
         // Click on the 'Mooli' font option

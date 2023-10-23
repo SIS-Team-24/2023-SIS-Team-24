@@ -717,31 +717,36 @@ function Home(this: any) {
                 </label>
               </div>
               <div className="flex flex-row">
-                <textarea
-                  style={{
-                    fontFamily: selectedFont || "Open Sans",
-                  }}
-                  className="h-80 w-[750px] p-5 border-black border-2 border-solid resize-none"
-                  id="inputted-text"
-                  data-cy="input_textarea"
-                  value={inputValue}
-                  spellCheck={true}
-                  onChange={(e) => {
-                    handleInputChange(e);
-                    const count = calcWordCount(e.target.value);
-                    setWordCount(count);
-                  }}
-                  // PDF Input handlers
-                  ref={textAreaRef}
-                  onDrop={(e) => {
-                    handlePDFDrop(e);
-                    handleInputChange(e);
-                  }}
-                  onDragOver={(e) => e.preventDefault()}
-                  placeholder=" Enter 100 words or more to summarise...
-                                ──────────── OR ────────────
-                                Drag and drop a PDF file to use as input..."
-                ></textarea>
+                  <style>
+                      {`
+                      #inputted-text::placeholder {
+                          white-space: pre-wrap;
+                      }
+                      `}
+                  </style>
+
+                  <textarea
+                    style={{
+                      fontFamily: selectedFont || "Open Sans",
+                    }}
+                    className="h-80 w-[750px] p-5 border-black border-2 border-solid resize-none"
+                    id="inputted-text"
+                    data-cy="input_textarea"
+                    value={inputValue}
+                    spellCheck={true}
+                    onChange={(e) => {
+                      handleInputChange(e);
+                      const count = calcWordCount(e.target.value);
+                      setWordCount(count);
+                    }}
+                    ref={textAreaRef}
+                    onDrop={(e) => {
+                      handlePDFDrop(e);
+                      handleInputChange(e);
+                    }}
+                    onDragOver={(e) => e.preventDefault()}
+                    placeholder="Enter 100 words or more to analyse ...&#10;──────────── OR ────────────&#10;Drag and drop a PDF file to use as input ..."
+                  ></textarea>
               </div>
               <p className="ml-1">
                 Word Count: {wordCount} {wordCount === 1 ? "word" : "words"}
