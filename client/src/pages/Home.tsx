@@ -44,6 +44,12 @@ function Home(this: any) {
 
   // Global DOM tracker
   let currentPopup: any = null;
+  
+  const fontNameMapping: { [key: string]: string } = {
+    'open-sans': 'Open Sans',
+    'roboto': 'Roboto',
+    'mooli': 'Mooli',
+  };
 
   const copyTextToClipboard = () => {
     const summarisedText = document.getElementById("summary-result");
@@ -181,7 +187,7 @@ function Home(this: any) {
         };
       case "Fear":
         return {
-          backgroundColor: "darkblue",
+          backgroundColor: "lightblue",
           color: "black",
           padding: "8px",
           borderRadius: "4px",
@@ -759,7 +765,8 @@ function Home(this: any) {
             </button>
             <div className="group relative">
               <button className="bg-gray-300 text-gray-700 py-2 px-6 rounded inline-flex items-center group">
-                <span className="">Change Font</span>
+                <span className=""> {selectedFont ? `Font: ${fontNameMapping[selectedFont]}` : "Change font"}
+                </span>
                 <svg
                   className="fill-current h-4 w-4 group-hover:rotate-180 transition-transform"
                   xmlns="http://www.w3.org/2000/svg"
