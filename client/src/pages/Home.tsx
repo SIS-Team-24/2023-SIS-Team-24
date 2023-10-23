@@ -5,6 +5,7 @@ import { getDocument, PDFDocumentProxy } from "pdfjs-dist";
 import NavigationBar from "./NavigationBar";
 import Spinner from "../components/Spinner";
 import ShareButton from "../components/ShareButton";
+import ScrapingInput from "../components/ScrapingInput";
 import {
   getStateFromUrl,
   generateSharableUrl,
@@ -33,6 +34,9 @@ function Home(this: any) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isCopyButtonDisabled, setIsCopyButtonDisabled] = useState(true);
   const [wordCount, setWordCount] = useState(0);
+  const [urlValue, setUrlValue] = useState("");
+  const [scrapeError, setScrapeError] = useState(false);
+  const [isScrapeLoading, setScrapeLoading] = useState(false);
   const [isSummaryLoading, setSummaryLoading] = useState(false);
   const [isSummaryError, setSummaryError] = useState(false);
   const [keywords, setKeywords] = useState<{ [k: string]: number }>({});
@@ -456,6 +460,29 @@ function Home(this: any) {
       });
   };
 
+  // Function to call the scraper API using fetch
+  const getScrapedText = async () => {
+    setScrapeLoading(true);
+    setScrapeError(false);
+    try {
+      const response = await fetch("/api/scraper/scrape?url=" + urlValue);
+      if (!response.ok) {
+        throw new Error(
+          `Call to /api/scrape failed with status ${response.status}`
+        );
+      }
+      const data = await response.json();
+      setInputValue(data?.text);
+      const count = calcWordCount(data?.text);
+      setWordCount(count);
+    } catch (error) {
+      console.log(`Call to the scraper API failed. Error: ${error}`);
+      setScrapeError(true);
+    } finally {
+      setScrapeLoading(false);
+    }
+  };
+
   const Capitalize = (input: string) => {
     return input.charAt(0).toUpperCase() + input.slice(1);
   };
@@ -605,24 +632,36 @@ function Home(this: any) {
         {/* Left Column */}
         <div className="w-[750px] mt-8">
           {/* Summarise btn + Summary length */}
-          <div className="flex justify-end">
+          <div className="flex justify-between">
+            {/* Render the ScrapingInput component */}
+            <div className="flex-shrink-0 ">
+              <ScrapingInput
+                onScrape={getScrapedText}
+                isScrapeLoading={isScrapeLoading}
+                urlValue={urlValue}
+                setUrlValue={setUrlValue}
+                scrapeError={scrapeError}
+              />
+            </div>
             {/* Summarise button start*/}
-            <button
-              id="summarise-button-id"
-              onClick={getSummary}
-              style={{
-                backgroundColor: "#2e7faa",
-                cursor: isButtonDisabled ? "not-allowed" : "pointer",
-              }}
-              className="py-2 px-4 mr-6 text-white rounded"
-              disabled={isButtonDisabled}
-              title="Enter 100 words to summarise it"
-            >
-              Summarise
-            </button>
+            <div className="flex-shrink-0 ml-auto">
+              <button
+                id="summarise-button-id"
+                onClick={getSummary}
+                style={{
+                  backgroundColor: "#2e7faa",
+                  cursor: isButtonDisabled ? "not-allowed" : "pointer",
+                }}
+                className="py-2 px-4 mr-6 text-white rounded"
+                disabled={isButtonDisabled}
+                title="Enter 100 words to summarise it"
+              >
+                Summarise
+              </button>
+            </div>
             {/* Summarise button end */}
             {/* Summary length start */}
-            <div className="group relative">
+            <div className="group relative flex-shrink-0">
               <button className="bg-gray-300 text-gray-700 py-2 px-6 rounded inline-flex items-center group">
                 <span className="">{Capitalize(selectedSumLen)} summary</span>
                 <svg
