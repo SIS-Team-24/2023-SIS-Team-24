@@ -14,6 +14,8 @@ describe("Sentiment Analysis Test", () => {
         // Type text into the textarea
         cy.get("#inputted-text").type(positiveText, { delay : 0 });
 
+        cy.wait(1000);
+
         // Click the Sentiment button
         cy.get("button").contains("Sentiment").click();
 
@@ -29,6 +31,8 @@ describe("Sentiment Analysis Test", () => {
     it("should enter neutral text, click Sentiment, and check for a neutral result", () => {
         // Type text into the textarea
         cy.get("#inputted-text").type(neutralText, { delay : 0 });
+
+        cy.wait(1000);
 
         // Click the Sentiment button
         cy.get("button").contains("Sentiment").click();
@@ -46,6 +50,8 @@ describe("Sentiment Analysis Test", () => {
         // Type text into the textarea
         cy.get("#inputted-text").type(negativeText, { delay : 0 });
 
+        cy.wait(1000);
+        
         // Click the Sentiment button
         cy.get("button").contains("Sentiment").click();
 

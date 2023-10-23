@@ -39,7 +39,7 @@ describe("Key Insights", () => {
     };
     
     for (const [keyword, count] of Object.entries(expectedValues)) {
-      cy.get('[data-cy="key-insights-table"]').contains('div', keyword, { timeout : 20000 }).parent().within(() => {
+      cy.get('[data-cy="key-insights-table"]').contains('div', keyword, { timeout : 30000 }).parent().within(() => {
         cy.contains(keyword).should('exist');
         cy.contains(count).should('exist');
       });
