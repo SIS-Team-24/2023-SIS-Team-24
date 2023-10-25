@@ -7,6 +7,8 @@ describe("Share URL", () => {
       { delay: 0 }
     );
 
+    cy.get("#summarise-button-id").click();
+
     cy.get("#share-button-id")
       .click()
       .then(($shareButton) => {
