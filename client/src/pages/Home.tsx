@@ -867,7 +867,10 @@ function Home(this: any) {
               <div className="p-2 border-r-2 border-white w-56">Keywords</div>
               <div className="flex-1 p-2">Count</div>
             </div>
-            <div data-cy="key-insights-table" className="overflow-scroll overflow-x-hidden h-72">
+            <div
+              data-cy="key-insights-table"
+              className="overflow-scroll overflow-x-hidden h-72"
+            >
               {Object.keys(keywords).length > 0 ? (
                 <>
                   <div className="flex flex-col">
@@ -880,7 +883,10 @@ function Home(this: any) {
                   </div>
                 </>
               ) : (
-                <div data-cy="key-insights-placeholder" className="p-2 text-center mx-auto text-gray-400">
+                <div
+                  data-cy="key-insights-placeholder"
+                  className="p-2 text-center mx-auto text-gray-400"
+                >
                   {" "}
                   Summarise text to view keywords
                 </div>
@@ -929,7 +935,10 @@ function Home(this: any) {
             </div>
           </div>
           {/* Share URL button*/}
-          <ShareButton onClickFunction={(e) => shareURL(e)} />
+          <ShareButton
+            id="share-button-id"
+            onClickFunction={(e) => shareURL(e)}
+          />
         </div>
         {/* Emotional analysis & Sentiment analysis end */}
       </div>
