@@ -634,7 +634,7 @@ function Home(this: any) {
                   className="py-2 px-4 text-white rounded"
                   disabled={isCopyButtonDisabled}
                 >
-                  Copy Text to Clipboard
+                  Copy Summary Text
                 </button>
               </div>
             ) : null}
