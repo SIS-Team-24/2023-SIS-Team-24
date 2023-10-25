@@ -612,7 +612,10 @@ function Home(this: any) {
           <div className="flex gap-2 justify-center">
             {/* Share URL button*/}
             {finalSummary !== "" || sentimentText !== "" ? (
-              <ShareButton onClickFunction={(e) => shareURL(e)} />
+              <ShareButton
+                id="share-button-id"
+                onClickFunction={(e) => shareURL(e)}
+              />
             ) : null}
 
             {/* Copy Summarised Text to Clipboard Button*/}
@@ -678,24 +681,7 @@ function Home(this: any) {
               </p>
             </div>
           </div>
-
-
-          <div>
-            <div className="">
-              <p
-                className="p-5 border-black border-2 border-solid"
-                id="summary-result"
-              ></p>
-            </div>
-          </div>
-          {/* Share URL button*/}
-          <ShareButton
-            id="share-button-id"
-            onClickFunction={(e) => shareURL(e)}
-          />
-
           {/* Emotional analysis & Sentiment analysis end */}
-
         </div>
       </div>
     </div>
