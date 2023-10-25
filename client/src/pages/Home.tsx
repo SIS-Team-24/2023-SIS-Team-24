@@ -17,9 +17,14 @@ import {
   postRequestOptions,
   retrieveHistory,
 } from "../components/Utils";
+import {
+  getEmojiForEmotion,
+  setEmotionStyle,
+  setSentimentStyle,
+} from "../styles/sentimentStyles";
 
 function Home(this: any) {
-  const [textInput, setTextInput] = useState("");
+  const [finalSummary, setFinalSummary] = useState(""); // State to track summary
   const [inputValue, setInputValue] = useState<string>("");
   const [sentimentTextPlaceholder, setSentimentPlaceholder] = useState("");
   const [emotionalTextPlaceholder, setEmotionalPlaceholder] = useState("");
@@ -59,280 +64,12 @@ function Home(this: any) {
     }
   };
 
-  const setSentimentStyle = () => {
-    switch (sentimentText) {
-      case "Positive":
-        return {
-          color: "#65a30d",
-          paddingLeft: "8px",
-        };
-      case "Negative":
-        return {
-          color: "red",
-          paddingLeft: "8px",
-        };
-      default:
-        return {
-          color: "black",
-          paddingLeft: "8px",
-        };
-    }
-  };
-
-  const setEmotionStyle = (emotionLabel: string) => {
-    switch (emotionLabel) {
-      case "Anger":
-        return {
-          backgroundColor: "red",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Admiration":
-        return {
-          backgroundColor: "purple",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Amusement":
-        return {
-          backgroundColor: "gold",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Annoyance":
-        return {
-          backgroundColor: "darkred",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Approval":
-        return {
-          backgroundColor: "green",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Caring":
-        return {
-          backgroundColor: "lavender",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Confusion":
-        return {
-          backgroundColor: "lightgrey",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Curiosity":
-        return {
-          backgroundColor: "lightyellow",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Desire":
-        return {
-          backgroundColor: "darkpink",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Disappointment":
-        return {
-          backgroundColor: "grey",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Disapproval":
-        return {
-          backgroundColor: "darkorange",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Disgust":
-        return {
-          backgroundColor: "darkgreen",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Embarrassment":
-        return {
-          backgroundColor: "lightpink",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Excitement":
-        return {
-          backgroundColor: "brightyellow",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Fear":
-        return {
-          backgroundColor: "darkblue",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Gratitude":
-        return {
-          backgroundColor: "limegreen",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Grief":
-        return {
-          backgroundColor: "darkgrey",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Joy":
-        return {
-          backgroundColor: "lightgreen",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Love":
-        return {
-          backgroundColor: "pink",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Nervousness":
-        return {
-          backgroundColor: "lightblue",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Optimism":
-        return {
-          backgroundColor: "brightyellow",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Pride":
-        return {
-          backgroundColor: "royalblue",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Realization":
-        return {
-          backgroundColor: "darkpurple",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Relief":
-        return {
-          backgroundColor: "limegreen",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Remorse":
-        return {
-          backgroundColor: "darkgrey",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Sadness":
-        return {
-          backgroundColor: "lightblue",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Surprise":
-        return {
-          backgroundColor: "lightpink",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      case "Neutral":
-        return {
-          backgroundColor: "white",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-      default:
-        return {
-          backgroundColor: "white",
-          color: "black",
-          padding: "8px",
-          borderRadius: "4px",
-        };
-    }
-  };
-
-  const getEmojiForEmotion = (emotion: string) => {
-    const emojiMap: { [key: string]: string } = {
-      joy: "😄",
-      sadness: "😢",
-      anger: "😡",
-      love: "❤️",
-      surprise: "😲",
-      admiration: "😍",
-      amusement: "😄",
-      annoyance: "😒",
-      approval: "👍",
-      caring: "🥰",
-      confusion: "😕",
-      curiosity: "🤔",
-      desire: "😍",
-      disappointment: "😞",
-      disapproval: "👎",
-      disgust: "🤢",
-      embarrassment: "😳",
-      excitement: "😃",
-      fear: "😨",
-      gratitude: "🙏",
-      grief: "😢",
-      nervousness: "😬",
-      optimism: "😊",
-      pride: "🦚",
-      realization: "💡",
-      relief: "😌",
-      remorse: "😔",
-      neutral: "😐",
-    };
-
-    const emoji = emojiMap[emotion];
-    return emoji ? (
-      <span role="img" aria-label={emotion}>
-        {emoji}
-      </span>
-    ) : null;
-  };
-
   // Load the initial state from the URL (if the URL has encoded any state)
   useEffect(() => {
     const initialStateFromUrl = getStateFromUrl();
     if (initialStateFromUrl) {
       // Set the states from the URL
-      setTextInput(initialStateFromUrl.textInput || "");
+      setFinalSummary(initialStateFromUrl.finalSummary || "");
       setInputValue(initialStateFromUrl.inputValue || "");
       setWordCount(initialStateFromUrl.wordCount || 0);
       setSentimentPlaceholder(
@@ -341,8 +78,8 @@ function Home(this: any) {
       setEmotionalPlaceholder(
         initialStateFromUrl.emotionalTextPlaceholder || ""
       );
-      setSentimentText(initialStateFromUrl.sentimentText ?? "");
-      setSentimentScore(initialStateFromUrl.sentimentScore ?? "");
+      setSentimentText(initialStateFromUrl.sentimentText || "");
+      setSentimentScore(initialStateFromUrl.sentimentScore || "");
       setKeywords(initialStateFromUrl.keywords || {});
       setEmotionLabel(initialStateFromUrl.emotionLabel || "");
       setSelectedFont(initialStateFromUrl.selectedFont || "");
@@ -352,7 +89,7 @@ function Home(this: any) {
   // Serialize the current state into the URL (make sure this comes after the initial loading)
   useEffect(() => {
     const currentState = {
-      textInput,
+      finalSummary,
       inputValue,
       wordCount,
       sentimentTextPlaceholder,
@@ -369,7 +106,7 @@ function Home(this: any) {
     // Update the URL without adding a new history entry
     window.history.replaceState(null, "", newUrl);
   }, [
-    textInput,
+    finalSummary,
     inputValue,
     wordCount,
     sentimentTextPlaceholder,
@@ -422,7 +159,7 @@ function Home(this: any) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setTextInput(data.summary);
+        setFinalSummary(data.summary);
         setKeywords(data.keywords);
         addToHistory({ summary: data.summary });
 
@@ -555,7 +292,7 @@ function Home(this: any) {
 
   const shareURL = (event: any) => {
     const currentState = {
-      textInput,
+      finalSummary,
       inputValue,
       wordCount,
       sentimentTextPlaceholder,
@@ -823,34 +560,12 @@ function Home(this: any) {
                     ) : isSummaryError ? (
                       <Spinner isError={true} /> // Show error spinner if the API call failed
                     ) : (
-                      textInput // Show the text content
+                      finalSummary // Show the text content
                     )}
                   </p>
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Copy Summarised Text to Clipboard Button*/}
-          <div className="text-box mt-5 flex -m-16 justify-end">
-            <button
-              onClick={(e) => {
-                copyTextToClipboard();
-                showMousePopup(
-                  e.clientX,
-                  e.clientY,
-                  "Summarised text copied to clipboard!"
-                );
-              }}
-              style={{
-                backgroundColor: "#2e7faa",
-                cursor: isCopyButtonDisabled ? "not-allowed" : "pointer",
-              }}
-              className="py-2 px-4 mr-16 text-white rounded"
-              disabled={isCopyButtonDisabled}
-            >
-              Copy Text to Clipboard
-            </button>
           </div>
         </div>
 
@@ -894,6 +609,37 @@ function Home(this: any) {
             </div>
           </div>
 
+          <div className="flex gap-2 justify-center">
+            {/* Share URL button*/}
+            {finalSummary !== "" || sentimentText !== "" ? (
+              <ShareButton onClickFunction={(e) => shareURL(e)} />
+            ) : null}
+
+            {/* Copy Summarised Text to Clipboard Button*/}
+            {finalSummary !== "" ? (
+              <div className="flex justify-end">
+                <button
+                  onClick={(e) => {
+                    copyTextToClipboard();
+                    showMousePopup(
+                      e.clientX,
+                      e.clientY,
+                      "Summarised text copied to clipboard!"
+                    );
+                  }}
+                  style={{
+                    backgroundColor: "#2e7faa",
+                    cursor: isCopyButtonDisabled ? "not-allowed" : "pointer",
+                  }}
+                  className="py-2 px-4 text-white rounded"
+                  disabled={isCopyButtonDisabled}
+                >
+                  Copy Summary Text
+                </button>
+              </div>
+            ) : null}
+          </div>
+
           {/* Emotional analysis & Sentiment analysis result */}
           <div className="h-32">
             {/* Emotion text */}
@@ -909,22 +655,30 @@ function Home(this: any) {
                     )}
                   >
                     {emotion.charAt(0).toUpperCase() + emotion.slice(1)}{" "}
-                    {getEmojiForEmotion(emotion)}
+                    <span role="img" aria-label={emotion}>
+                      {getEmojiForEmotion(emotion)}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
+
             {/* Sentiment text */}
             <div>
               <p className="flex items-baseline justify-start space-x-4 text-l">
                 {sentimentTextPlaceholder}
-                <span style={setSentimentStyle()} id="sentiment-result">
-                  {sentimentText !== "" &&
-                    `${sentimentText} ${sentimentScore}%`}
-                </span>
+                {sentimentText !== "" ? (
+                  <span
+                    style={setSentimentStyle(sentimentText)}
+                    id="sentiment-result"
+                  >
+                    {sentimentText} {sentimentScore}%
+                  </span>
+                ) : null}
               </p>
             </div>
           </div>
+
 
           <div>
             <div className="">
@@ -939,8 +693,10 @@ function Home(this: any) {
             id="share-button-id"
             onClickFunction={(e) => shareURL(e)}
           />
+
+          {/* Emotional analysis & Sentiment analysis end */}
+
         </div>
-        {/* Emotional analysis & Sentiment analysis end */}
       </div>
     </div>
   );
