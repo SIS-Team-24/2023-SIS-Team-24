@@ -623,7 +623,10 @@ function Home(this: any) {
           <div className="flex gap-2 justify-center">
             {/* Share URL button*/}
             {finalSummary !== "" || sentimentText !== "" ? (
-              <ShareButton onClickFunction={(e) => shareURL(e)} />
+              <ShareButton
+                id="share-button-id"
+                onClickFunction={(e) => shareURL(e)}
+              />
             ) : null}
 
             {/* Copy Summarised Text to Clipboard Button*/}
