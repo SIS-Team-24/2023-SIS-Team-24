@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const NavigationBar = () => {
+const NavigationBar: React.FC<{ clearInput?: () => void }> = ({
+  clearInput,
+}) => {
   return (
     <div id="Navbar" className="">
       <nav className="flex justify-between items-center max-w-7xl mx-auto">
-        <Link to="/">
+        <Link to="/" onClick={clearInput}>
           <img
             src={require("../media/textinsightslogo.png")}
             id="TextInsights"
