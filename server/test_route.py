@@ -14,6 +14,7 @@ def client():
         yield c
 
 # Define tests here
+# You can add more test functions for different scenarios
 
 def test_fetch_emotion(client):
     # Define the input data for testing
@@ -205,4 +206,16 @@ def test_fetch_summary_input_long(client):
     # Check if the response has expected keywords...
     assert response.json()['keywords'] == expectedKeywords
 
+def test_fetch_website_content(client):
+    
+    # Test case for a successful Get request to /api/scraper/scrape
+    response = client.get("/api/scraper/scrape?url=https://en.wikipedia.org/wiki/Elvis_Presley")
+
+    # Assert the response status code is 200 OK (or the desired status code)
+    assert response.status_code == 200
+
+    # Assert the response contains expected data or structure
+    # You can assert specific JSON keys or the response structure based on your API
+    assert "text" in response.json()
+    
 # TODO: Add futher tests for summary (i.e. performance testing, testing length ratios, testing summary length options, testing accuracy or expected outcomes)
