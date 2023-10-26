@@ -40,12 +40,14 @@ const ScrapingInput: React.FC<ScrapingInputProps> = ({
               ? "Website does not allow summary"
               : "Enter URL to summarise a website"
           }
+          id="inputForUrl"
           value={urlValue}
           onChange={handleInputChange}
-          className="border border-2 border-customBlue focus:border-blue-400 rounded p-2 w-[280px] h-full" // Added h-full class
-          />
+          className="border-2 border-customBlue focus:border-blue-400 rounded p-2 w-[280px] h-full" // Added h-full class
+        />
       </div>
       <button
+        id="inputForUrlBtn"
         style={{
           backgroundColor: "#2e7faa",
         }}
