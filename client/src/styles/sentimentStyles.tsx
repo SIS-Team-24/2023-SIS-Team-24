@@ -120,7 +120,7 @@ export const setEmotionStyle = (emotionLabel: string) => {
       };
     case "Fear":
       return {
-        backgroundColor: "darkblue",
+        backgroundColor: "lightblue",
         color: "black",
         padding: "8px",
         borderRadius: "4px",
