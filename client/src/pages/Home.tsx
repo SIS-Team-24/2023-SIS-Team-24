@@ -368,7 +368,9 @@ function Home(this: any) {
     setKeywords({});
     setSentimentPlaceholder("");
     setEmotionalPlaceholder("");
-    setWordCount(0)
+    setWordCount(0);
+    setSelectedFont(null);
+    setSelectedSumLen("default");
   };
 
   return (
