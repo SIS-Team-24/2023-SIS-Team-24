@@ -368,6 +368,7 @@ function Home(this: any) {
     setKeywords({});
     setSentimentPlaceholder("");
     setEmotionalPlaceholder("");
+    setWordCount(0)
   };
 
   return (
