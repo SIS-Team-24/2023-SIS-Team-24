@@ -50,6 +50,12 @@ function Home(this: any) {
   // Global DOM tracker
   let currentPopup: any = null;
 
+  const fontNameMapping: { [key: string]: string } = {
+    "open-sans": "Open Sans",
+    roboto: "Roboto",
+    mooli: "Mooli",
+  };
+
   const copyTextToClipboard = () => {
     const summarisedText = document.getElementById("summary-result");
     if (summarisedText) {
@@ -405,7 +411,7 @@ function Home(this: any) {
                 }}
                 className="py-2 px-4 mr-6 text-white rounded"
                 disabled={isButtonDisabled}
-                title="Enter 100 words to summarise it"
+                title="Enter 100 words or more to analyse"
               >
                 Summarise
               </button>
@@ -454,14 +460,22 @@ function Home(this: any) {
           </div>
 
           {/* Input textbox */}
-          <div className="flex">
+          <div className="flex mt-6">
             <div className="text-box">
               <div>
                 <label htmlFor="inputtedField">
-                  <i>Text to be Summarised:</i>
+                  <i>Text to be analysed:</i>
                 </label>
               </div>
               <div className="flex flex-row">
+                <style>
+                  {`
+                      #inputted-text::placeholder {
+                          white-space: pre-wrap;
+                      }
+                      `}
+                </style>
+
                 <textarea
                   style={{
                     fontFamily: selectedFont || "Open Sans",
@@ -476,16 +490,13 @@ function Home(this: any) {
                     const count = calcWordCount(e.target.value);
                     setWordCount(count);
                   }}
-                  // PDF Input handlers
                   ref={textAreaRef}
                   onDrop={(e) => {
                     handlePDFDrop(e);
                     handleInputChange(e);
                   }}
                   onDragOver={(e) => e.preventDefault()}
-                  placeholder=" Enter 100 words or more to summarise...
-                                ──────────── OR ────────────
-                                Drag and drop a PDF file to use as input..."
+                  placeholder="Enter 100 words or more to analyse ...&#10;──────────── OR ────────────&#10;Drag and drop a PDF file to use as input ..."
                 ></textarea>
               </div>
               <p className="ml-1">
@@ -510,7 +521,12 @@ function Home(this: any) {
             </button>
             <div className="group relative">
               <button className="bg-gray-300 text-gray-700 py-2 px-6 rounded inline-flex items-center group">
-                <span className="">Change Font</span>
+                <span className="">
+                  {" "}
+                  {selectedFont
+                    ? `Font: ${fontNameMapping[selectedFont]}`
+                    : "Change font"}
+                </span>
                 <svg
                   className="fill-current h-4 w-4 group-hover:rotate-180 transition-transform"
                   xmlns="http://www.w3.org/2000/svg"
