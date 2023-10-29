@@ -34,6 +34,7 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
           <div className="flex mt-4">
             <input
               type="text"
+              id="EmailInput"
               style={{ width: "20rem", padding: "1rem" }}
               value={emailBody}
               onChange={(e) => setEmailBody(e.target.value)}
@@ -51,6 +52,7 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
                 )
               }
               variant="active"
+              id="EmailSummary"
               style={{
                 cursor: isButtonDisabled ? "not-allowed" : "pointer",
               }}

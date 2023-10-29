@@ -73,6 +73,7 @@ function History() {
                 </div>
                 <div className="view-button">
                   <Button
+                    id="View"
                     variant="active"
                     onClick={() => handleViewClick(item)}
                   >
