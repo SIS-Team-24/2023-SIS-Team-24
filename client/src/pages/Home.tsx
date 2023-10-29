@@ -2,7 +2,6 @@ import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { pdfjs } from "react-pdf";
 import { getDocument, PDFDocumentProxy } from "pdfjs-dist";
-import NavigationBar from "./NavigationBar";
 import Spinner from "../components/Spinner";
 import ShareButton from "../components/ShareButton";
 import ScrapingInput from "../components/ScrapingInput";
@@ -17,6 +16,7 @@ import {
   postRequestOptions,
   retrieveHistory,
 } from "../components/Utils";
+import NavigationBar from "../components/NavigationBar";
 import {
   getEmojiForEmotion,
   setEmotionStyle,
@@ -365,10 +365,24 @@ function Home(this: any) {
     }, 1000);
   };
 
+  const clearInput = () => {
+    setFinalSummary("");
+    setInputValue("");
+    setSentimentText("");
+    setEmotionLabel("");
+    setSentimentScore(0);
+    setKeywords({});
+    setSentimentPlaceholder("");
+    setEmotionalPlaceholder("");
+    setWordCount(0);
+    setSelectedFont(null);
+    setSelectedSumLen("default");
+  };
+
   return (
     <div className="mb-10">
       {/* Navigation Bar start*/}
-      <NavigationBar />
+      <NavigationBar clearInput={clearInput} />
       {/* Navigation Bar end */}
       <hr className="h-px mt-2 border-0 bg-gray-300"></hr>
       <div className="flex w-full mx-auto gap-8 justify-center">

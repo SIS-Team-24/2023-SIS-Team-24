@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "../components/NavigationBar";
 import HistoryModal from "../components/HistoryModal";
 import { clearHistory, retrieveHistory } from "../components/Utils";
 
