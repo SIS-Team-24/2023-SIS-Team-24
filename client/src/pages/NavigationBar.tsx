@@ -20,7 +20,7 @@ const NavigationBar = () => {
             </Link>
           </div>
           <div className="">
-            <Link to={"/history"} className="hover:underline">
+            <Link to={"/history"} id="History" className="hover:underline">
               Summary History
             </Link>
           </div>

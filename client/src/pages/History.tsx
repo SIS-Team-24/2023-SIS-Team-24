@@ -73,6 +73,7 @@ function History() {
                 </div>
                 <div className="view-button">
                   <Button
+                    id="View"
                     variant="active"
                     onClick={() => handleViewClick(item)}
                   >
@@ -87,13 +88,13 @@ function History() {
         )}
       </div>
       <div className="p-4 clearHistory-button mr-40">
-            <button
-              onClick={handleClearHistoryClick}
-              style={{ backgroundColor: "#2e7faa" }}
-              className="mt-8 ml-52 py-2 px-4 text-white rounded"
-            >
-              Clear History
-            </button>
+        <button
+          onClick={handleClearHistoryClick}
+          style={{ backgroundColor: "#2e7faa" }}
+          className="mt-8 ml-52 py-2 px-4 text-white rounded"
+        >
+          Clear History
+        </button>
       </div>
       {isModalOpen && (
         <HistoryModal
